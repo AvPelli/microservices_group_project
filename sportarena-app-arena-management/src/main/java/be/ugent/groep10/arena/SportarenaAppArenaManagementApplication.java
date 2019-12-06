@@ -1,4 +1,4 @@
-package be.ugent.groep10.catering;
+package be.ugent.groep10.arena;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -6,21 +6,17 @@ import java.time.temporal.ChronoUnit;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.context.annotation.Bean;
 
-import be.ugent.groep10.catering.adapters.messaging.CateringReservationGateway;
-import be.ugent.groep10.catering.adapters.messaging.Channels;
-import be.ugent.groep10.catering.adapters.messaging.NewEventRequest;
-import be.ugent.groep10.catering.domain.ScheduleItem;
-import be.ugent.groep10.catering.persistence.ScheduleItemRepository;
+import be.ugent.groep10.arena.adapters.messaging.ArenaGateway;
+import be.ugent.groep10.arena.domain.ScheduleItem;
+import be.ugent.groep10.arena.persistence.ScheduleItemRepository;
 
 @SpringBootApplication
-@EnableBinding(Channels.class)
-public class SportarenaAppCateringManagementApplication {
+public class SportarenaAppArenaManagementApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SportarenaAppCateringManagementApplication.class, args);
+		SpringApplication.run(SportarenaAppArenaManagementApplication.class, args);
 	}
 
 	@Bean
@@ -50,15 +46,16 @@ public class SportarenaAppCateringManagementApplication {
 	}
 	
 	
-	/*
-	 * Code om de gateway te testen
-	 */
 	@Bean
-	CommandLineRunner testGateway(CateringReservationGateway gateway, ScheduleItemRepository scheduleItemRepository) {
+	CommandLineRunner testGateway(ArenaGateway gateway, ScheduleItemRepository scheduleItemRepository) {
 		return (args)->{
 			
-			//ScheduleItem item = scheduleItemRepository.findByEventId("1").get(0);
-			//gateway.eventRegistered(item);
+			//Stuur message naar topic "events"
+			ScheduleItem newEvent = scheduleItemRepository.findByEventId("1").get(0);
+			if(newEvent != null) {
+				//No bean named "events" error : later uitzoeken
+				//gateway.sendNewEvent(newEvent);
+			}
 		};
 	}
 }

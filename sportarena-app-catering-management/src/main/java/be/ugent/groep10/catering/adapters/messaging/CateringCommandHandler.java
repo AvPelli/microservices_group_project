@@ -33,11 +33,12 @@ public class CateringCommandHandler {
 		logger.info("New game created : " + request.getEventId() + " from " + request.getStart().toString() 
 				+ " to " + request.getEinde().toString());
 		
-		final ScheduleItem item = this.cateringService.findEvent(request.getEventId());
+		ScheduleItem item = this.cateringService.findEvent(request.getEventId());
 		if(item != null) {
 			return new NewEventResponse(request.getEventId(),true,"Event zit in de cateringservice database");
 		} else {
-			return new NewEventResponse(request.getEventId(), false, "Event kon niet toegevoegd worden");
+			item = new ScheduleItem(request.getEventId(),request.getStart(),request.getEinde(),"event",0);
+			return cateringService.updateSchedule(item);
 		}
 	}
 }

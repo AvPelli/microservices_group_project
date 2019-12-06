@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import be.ugent.groep10.catering.adapters.messaging.NewEventResponse;
 import be.ugent.groep10.catering.persistence.ScheduleItemRepository;
 
 @Service
@@ -26,7 +27,8 @@ public class CateringService {
 		}
 	}
 	
-	public void updateSchedule(ScheduleItem scheduleItem) {
-		
+	public NewEventResponse updateSchedule(ScheduleItem scheduleItem) {
+		scheduleItemRepository.save(scheduleItem);
+		return new NewEventResponse(scheduleItem.getEventId(), true, scheduleItem.getDescription());
 	}
 }

@@ -1,13 +1,18 @@
 package be.ugent.groep10.gamblings.domain;
 
-import javax.persistence.Entity;
+import javax.persistence.Column;
 import javax.persistence.Id;
 
-@Entity
-public class Wallet {
+import org.springframework.data.mongodb.core.mapping.Document;
 
-	@Id
-	private final long ownerId;
+@Document
+public class Wallet {
+	
+	@Id 
+	private String id;
+	
+//	@Id 
+	private long ownerId;
 	private double tokens;
 	
 	@SuppressWarnings("unused")
@@ -21,12 +26,24 @@ public class Wallet {
 		this.tokens = tokens;
 	}
 
+//	public String getId() {
+//		return id;
+//	}
+//
+//	public void setId(String id) {
+//		this.id = id;
+//	}
+
 	public double getTokens() {
 		return tokens;
 	}
 
 	public void setTokens(double tokens) {
 		this.tokens = tokens;
+	}
+
+	public void setOwnerId(long ownerId) {
+		this.ownerId = ownerId;
 	}
 
 	public long getOwnerId() {

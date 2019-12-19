@@ -1,4 +1,4 @@
-package be.ugent.groep10.membermanagement.adapters;
+package be.ugent.groep10.membermanagement.adapters.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

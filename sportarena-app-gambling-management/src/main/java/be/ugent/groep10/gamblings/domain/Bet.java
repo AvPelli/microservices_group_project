@@ -3,31 +3,51 @@ package be.ugent.groep10.gamblings.domain;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Bet {
 	
-	@Id @GeneratedValue
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	
 	private long placedByMember;
-	LocalDate placedOn;
-	private long scheduleItemId;
-	private double tokensInvested;	
+	
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "bettable_game_id", nullable = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+//	@Cascade(CascadeType.ALL)
+	@JsonIgnore
+	private BettableGame bettableGame;
+
+	private LocalDate placedOn;
+	
+	private double tokensInvested;
+	
+	private int expectedResult;
+	
 	
 	private Bet() {
-		this.placedByMember = 0;
-		this.placedOn = null;
-		this.scheduleItemId = 0;
-		this.tokensInvested = 0;
 	}
 
-	public Bet(long placedByMember, LocalDate placedOn, long scheduleItemId, double tokensInvested) {
+	public Bet(long placedByMember, BettableGame bettableGame, LocalDate placedOn, double tokensInvested, int expectedResult) {
 		this.placedByMember = placedByMember;
+		this.bettableGame = bettableGame;
 		this.placedOn = placedOn;
-		this.scheduleItemId = scheduleItemId;
 		this.tokensInvested = tokensInvested;
+		this.expectedResult = expectedResult;
 	}
 
 	public long getId() {
@@ -54,14 +74,6 @@ public class Bet {
 		this.placedOn = placedOn;
 	}
 
-	public long getScheduleItemId() {
-		return scheduleItemId;
-	}
-
-	public void setScheduleItemId(long scheduleItemId) {
-		this.scheduleItemId = scheduleItemId;
-	}
-
 	public double getTokensInvested() {
 		return tokensInvested;
 	}
@@ -70,9 +82,25 @@ public class Bet {
 		this.tokensInvested = tokensInvested;
 	}
 
+	public BettableGame getBettableGame() {
+		return bettableGame;
+	}
+
+	public void setBettableGame(BettableGame bettableGame) {
+		this.bettableGame = bettableGame;
+	}
+
+	public int getExpectedResult() {
+		return expectedResult;
+	}
+
+	public void setExpectedResult(int expectedResult) {
+		this.expectedResult = expectedResult;
+	}
+
 	@Override
 	public String toString() {
-		return "Bet [placedByMember=" + placedByMember + ", placedOn=" + placedOn + ", scheduleItemId=" + scheduleItemId
+		return "Bet [placedByMember=" + placedByMember + ", placedOn=" + placedOn
 				+ ", tokensInvested=" + tokensInvested + "]";
 	}
 	

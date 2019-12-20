@@ -27,18 +27,30 @@ public class CateringCommandHandler {
 		this.cateringService = cateringService;
 	}
 	
+	/*
+	 * Handle game created messages
+	 */
 	@StreamListener(Channels.NEW_EVENT)
 	@SendTo(Channels.EVENT_REGISTERED)
 	public NewEventResponse newEventCreated(NewEventRequest request){
-		logger.info("New game created : " + request.getEventId() + " from " + request.getStart().toString() 
-				+ " to " + request.getEinde().toString());
+		logger.info("New game created : " + request.getEventId() + " from " + request.getStartTime().toString() 
+				+ " to " + request.getEndTime().toString());
 		
 		ScheduleItem item = this.cateringService.findEvent(request.getEventId());
 		if(item != null) {
 			return new NewEventResponse(request.getEventId(),true,"Event zit in de cateringservice database");
 		} else {
-			item = new ScheduleItem(request.getEventId(),request.getStart(),request.getEinde(),"event",0);
-			return cateringService.updateSchedule(item);
+			item = new ScheduleItem(request.getEventId(),request.getStartTime(),request.getEndTime(),"event",0);
+			return cateringService.insertNewSchedule(item);
 		}
+	}
+	
+	/*
+	 * Handle seat update messages
+	 */
+	
+	@StreamListener(Channels.SEAT_UPDATE)
+	public void updateSeats(SeatOccupationUpdate seatUpdate) {
+		logger.info("Seats updated for event :" + seatUpdate.getEventId() + ", new ammount of seats: " + seatUpdate.getOccupiedSeats());
 	}
 }

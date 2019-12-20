@@ -5,25 +5,26 @@ package be.ugent.groep10.catering.adapters.messaging;
  * Respons op de Gamecreated event van de arena mgmt service
  */
 public class NewEventResponse {
-	private String eventId;
+	private long eventId;
 	private boolean status;
 	private String description;
 	
-	public NewEventResponse(String eventId, boolean status, String description) {
-		this.eventId = eventId;
+	public NewEventResponse(long id, boolean status, String description) {
+		this.setEventId(id);
 		this.status = status;
 		this.description = description;
 	}
 	
-	public String getEventId() {
+	//Getters en setters
+	public long getEventId() {
 		return eventId;
 	}
 
-	public void setEventId(String eventId) {
+	public void setEventId(long eventId) {
 		this.eventId = eventId;
 	}
 	
-	public boolean isStatus() {
+	public boolean getStatus() {
 		return status;
 	}
 	

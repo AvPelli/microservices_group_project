@@ -6,19 +6,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import be.ugent.groep10.catering.adapters.messaging.NewEventResponse;
+import be.ugent.groep10.catering.persistence.CateringScheduleRepository;
 import be.ugent.groep10.catering.persistence.ScheduleItemRepository;
 
 @Service
 public class CateringService {
 	private final ScheduleItemRepository scheduleItemRepository;
-
+	private final CateringScheduleRepository cateringScheduleRepository;
+	
 	@Autowired
-	public CateringService(ScheduleItemRepository scheduleItemRepository) {
+	public CateringService(ScheduleItemRepository scheduleItemRepository, 
+			CateringScheduleRepository cateringScheduleRepository) {
 		this.scheduleItemRepository = scheduleItemRepository;
+		this.cateringScheduleRepository = cateringScheduleRepository;
 	}
 	
-	public ScheduleItem findEvent(String id) {
-		final List<ScheduleItem> events = this.scheduleItemRepository.findByEventId(id);
+	public ScheduleItem findEvent(long id) {
+		final List<ScheduleItem> events = this.scheduleItemRepository.findById(id);
 		if(events.isEmpty() || events.size() > 1) {
 			return null;
 		}
@@ -27,8 +31,14 @@ public class CateringService {
 		}
 	}
 	
-	public NewEventResponse updateSchedule(ScheduleItem scheduleItem) {
+	public NewEventResponse insertNewSchedule(ScheduleItem scheduleItem) {
+		//Update scheduleitem database
 		scheduleItemRepository.save(scheduleItem);
-		return new NewEventResponse(scheduleItem.getEventId(), true, scheduleItem.getDescription());
+		
+		//Update cateringschedule database
+		CateringSchedule newSchedule = new CateringSchedule(scheduleItem);
+		cateringScheduleRepository.save(newSchedule);
+		
+		return new NewEventResponse(scheduleItem.getId(), true, scheduleItem.getDescription());
 	}
 }

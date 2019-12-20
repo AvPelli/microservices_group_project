@@ -9,31 +9,31 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class NewEventRequest {
-	private String eventId;
-	private LocalDate start;
-	private LocalDate einde;
+	private long eventId;
+	private LocalDate startTime;
+	private LocalDate endTime;
 	
-	public String getEventId() {
+	public long getEventId() {
 		return eventId;
 	}
 
-	public void setEventId(String eventId) {
+	public void setEventId(long eventId) {
 		this.eventId = eventId;
 	}
 
-	public LocalDate getStart() {
-		return start;
+	public LocalDate getStartTime() {
+		return startTime;
 	}
 	
-	public void setStart(LocalDate start) {
-		this.start = start;
+	public void setStartTime(LocalDate startTime) {
+		this.startTime = startTime;
 	}
 	
-	public LocalDate getEinde() {
-		return einde;
+	public LocalDate getEndTime() {
+		return endTime;
 	}
 	
-	public void setEinde(LocalDate einde) {
-		this.einde = einde;
+	public void setEndTime(LocalDate endTime) {
+		this.endTime = endTime;
 	}
 }

@@ -9,9 +9,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.context.annotation.Bean;
 
+import be.ugent.groep10.catering.adapters.messaging.CateringCommandHandler;
 import be.ugent.groep10.catering.adapters.messaging.CateringReservationGateway;
 import be.ugent.groep10.catering.adapters.messaging.Channels;
 import be.ugent.groep10.catering.adapters.messaging.NewEventRequest;
+import be.ugent.groep10.catering.adapters.messaging.SeatOccupationUpdate;
+import be.ugent.groep10.catering.domain.CateringService;
 import be.ugent.groep10.catering.domain.ScheduleItem;
 import be.ugent.groep10.catering.persistence.ScheduleItemRepository;
 
@@ -27,11 +30,11 @@ public class SportarenaAppCateringManagementApplication {
 	CommandLineRunner populateDatabase(ScheduleItemRepository scheduleItemRepository) {
 		return (args) ->{
 			scheduleItemRepository.deleteAll();
-			final ScheduleItem event1 = new ScheduleItem( "1",LocalDate.now().plus(2, ChronoUnit.DAYS),LocalDate.now().plus(3, ChronoUnit.DAYS),"Feestje", 0);
-			final ScheduleItem event2 = new ScheduleItem( "2",LocalDate.now().plus(20, ChronoUnit.DAYS),LocalDate.now().minus(22, ChronoUnit.DAYS),"Feestje2", 0);
-			final ScheduleItem event3 = new ScheduleItem( "3",LocalDate.now().plus(5, ChronoUnit.DAYS),LocalDate.now().plus(7, ChronoUnit.DAYS),"Feestje3", 100);
-			final ScheduleItem event4 = new ScheduleItem( "4",LocalDate.now().plus(8, ChronoUnit.DAYS),LocalDate.now().plus(9, ChronoUnit.DAYS),"Feestje4", 100);
-			final ScheduleItem event5 = new ScheduleItem( "5",LocalDate.now().plus(10, ChronoUnit.DAYS),LocalDate.now().plus(15, ChronoUnit.DAYS),"Feestje5",0);
+			final ScheduleItem event1 = new ScheduleItem( 1,LocalDate.now().plus(2, ChronoUnit.DAYS),LocalDate.now().plus(3, ChronoUnit.DAYS),"Feestje", 0);
+			final ScheduleItem event2 = new ScheduleItem( 2,LocalDate.now().plus(20, ChronoUnit.DAYS),LocalDate.now().minus(22, ChronoUnit.DAYS),"Feestje2", 0);
+			final ScheduleItem event3 = new ScheduleItem( 3,LocalDate.now().plus(5, ChronoUnit.DAYS),LocalDate.now().plus(7, ChronoUnit.DAYS),"Feestje3", 100);
+			final ScheduleItem event4 = new ScheduleItem( 4,LocalDate.now().plus(8, ChronoUnit.DAYS),LocalDate.now().plus(9, ChronoUnit.DAYS),"Feestje4", 100);
+			final ScheduleItem event5 = new ScheduleItem( 5,LocalDate.now().plus(10, ChronoUnit.DAYS),LocalDate.now().plus(15, ChronoUnit.DAYS),"Feestje5",0);
 			
 			scheduleItemRepository.save(event1);
 			scheduleItemRepository.save(event2);
@@ -45,20 +48,33 @@ public class SportarenaAppCateringManagementApplication {
 	public CommandLineRunner testQueries(ScheduleItemRepository scheduleItemRepository) {
 		return (args) ->{
 			System.out.println("Printing all booked stays...");
-			scheduleItemRepository.findByEventId("1").forEach(System.out::println);
+			scheduleItemRepository.findById(1).forEach(System.out::println);
 		};
 	}
 	
 	
 	/*
-	 * Code om de gateway te testen
+	 * Test gateway
 	 */
 	@Bean
 	CommandLineRunner testGateway(CateringReservationGateway gateway, ScheduleItemRepository scheduleItemRepository) {
 		return (args)->{
 			
-			//ScheduleItem item = scheduleItemRepository.findByEventId("1").get(0);
-			//gateway.eventRegistered(item);
+			ScheduleItem item = scheduleItemRepository.findById(1).get(0);
+			gateway.eventRegistered(item);
 		};
 	}
+	
+	
+	/*
+	 * Test seatOccupationUpdate
+	 *
+	@Bean
+	CommandLineRunner testSeatUpdate(CateringCommandHandler messageHandler) {
+		return (args) ->{
+			
+			messageHandler.updateSeats();
+		};
+	}
+	*/
 }

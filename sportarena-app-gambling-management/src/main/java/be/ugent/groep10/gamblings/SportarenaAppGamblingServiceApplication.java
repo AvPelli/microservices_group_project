@@ -7,8 +7,10 @@ import java.time.temporal.ChronoUnit;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.context.annotation.Bean;
 
+import be.ugent.groep10.gamblings.adapters.messaging.Channels;
 import be.ugent.groep10.gamblings.domain.Bet;
 import be.ugent.groep10.gamblings.domain.BettableGame;
 import be.ugent.groep10.gamblings.domain.Wallet;
@@ -17,6 +19,7 @@ import be.ugent.groep10.gamblings.persistence.BettableGameRepository;
 import be.ugent.groep10.gamblings.persistence.WalletRepository;
 
 @SpringBootApplication
+@EnableBinding(Channels.class)
 public class SportarenaAppGamblingServiceApplication {
 
 	public static void main(String[] args) {

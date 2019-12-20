@@ -7,14 +7,14 @@ import org.springframework.messaging.SubscribableChannel;
 
 public interface Channels {
 	
-	static final String NEW_MEMBER = "new_member";
-	static final String CREATED_WALLET = "created_wallet";
+	static final String CREATE_WALLET = "create_wallet";
+	static final String WALLET_CREATED = "wallet_created";
 	
 	
-	@Output(NEW_MEMBER)
-	MessageChannel newMember();
+	@Output(CREATE_WALLET)
+	MessageChannel createWallet();
 	
-	@Input(CREATED_WALLET)
+	@Input(WALLET_CREATED)
 	SubscribableChannel processWalletResponse();
 
 }

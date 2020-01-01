@@ -1,0 +1,8 @@
+
+okta.oauth2.issuer=https://dev-883704.okta.com/oauth2/default
+okta.oauth2.client-id=0oa2dcmzszo291nTr357
+okta.oauth2.client-secret=I0-aCD4lEDLTWsLwgm8_oIdRqomv7UwezZ2ibXET
+okta.oauth2.roles-claim=groups
+# Configure the callback URL to match the previous section
+okta.oauth2.redirect-uri=/login
+

@@ -1,7 +1,12 @@
+
+server:
+  port: 2228
 okta:
   oauth2:
     issuer: https://dev-883704.okta.com/oauth2/default
     clientId: 0oa2dcmzszo291nTr357
     clientSecret: I0-aCD4lEDLTWsLwgm8_oIdRqomv7UwezZ2ibXET
     groupsClaim: groups
-    redirect-uri: /login
+    redirect-uri: /okta/login/oauth2
+    
+spring.thymeleaf.cache: false

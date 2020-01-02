@@ -27,7 +27,7 @@ public class MemberRestController {
 	}
 	
 	@GetMapping("/{id}")
-	public Member getMember(@PathVariable("id") long id) {
+	public Member getMember(@PathVariable("id") String id) {
 		return this.memberRepository.findById(id).orElse(null);
 	}
 	

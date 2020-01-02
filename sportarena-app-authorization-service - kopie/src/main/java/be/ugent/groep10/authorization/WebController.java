@@ -21,16 +21,21 @@ public class WebController {
 //	https://developer.okta.com/blog/2018/10/05/build-a-spring-boot-app-with-user-authentication#start-your-spring-boot-application
 	
 	
-	final RoleService roleService;
-
-	@Autowired
-	WebController(RoleService roleService) {
-	    this.roleService = roleService;
-	}
-	
 	@RequestMapping("/")
     public String index() {
+		System.out.println("Home");
         return "home";
+    }
+	
+	
+	@RequestMapping("/register")
+    public String register() {
+        return "register";
+    }
+	
+	@RequestMapping("/login")
+    public String login() {
+        return "login";
     }
 	
 	@RequestMapping("/restricted")
@@ -41,7 +46,7 @@ public class WebController {
 	@RequestMapping("/admin")  
 	@PreAuthorize("hasAuthority('Admin')")
 	String admin() {  
-	    return "admin";  
+	    return "login";  
 	}
 	
 	// Used for showing OAuth info of the authenticated user

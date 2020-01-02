@@ -26,8 +26,8 @@ public class SportarenaAppMemberManagementApplication {
 		return (args) -> {
 			memberRepository.deleteAll();
 			
-			memberRepository.save(new Member("Jasper", "Maes", LocalDate.of(1996, Month.JULY, 24), LocalDate.now().minus(1, ChronoUnit.DAYS)));
-			memberRepository.save(new Member("Simeon", "Bruyland", LocalDate.of(1997, Month.MARCH, 26), LocalDate.now().minus(5, ChronoUnit.DAYS)));
+			memberRepository.save(new Member("eentje", "Jasper", "Maes", LocalDate.of(1996, Month.JULY, 24), LocalDate.now().minus(1, ChronoUnit.DAYS),"BE1"));
+			memberRepository.save(new Member("tweetje", "Simeon", "Bruyland", LocalDate.of(1997, Month.MARCH, 26), LocalDate.now().minus(5, ChronoUnit.DAYS),"BE2"));
 		};
 	}
 	

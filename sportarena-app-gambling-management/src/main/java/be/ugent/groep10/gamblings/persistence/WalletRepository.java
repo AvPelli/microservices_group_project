@@ -11,6 +11,6 @@ import be.ugent.groep10.gamblings.domain.Wallet;
 @Repository
 public interface WalletRepository extends MongoRepository<Wallet, Long>{
 	
-	Optional<Wallet> findByOwnerId(long id);
+	Optional<Wallet> findByOwnerId(String id);
 
 }

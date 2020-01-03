@@ -4,13 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CreateWalletRequest {
-	private long ownerId;
+	private String ownerId;
 	private double tokens;
 	
-	public long getOwnerId() {
+	public String getOwnerId() {
 		return ownerId;
 	}
-	public void setOwnerId(long ownerId) {
+	public void setOwnerId(String ownerId) {
 		this.ownerId = ownerId;
 	}
 	public double getTokens() {

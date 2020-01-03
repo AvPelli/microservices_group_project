@@ -12,16 +12,16 @@ public class Wallet {
 	private String id;
 	
 //	@Id 
-	private long ownerId;
+	private String ownerId;
 	private double tokens;
 	
 	@SuppressWarnings("unused")
 	protected Wallet() {
-		this.ownerId = 0;
+		this.ownerId = "";
 		this.tokens = 0;
 	}
 	
-	public Wallet(long ownerId, double tokens) {
+	public Wallet(String ownerId, double tokens) {
 		this.ownerId = ownerId;
 		this.tokens = tokens;
 	}
@@ -42,11 +42,11 @@ public class Wallet {
 		this.tokens = tokens;
 	}
 
-	public void setOwnerId(long ownerId) {
+	public void setOwnerId(String ownerId) {
 		this.ownerId = ownerId;
 	}
 
-	public long getOwnerId() {
+	public String getOwnerId() {
 		return ownerId;
 	}
 

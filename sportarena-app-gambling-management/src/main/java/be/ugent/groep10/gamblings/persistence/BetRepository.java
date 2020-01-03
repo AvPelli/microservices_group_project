@@ -13,7 +13,7 @@ import be.ugent.groep10.gamblings.domain.Bet;
 @RepositoryRestResource(collectionResourceRel = "bets", path = "bets")
 public interface BetRepository extends JpaRepository<Bet, Long>{
 	
-	public List<Bet> findBetsByPlacedByMember(long id);
+	public List<Bet> findBetsByPlacedByMember(String id);
 
 	//public List<Bet> findBetsByScheduleItemId(long id);
 	

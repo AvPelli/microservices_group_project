@@ -21,7 +21,7 @@ public class BettingService {
 		this.walletRepository = walletRepository;
 	}
 	
-	public Wallet getWalletFromUser(long userId) {
+	public Wallet getWalletFromUser(String userId) {
 		return walletRepository.findByOwnerId(userId).orElse(null);
 	}
 	

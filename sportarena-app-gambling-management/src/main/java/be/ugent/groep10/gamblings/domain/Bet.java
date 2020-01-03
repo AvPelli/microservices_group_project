@@ -23,7 +23,7 @@ public class Bet {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	private long placedByMember;
+	private String placedByMember;
 	
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "bettable_game_id", nullable = false)
@@ -42,7 +42,7 @@ public class Bet {
 	private Bet() {
 	}
 
-	public Bet(long placedByMember, BettableGame bettableGame, LocalDate placedOn, double tokensInvested, int expectedResult) {
+	public Bet(String placedByMember, BettableGame bettableGame, LocalDate placedOn, double tokensInvested, int expectedResult) {
 		this.placedByMember = placedByMember;
 		this.bettableGame = bettableGame;
 		this.placedOn = placedOn;
@@ -58,11 +58,11 @@ public class Bet {
 		this.id = id;
 	}
 
-	public long getPlacedByMember() {
+	public String getPlacedByMember() {
 		return placedByMember;
 	}
 
-	public void setPlacedByMember(long placedByMember) {
+	public void setPlacedByMember(String placedByMember) {
 		this.placedByMember = placedByMember;
 	}
 

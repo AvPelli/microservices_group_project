@@ -28,7 +28,7 @@ public class WalletRestController {
 	}
 	
 	@GetMapping("/{id}")
-	public Wallet getWallet(@PathVariable("id") long id) {
+	public Wallet getWallet(@PathVariable("id") String id) {
 		return this.walletRepository.findByOwnerId(id).orElse(null);
 	}
 	
@@ -39,7 +39,7 @@ public class WalletRestController {
 	}
 	
 	@PutMapping("/purchase_tokens/{owner_id}/{amount}")
-	public Wallet purchaseTokens(@PathVariable("owner_id") long ownerId, @PathVariable("amount") double amount) {
+	public Wallet purchaseTokens(@PathVariable("owner_id") String ownerId, @PathVariable("amount") double amount) {
 		Wallet current = walletRepository.findByOwnerId(ownerId).orElse(null);
 		if(current == null)
 			return null;

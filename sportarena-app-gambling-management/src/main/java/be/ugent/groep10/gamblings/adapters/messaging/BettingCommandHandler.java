@@ -23,7 +23,7 @@ public class BettingCommandHandler {
 	}
 	
 	@StreamListener(Channels.CREATE_WALLET)
-//	@SendTo(Channels.WALLET_CREATED)
+	@SendTo(Channels.WALLET_CREATED)
 	public CreateWalletRequest createWallet(CreateWalletRequest createWalletRequest) {
 		System.out.println(createWalletRequest.toString());
 		Wallet existingWallet = bettingService.getWalletFromUser(createWalletRequest.getOwnerId());

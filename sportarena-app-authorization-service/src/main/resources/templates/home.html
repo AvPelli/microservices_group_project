@@ -1,0 +1,21 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+<th:block th:include="fragments/head :: head" />
+</head>
+
+<body>
+	<script type="text/javascript">
+		console.log("Home");
+	</script>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="box col-md-6 col-md-offset-3">
+				<h1>Authorization Home</h1>
+				<a href="/authorization/register" class="btn btn-primary">Register</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

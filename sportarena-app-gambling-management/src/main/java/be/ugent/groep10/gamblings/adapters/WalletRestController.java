@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,13 +28,22 @@ public class WalletRestController {
 	}
 	
 	@GetMapping("/{id}")
-	public Wallet getWallet(@PathVariable("id") long id) {
-		return this.walletRepository.findById(id).orElse(null);
+	public Wallet getWallet(@PathVariable("id") String id) {
+		return this.walletRepository.findByOwnerId(id).orElse(null);
 	}
 	
 	@PostMapping()
 	public Wallet addWallet(@RequestBody Wallet wallet) {
 		this.walletRepository.save(wallet);
-		return this.walletRepository.findById(wallet.getOwnerId()).orElse(null);
+		return this.walletRepository.findByOwnerId(wallet.getOwnerId()).orElse(null);
+	}
+	
+	@PutMapping("/purchase_tokens/{owner_id}/{amount}")
+	public Wallet purchaseTokens(@PathVariable("owner_id") String ownerId, @PathVariable("amount") double amount) {
+		Wallet current = walletRepository.findByOwnerId(ownerId).orElse(null);
+		if(current == null)
+			return null;
+		current.setTokens(current.getTokens() + amount);
+		return walletRepository.save(current);
 	}
 }

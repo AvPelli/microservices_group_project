@@ -29,4 +29,6 @@ public class BettingService {
 		System.out.println("Saving: " + wallet.toString());
 		return walletRepository.save(wallet);
 	}
+	
+	
 }

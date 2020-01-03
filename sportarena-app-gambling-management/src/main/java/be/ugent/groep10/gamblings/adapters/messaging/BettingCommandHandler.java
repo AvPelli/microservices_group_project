@@ -36,4 +36,10 @@ public class BettingCommandHandler {
 		bettingService.saveWallet(new Wallet(createWalletRequest.getOwnerId(), createWalletRequest.getTokens()));
 		return createWalletRequest;
 	}
+	
+	//Send API call to payment service
+	@SendTo(Channels.CASH_OUT)
+	public void cashOut(CashoutRequest request) {
+		
+	}
 }

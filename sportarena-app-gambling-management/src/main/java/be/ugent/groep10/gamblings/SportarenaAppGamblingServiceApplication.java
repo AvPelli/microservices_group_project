@@ -26,6 +26,7 @@ public class SportarenaAppGamblingServiceApplication {
 		SpringApplication.run(SportarenaAppGamblingServiceApplication.class, args);
 	}
 	
+
 	@Bean
 	CommandLineRunner populateBetDatabase(BettableGameRepository bettableGameRepository, BetRepository betRepository) {
 		return (args) -> {

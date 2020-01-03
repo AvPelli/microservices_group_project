@@ -10,7 +10,7 @@ public interface Channels {
 	static final String CREATE_WALLET = "create_wallet";
 	static final String WALLET_CREATED = "wallet_created";
 	
-	
+	//Betting service
 	@Output(CREATE_WALLET)
 	MessageChannel createWallet();
 	

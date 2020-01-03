@@ -8,7 +8,7 @@ public class Ticket {
 
 	@Id
 	private String id;
-	private int sportEventId;
+	private String sportEventId;
 	private int section;
 	private int row;
 	private int seat;
@@ -16,7 +16,7 @@ public class Ticket {
 	
 	public Ticket() { }
 	
-	public Ticket(int sportEventId, int section, int row, int seat) {
+	public Ticket(String sportEventId, int section, int row, int seat) {
 		this.sportEventId = sportEventId;
 		this.section = section;
 		this.row = row;
@@ -28,7 +28,7 @@ public class Ticket {
 		return id;
 	}
 	
-	public int getSportEventId() {
+	public String getSportEventId() {
 		return sportEventId;
 	}
 	

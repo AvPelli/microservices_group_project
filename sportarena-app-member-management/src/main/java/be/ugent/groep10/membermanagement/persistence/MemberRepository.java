@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import be.ugent.groep10.membermanagement.domain.Member;
 
 @Repository
-public interface MemberRepository extends CrudRepository<Member, Long>{
+public interface MemberRepository extends CrudRepository<Member, String>{
 	
 	//public Member findMemberById(int id);
 	

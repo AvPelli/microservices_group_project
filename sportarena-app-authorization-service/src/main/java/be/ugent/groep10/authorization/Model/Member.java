@@ -1,15 +1,10 @@
-package be.ugent.groep10.membermanagement.domain;
+package be.ugent.groep10.authorization.Model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
-@Entity
-public class Member {
+public class Member implements Serializable{
 	
-	@Id
 	private String id;
 	private final String firstName;
 	private final String lastName;

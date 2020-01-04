@@ -1,3 +1,4 @@
-docker_zookeeper_1 is up-to-date
-Starting docker_kafka_1 ... 
-[1A[2KStarting docker_kafka_1 ... [32mdone[0m[1B
+Creating docker_matchdb_1 ... 
+Creating docker_zookeeper_1 ... 
+[1A[2KCreating docker_zookeeper_1 ... [32mdone[0m[1BCreating docker_kafka_1     ... 
+[3A[2KCreating docker_matchdb_1   ... [32mdone[0m[3B[1A[2KCreating docker_kafka_1     ... [32mdone[0m[1B

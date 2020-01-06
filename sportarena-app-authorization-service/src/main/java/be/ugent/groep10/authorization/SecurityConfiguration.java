@@ -22,13 +22,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
     @Override
     public void configure(HttpSecurity http) throws Exception {
+    	System.out.println("Configure");
         http
         .csrf().disable()
         .authorizeRequests()  
-        .antMatchers("/","/authorization/**","/authorizationn/**").permitAll()
-        .antMatchers(HttpMethod.POST,"/authorization/register").permitAll()
-        .anyRequest().authenticated()
-        .and()
-        .oauth2Login();
+//        .antMatchers("/","/authorization/**","/authorizationn/**").permitAll()
+//        .antMatchers(HttpMethod.POST,"/authorization/register").permitAll()
+//        .anyRequest().authenticated()
+//        .and()
+//        .oauth2Login()
+        .anyRequest().permitAll()
+        ;
     }
 }

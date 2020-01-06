@@ -28,9 +28,9 @@ public class GameEndedScheduler {
 		
 		LocalDateTime currentDateTime = LocalDateTime.now();
 		
-		// Active games that are finished -> FinishedStatus + MongoDB-update + Message
+		// Active games that are finished AND score is set -> FinishedStatus + MongoDB-update + Message
 		for(Game game : gameRepository.findByGameStatus(GameStatus.ACTIVE)) {
-			if(game.getDateTimeEnd().isBefore(currentDateTime)) {
+			if(game.getDateTimeEnd().isBefore(currentDateTime) && game.getScore().isSet()) {
 				
 				////////////////////////
 				// TODO Message output//

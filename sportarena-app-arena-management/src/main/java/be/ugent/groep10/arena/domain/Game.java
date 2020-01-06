@@ -16,19 +16,21 @@ public class Game {
 	private LocalDateTime dateTimeBegin;
 	private LocalDateTime dateTimeEnd;
 	private GameStatus gameStatus;
+	private Score score;
 	
 	public Game() {
 		
 	}
 	
-	public Game(String sportclubId, String teamA, String teamB, String reclameId, LocalDateTime dateTimeBegin, LocalDateTime dateTimeEnd) {
+	public Game(String sportclubId, String teamA, String teamB, String reclame, LocalDateTime dateTimeBegin, LocalDateTime dateTimeEnd) {
 		this.sportclubId = sportclubId.toLowerCase().replace(" ", "_");
-		this.teamA = teamA.toLowerCase().compareTo(teamB.toLowerCase()) < 0 ? teamA.toLowerCase() : teamB.toLowerCase();
-		this.teamB = teamA.toLowerCase().compareTo(teamB.toLowerCase()) < 0 ? teamB.toLowerCase() : teamA.toLowerCase();
-		this.reclame = "";
+		this.teamA = teamA.toLowerCase();
+		this.teamB = teamB.toLowerCase();
+		this.reclame = reclame;
 		this.dateTimeBegin = dateTimeBegin;
 		this.dateTimeEnd = dateTimeEnd;
 		this.gameStatus = GameStatus.PLANNED;
+	
 	}
 
 	public GameStatus getGameStatus() {
@@ -79,14 +81,20 @@ public class Game {
 		this.dateTimeEnd = dateTimeEnd;
 	}
 
+	public Score getScore() {
+		return score;
+	}
+
+	public void setScore(Score score) {
+		this.score = score;
+	}
+
 	@Override
 	public String toString() {
 		return "Game [id=" + id + ", sportclubId=" + sportclubId + ", teamA=" + teamA + ", teamB=" + teamB
 				+ ", reclame=" + reclame + ", dateTimeBegin=" + dateTimeBegin + ", dateTimeEnd=" + dateTimeEnd
-				+ ", gameStatus=" + gameStatus + "]";
+				+ ", gameStatus=" + gameStatus + ", score=" + score + "]";
 	}
-
-	
 
 	
 	

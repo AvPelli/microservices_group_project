@@ -94,7 +94,8 @@ public class AuthorizationController {
 		
 		HttpEntity<Member> entity = new HttpEntity<>(member, headers);
 		
-		Member res = restTemplate.postForEntity("http://localhost:2227/member", entity, Member.class).getBody();
+		//Member res = restTemplate.postForEntity("http://localhost:2227/member", entity, Member.class).getBody();
+		Member res = restTemplate.postForEntity("http://membermanagement:2227/member", entity, Member.class).getBody();
 		
 		return res.toString();
 	}

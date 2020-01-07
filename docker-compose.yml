@@ -1,0 +1,59 @@
+version: "3"
+services:
+# ------------Support services-------------
+  zookeeper:
+    image: confluentinc/cp-zookeeper
+    environment:
+      - ZOOKEEPER_CLIENT_PORT=2181
+  kafka:
+    image: confluentinc/cp-kafka
+    depends_on: 
+      - zookeeper
+    environment: 
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+      
+  matchdb:
+    image: mongo
+#    ports:
+#      - "27017:27017"
+
+  gamblingdb:
+    image: mongo
+  
+  # -------------Main services---------------
+    
+  membermanagement:
+    build: ./sportarena-app-member-management
+    links:
+      - kafka
+      - zookeeper
+    depends_on:
+      - kafka
+      - zookeeper
+    ports:
+      - "2227:2227"
+      
+  authorizationservice:
+    build: ./sportarena-app-authorization-service
+    depends_on:
+      - membermanagement
+    ports:
+      - "2228:2228"
+      
+  apigateway:
+    build: ./sportarena-app-api-gateway
+    links:
+      - membermanagement
+      - authorizationservice
+    depends_on:
+      - membermanagement
+      - authorizationservice
+    environment:
+      - NAME_MEMBERMGMT=membermanagement
+      - NAME_AUTHORIZATIONSERVICE=authorizationservice
+    ports:
+      - "8080:8080"
+   

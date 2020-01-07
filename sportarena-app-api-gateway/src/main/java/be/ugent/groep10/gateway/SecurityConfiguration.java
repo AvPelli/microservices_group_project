@@ -34,12 +34,13 @@ public class SecurityConfiguration {
 //                .jwt();
         http
             .authorizeExchange()
-            	.pathMatchers("/", "/authorization/**").permitAll()
-            	.pathMatchers("/member/**").hasAuthority(Roles.MEMBER)
-            	.pathMatchers("/betting/**").hasAuthority(Roles.MEMBER)
-            	.pathMatchers("/catering/**").hasAuthority(Roles.CATERINGSERVICE)
-            	.pathMatchers("/arena/**").hasAnyAuthority(Roles.CLUB)
-            	.anyExchange().authenticated()
+            	.anyExchange().permitAll()
+//            	.pathMatchers("/", "/authorization/**").permitAll()
+//            	.pathMatchers("/member/**").hasAuthority(Roles.MEMBER)
+//            	.pathMatchers("/betting/**").hasAuthority(Roles.MEMBER)
+//            	.pathMatchers("/catering/**").hasAuthority(Roles.CATERINGSERVICE)
+//            	.pathMatchers("/arena/**").hasAnyAuthority(Roles.CLUB)
+//            	.anyExchange().authenticated()
             	;
         return http.build();
         // @formatter:on

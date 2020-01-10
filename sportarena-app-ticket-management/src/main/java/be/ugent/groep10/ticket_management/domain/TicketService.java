@@ -13,9 +13,9 @@ public class TicketService {
 	
 	Logger logger = LoggerFactory.getLogger(TicketService.class);
 	
-	private static final int NUMBER_SECTIONS = 4;
-	private static final int NUMBER_ROWS = 10;
-	private static final int NUMBER_SEATS = 25;
+	private static final int NUMBER_SECTIONS = 1;
+	private static final int NUMBER_ROWS = 1;
+	private static final int NUMBER_SEATS = 10;
 	
 	private final TicketRepository repository;
 
@@ -29,7 +29,9 @@ public class TicketService {
 			for (int section = 1; section <= NUMBER_SECTIONS; section++) {
 				for (int row = 1; row <= NUMBER_ROWS; row++) {
 					for (int seat = 1; seat <= NUMBER_SEATS; seat++) {
-						repository.save(new Ticket(sportEventId, section, row, seat));
+						Ticket ticket = new Ticket(sportEventId, section, row, seat);
+						repository.save(ticket);
+						logger.info(ticket.toString());
 					}
 				}
 			}

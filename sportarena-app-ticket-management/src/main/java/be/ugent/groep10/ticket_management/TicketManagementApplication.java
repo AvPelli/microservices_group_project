@@ -30,7 +30,7 @@ public class TicketManagementApplication {
 		return (args) -> {
 			logger.info("Clearing database...");
 			repository.deleteAll();
-			
+			/*
 			logger.info("Populating database with new data...");
 			
 			List<Ticket> tickets = new ArrayList<>();
@@ -48,12 +48,12 @@ public class TicketManagementApplication {
 			tickets.get(5).sellTicket();
 			tickets.get(6).sellTicket();
 		
-			
 			repository.saveAll(tickets);	
+			*/
 		};
 	}
 	
-	@Bean
+	//@Bean
 	public CommandLineRunner testQueryMethods(TicketRepository repository) {
 		return (args) -> {
 			logger.info("Printing all tickets:");

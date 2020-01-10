@@ -1,7 +1,11 @@
 package be.ugent.groep10.authorization.adapters;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -20,6 +24,8 @@ import org.springframework.web.client.RestTemplate;
 import com.okta.sdk.authc.credentials.TokenClientCredentials;
 import com.okta.sdk.client.Client;
 import com.okta.sdk.client.Clients;
+import com.okta.sdk.resource.group.Group;
+import com.okta.sdk.resource.group.GroupList;
 import com.okta.sdk.resource.user.User;
 import com.okta.sdk.resource.user.UserBuilder;
 
@@ -50,10 +56,18 @@ public class AuthorizationController {
 		Client client = Clients.builder() // TODO: put this in some kind of config file
 				.setOrgUrl("https://dev-883704.okta.com")
 				.setClientCredentials(new TokenClientCredentials("00mLipZ_DVh-Qwo82Gl90uOTNUTPsm1wTLeTGPI-XM")).build();
+		
+		Group group = client.listGroups(registerRequest.getRole(),"","").single();
 
 		User user = UserBuilder.instance().setEmail(registerRequest.getEmailAddress())
 				.setFirstName(registerRequest.getFirstName()).setLastName(registerRequest.getLastName())
-				.setPassword("Password123".toCharArray()).buildAndCreate(client);
+				.setPassword("Password123".toCharArray())
+				.setGroups(Stream.of(group.getId()).collect(Collectors.toSet()))
+				.buildAndCreate(client);
+		
+		
+		
+//		System.out.println(group.getId());
 		
 		switch(registerRequest.getRole()) {
 			case Role.MEMBER:
@@ -80,7 +94,8 @@ public class AuthorizationController {
 		
 		HttpEntity<Member> entity = new HttpEntity<>(member, headers);
 		
-		Member res = restTemplate.postForEntity("http://localhost:2227/member", entity, Member.class).getBody();
+		//Member res = restTemplate.postForEntity("http://localhost:2227/member", entity, Member.class).getBody();
+		Member res = restTemplate.postForEntity("http://membermanagement:2227/member", entity, Member.class).getBody();
 		
 		return res.toString();
 	}

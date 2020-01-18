@@ -1,6 +1,7 @@
 package be.ugent.groep10.catering;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 import org.springframework.boot.CommandLineRunner;
@@ -29,9 +30,17 @@ public class SportarenaAppCateringManagementApplication {
 	CommandLineRunner populateDatabase(ScheduleItemRepository scheduleItemRepository) {
 		return (args) ->{
 			scheduleItemRepository.deleteAll();
-			final ScheduleItem event1 = new ScheduleItem( "1","18/01/2020","19/01/2020","Feestje", 0);
-			final ScheduleItem event2 = new ScheduleItem( "2","18/01/2020","19/01/2020","Feestje", 0);
-			final ScheduleItem event3 = new ScheduleItem( "3","18/01/2020","19/01/2020","Feestje", 0);
+			int year = 2020;
+			int month = 1;
+			int day = 4;
+			int hour = 21;
+			int minute = 14;
+			final ScheduleItem event1 = new ScheduleItem( "1",LocalDateTime.of(year, month, day, hour, minute, 00),
+					LocalDateTime.of(year, month, day, hour, minute, 00),"Feestje", 0);
+			final ScheduleItem event2 = new ScheduleItem( "2",LocalDateTime.of(year, month, day, hour, minute, 00),
+					LocalDateTime.of(year, month, day, hour, minute, 00),"Feestje", 0);
+			final ScheduleItem event3 = new ScheduleItem( "3",LocalDateTime.of(year, month, day, hour, minute, 00),
+					LocalDateTime.of(year, month, day, hour, minute, 00),"Feestje", 0);
 			
 			scheduleItemRepository.save(event1);
 			scheduleItemRepository.save(event2);

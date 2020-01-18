@@ -1,6 +1,7 @@
 package be.ugent.groep10.catering.adapters.messaging;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -10,8 +11,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class NewEventRequest {
 	private String sportEventId;
-	private String startTime;
-	private String endTime;
+	private LocalDateTime dateTimeBegin;
+	private LocalDateTime dateTimeEnd;
 	
 	public String getSportEventId() {
 		return sportEventId;
@@ -21,19 +22,19 @@ public class NewEventRequest {
 		this.sportEventId = sportEventId;
 	}
 
-	public String getStartTime() {
-		return startTime;
+	public LocalDateTime getDateTimeBegin() {
+		return dateTimeBegin;
 	}
-	
-	public void setStartTime(String startTime) {
-		this.startTime = startTime;
+
+	public void setDateTimeBegin(LocalDateTime dateTimeBegin) {
+		this.dateTimeBegin = dateTimeBegin;
 	}
-	
-	public String getEndTime() {
-		return endTime;
+
+	public LocalDateTime getDateTimeEnd() {
+		return dateTimeEnd;
 	}
-	
-	public void setEndTime(String endTime) {
-		this.endTime = endTime;
+
+	public void setDateTimeEnd(LocalDateTime dateTimeEnd) {
+		this.dateTimeEnd = dateTimeEnd;
 	}
 }

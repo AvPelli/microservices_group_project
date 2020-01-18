@@ -1,10 +1,8 @@
 package be.ugent.groep10.catering.domain;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
@@ -15,8 +13,8 @@ public class ScheduleItem {
 	@Id 
 	private String sportEventId;
 	
-	private String startTime;
-	private String endTime;
+	private LocalDateTime dateTimeBegin;
+	private LocalDateTime dateTimeEnd;
 	private String description;
 	private int seatOccupation;
 	
@@ -25,10 +23,10 @@ public class ScheduleItem {
 		
 	}
 	
-	public ScheduleItem(String sportEventId, String startTime, String endTime, String description, int seatOccupation) {
+	public ScheduleItem(String sportEventId, LocalDateTime startTime, LocalDateTime endTime, String description, int seatOccupation) {
 		this.sportEventId = sportEventId;
-		this.setStartTime(startTime);
-		this.setEndTime(endTime);
+		this.setDateTimeBegin(endTime);
+		this.setDateTimeEnd(endTime);
 		this.setDescription(description);
 		this.setSeatOccupation(seatOccupation);
 	}
@@ -36,22 +34,6 @@ public class ScheduleItem {
 	//Getters-Setters
 	public String getSportEventId() {
 		return this.sportEventId;
-	}
-
-	public String getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(String startTime) {
-		this.startTime = startTime;
-	}
-
-	public String getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(String endTime) {
-		this.endTime = endTime;
 	}
 
 	public String getDescription() {
@@ -68,6 +50,22 @@ public class ScheduleItem {
 
 	public void setSeatOccupation(int seatOccupation) {
 		this.seatOccupation = seatOccupation;
+	}
+
+	public LocalDateTime getDateTimeBegin() {
+		return dateTimeBegin;
+	}
+
+	public void setDateTimeBegin(LocalDateTime dateTimeBegin) {
+		this.dateTimeBegin = dateTimeBegin;
+	}
+
+	public LocalDateTime getDateTimeEnd() {
+		return dateTimeEnd;
+	}
+
+	public void setDateTimeEnd(LocalDateTime dateTimeEnd) {
+		this.dateTimeEnd = dateTimeEnd;
 	}
 	
 }

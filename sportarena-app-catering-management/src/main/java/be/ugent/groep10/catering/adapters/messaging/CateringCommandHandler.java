@@ -31,12 +31,12 @@ public class CateringCommandHandler {
 	 */
 	@StreamListener(Channels.GAME_CREATED_EVENT)
 	public void newEventCreated(NewEventRequest request){
-		logger.info("New game created : " + request.getSportEventId() + " from " + request.getStartTime().toString() 
-				+ " to " + request.getEndTime().toString());
+		logger.info("New game created : " + request.getSportEventId() + " from " + request.getDateTimeBegin().toString() 
+				+ " to " + request.getDateTimeEnd().toString());
 		
 		ScheduleItem item = this.cateringService.findEvent(request.getSportEventId());
 		if(item == null) {
-			item = new ScheduleItem(request.getSportEventId(),request.getStartTime(),request.getEndTime(),"event",0);
+			item = new ScheduleItem(request.getSportEventId(),request.getDateTimeBegin(),request.getDateTimeEnd(),"event",0);
 			cateringService.insertNewSchedule(item);
 		}
 	}

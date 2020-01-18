@@ -1,4 +1,4 @@
-package be.ugent.groep10.authorization.Model;
+package be.ugent.groep10.authorization.domain;
 
 import java.time.LocalDate;
 

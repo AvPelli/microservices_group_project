@@ -14,9 +14,9 @@ import be.ugent.groep10.catering.adapters.messaging.CateringCommandHandler;
 import be.ugent.groep10.catering.adapters.messaging.Channels;
 import be.ugent.groep10.catering.adapters.messaging.NewEventRequest;
 import be.ugent.groep10.catering.adapters.messaging.SeatOccupationUpdate;
+import be.ugent.groep10.catering.domain.CateringSchedule;
 import be.ugent.groep10.catering.domain.CateringService;
-import be.ugent.groep10.catering.domain.ScheduleItem;
-import be.ugent.groep10.catering.persistence.ScheduleItemRepository;
+import be.ugent.groep10.catering.persistence.CateringScheduleRepository;
 
 @SpringBootApplication
 @EnableBinding(Channels.class)
@@ -27,32 +27,32 @@ public class SportarenaAppCateringManagementApplication {
 	}
 
 	@Bean
-	CommandLineRunner populateDatabase(ScheduleItemRepository scheduleItemRepository) {
+	CommandLineRunner populateDatabase(CateringScheduleRepository cateringScheduleRepository) {
 		return (args) ->{
-			scheduleItemRepository.deleteAll();
+			cateringScheduleRepository.deleteAll();
 			int year = 2020;
 			int month = 1;
 			int day = 4;
 			int hour = 21;
 			int minute = 14;
-			final ScheduleItem event1 = new ScheduleItem( "1",LocalDateTime.of(year, month, day, hour, minute, 00),
+			final CateringSchedule event1 = new CateringSchedule( "1",LocalDateTime.of(year, month, day, hour, minute, 00),
 					LocalDateTime.of(year, month, day, hour, minute, 00),"Feestje", 0);
-			final ScheduleItem event2 = new ScheduleItem( "2",LocalDateTime.of(year, month, day, hour, minute, 00),
+			final CateringSchedule event2 = new CateringSchedule( "2",LocalDateTime.of(year, month, day, hour, minute, 00),
 					LocalDateTime.of(year, month, day, hour, minute, 00),"Feestje", 0);
-			final ScheduleItem event3 = new ScheduleItem( "3",LocalDateTime.of(year, month, day, hour, minute, 00),
+			final CateringSchedule event3 = new CateringSchedule( "3",LocalDateTime.of(year, month, day, hour, minute, 00),
 					LocalDateTime.of(year, month, day, hour, minute, 00),"Feestje", 0);
 			
-			scheduleItemRepository.save(event1);
-			scheduleItemRepository.save(event2);
-			scheduleItemRepository.save(event3);
+			cateringScheduleRepository.save(event1);
+			cateringScheduleRepository.save(event2);
+			cateringScheduleRepository.save(event3);
 		};
 	}
 	
 	@Bean
-	public CommandLineRunner testQueries(ScheduleItemRepository scheduleItemRepository) {
+	public CommandLineRunner testQueries(CateringScheduleRepository cateringScheduleRepository) {
 		return (args) ->{
 			System.out.println("Printing all booked stays...");
-			scheduleItemRepository.findBySportEventId("1").forEach(System.out::println);
+			cateringScheduleRepository.findBySportEventId("1").forEach(System.out::println);
 		};
 	}
 }

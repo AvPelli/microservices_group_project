@@ -1,6 +1,6 @@
 package be.ugent.groep10.catering.persistence;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
@@ -13,7 +13,7 @@ import be.ugent.groep10.catering.domain.ScheduleItem;
 public interface ScheduleItemRepository 
 	extends PagingAndSortingRepository<ScheduleItem, Integer> {
 	
-	List<ScheduleItem> findByStartTimeBetween(LocalDate startTime,LocalDate endTime); 
+	List<ScheduleItem> findByDateTimeBeginBetween(LocalDateTime startTime,LocalDateTime endTime); 
 	
-	List<ScheduleItem> findById(long id);
+	List<ScheduleItem> findBySportEventId(String id);
 }

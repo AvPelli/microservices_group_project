@@ -18,10 +18,12 @@ import be.ugent.groep10.ticket_management.domain.TicketStatus;
 import be.ugent.groep10.ticket_management.persistence.TicketRepository;
 
 @RestController
-@RequestMapping("ticket")
+//@RequestMapping("tickets")
 public class TicketRestController {
 	
 	Logger logger = LoggerFactory.getLogger(TicketRestController.class);
+	
+	private static final int TRESHOLD = 50;
 	
 	private final TicketRepository repository;
 	private final MessageGateway gateway;
@@ -38,8 +40,12 @@ public class TicketRestController {
 		if (ticket.getStatus() == TicketStatus.AVAILABLE) {
 			ticket.setStatus(TicketStatus.SOLD);
 			logger.info("Success: ticket " + ticketId + " sold");
-			UpdateOccupancyRequest request = new UpdateOccupancyRequest(ticket.getSportEventId(), 2);
-			gateway.updateOccupancy(request);
+			repository.save(ticket);
+			int sold = repository.findBySportEventIdAndStatusIsSold(ticket.getSportEventId()).size();
+			if (sold % TRESHOLD == 0) {
+				UpdateOccupancyRequest request = new UpdateOccupancyRequest(ticket.getSportEventId(), sold);
+				gateway.updateOccupancy(request);
+			}
 			return true;
 		}
 		else {
@@ -48,10 +54,19 @@ public class TicketRestController {
 		}
 	}
 	
-	@GetMapping("/{sportEventId}")
+	@GetMapping("/sold/{sportEventId}")
 	public List<Ticket> getTickets(@PathVariable("sportEventId") String sportEventId) {
+		List<Ticket> tickets = repository.findBySportEventIdAndStatusIsSold(sportEventId);
+		return tickets;
+	}
+	
+	
+	
+	@GetMapping("/{sportEventId}")
+	public List<Ticket> getTickets2(@PathVariable("sportEventId") String sportEventId) {
 		List<Ticket> tickets = repository.findBySportEventId(sportEventId);
 		return tickets;
 	}
+	
 
 }

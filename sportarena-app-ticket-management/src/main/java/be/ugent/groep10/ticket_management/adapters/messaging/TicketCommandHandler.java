@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.StreamListener;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Service;
 
 import be.ugent.groep10.ticket_management.domain.EventExistsException;
@@ -22,19 +21,22 @@ public class TicketCommandHandler {
 		this.service = service;
 	}
 	
-	@StreamListener(Channels.CREATE_TICKETS)
-	@SendTo(Channels.TICKETS_CREATED)
-	public TicketsResponse createGame(TicketsRequest request) {
+	@StreamListener(Channels.GAME_CREATED_EVENT) 
+	public void processCreateGameRequest(CreateGameRequest request) {
 		logger.info("Request to create tickets for event " + request.getSportEventId());
 		try {
 			service.createTickets(request.getSportEventId());
 			logger.info("Tickets created for event " + request.getSportEventId());
-			return new TicketsResponse(request.getSportEventId(), true);
 		}
 		catch (EventExistsException e) {
 			logger.info(e.getMessage());
-			return new TicketsResponse(request.getSportEventId(), false);
 		}
+	}
+	
+	@StreamListener(Channels.GAME_ENDED_EVENT)
+	public void processGameEndedRequest(EndGameRequest request) {
+		String sportEventId = request.getSportEventId();
+		service.endGame(sportEventId);
 	}
 	
 }

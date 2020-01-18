@@ -12,6 +12,8 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.context.annotation.Bean;
 
 import be.ugent.groep10.ticket_management.adapters.messaging.Channels;
+import be.ugent.groep10.ticket_management.adapters.messaging.MessageGateway;
+import be.ugent.groep10.ticket_management.adapters.messaging.UpdateOccupancyRequest;
 import be.ugent.groep10.ticket_management.domain.Ticket;
 import be.ugent.groep10.ticket_management.persistence.TicketRepository;
 
@@ -26,11 +28,17 @@ public class TicketManagementApplication {
 	}
 	
 	@Bean
-	public CommandLineRunner populateDatabase(TicketRepository repository) {
+	public CommandLineRunner clearDatabase(TicketRepository repository, MessageGateway gw) {
 		return (args) -> {
 			logger.info("Clearing database...");
 			repository.deleteAll();
-			/*
+			gw.updateOccupancy(new UpdateOccupancyRequest("1", 1));
+		};
+	}
+	
+	//@Bean
+	public CommandLineRunner populateDatabase(TicketRepository repository) {
+		return (args) -> {
 			logger.info("Populating database with new data...");
 			
 			List<Ticket> tickets = new ArrayList<>();
@@ -49,7 +57,6 @@ public class TicketManagementApplication {
 			tickets.get(6).sellTicket();
 		
 			repository.saveAll(tickets);	
-			*/
 		};
 	}
 	

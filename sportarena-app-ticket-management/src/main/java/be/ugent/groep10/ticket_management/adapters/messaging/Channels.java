@@ -7,15 +7,15 @@ import org.springframework.messaging.SubscribableChannel;
 
 public interface Channels {
 
-	static final String CREATE_TICKETS = "create_tickets";
-	static final String TICKETS_CREATED = "tickets_created";
+	static final String GAME_CREATED_EVENT = "game_created_event";
+	static final String GAME_ENDED_EVENT = "game_ended_event";
 	static final String UPDATE_OCCUPANCY = "update_occupancy";
 	
-	@Input(CREATE_TICKETS)
+	@Input(GAME_CREATED_EVENT)
 	SubscribableChannel createTickets();
 	
-	@Output(TICKETS_CREATED)
-	MessageChannel ticketsCreated();
+	@Input(GAME_ENDED_EVENT)
+	MessageChannel endGame();
 	
 	@Output(UPDATE_OCCUPANCY)
 	MessageChannel updateOccupancy();

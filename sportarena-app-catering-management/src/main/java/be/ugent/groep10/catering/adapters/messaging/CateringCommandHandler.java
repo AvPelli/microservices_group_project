@@ -19,7 +19,6 @@ import be.ugent.groep10.catering.domain.ScheduleItem;
 public class CateringCommandHandler {
 	
 	private static Logger logger = LoggerFactory.getLogger(CateringCommandHandler.class);
-
 	private final CateringService cateringService;
 	
 	@Autowired
@@ -30,27 +29,24 @@ public class CateringCommandHandler {
 	/*
 	 * Handle game created messages
 	 */
-	@StreamListener(Channels.NEW_EVENT)
-	@SendTo(Channels.EVENT_REGISTERED)
-	public NewEventResponse newEventCreated(NewEventRequest request){
-		logger.info("New game created : " + request.getEventId() + " from " + request.getStartTime().toString() 
-				+ " to " + request.getEndTime().toString());
+	@StreamListener(Channels.GAME_CREATED_EVENT)
+	public void newEventCreated(NewEventRequest request){
+		logger.info("New game created : " + request.getSportEventId() + " from " + request.getDateTimeBegin().toString() 
+				+ " to " + request.getDateTimeEnd().toString());
 		
-		ScheduleItem item = this.cateringService.findEvent(request.getEventId());
-		if(item != null) {
-			return new NewEventResponse(request.getEventId(),true,"Event zit in de cateringservice database");
-		} else {
-			item = new ScheduleItem(request.getEventId(),request.getStartTime(),request.getEndTime(),"event",0);
-			return cateringService.insertNewSchedule(item);
+		ScheduleItem item = this.cateringService.findEvent(request.getSportEventId());
+		if(item == null) {
+			item = new ScheduleItem(request.getSportEventId(),request.getDateTimeBegin(),request.getDateTimeEnd(),"event",0);
+			cateringService.insertNewSchedule(item);
 		}
 	}
+	
 	
 	/*
 	 * Handle seat update messages
 	 */
-	
-	@StreamListener(Channels.SEAT_UPDATE)
+	@StreamListener(Channels.UPDATE_OCCUPANCY)
 	public void updateSeats(SeatOccupationUpdate seatUpdate) {
-		logger.info("Seats updated for event :" + seatUpdate.getEventId() + ", new ammount of seats: " + seatUpdate.getOccupiedSeats());
+		logger.info("Seats updated for event :" + seatUpdate.getSportEventId() + ", new ammount of seats: " + seatUpdate.getOccupancy());
 	}
 }

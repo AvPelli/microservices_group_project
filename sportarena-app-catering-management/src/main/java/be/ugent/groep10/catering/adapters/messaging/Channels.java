@@ -10,9 +10,9 @@ import org.springframework.messaging.SubscribableChannel;
  */
 
 public interface Channels {
-	static final String NEW_EVENT = "events";
+	static final String GAME_CREATED_EVENT = "game_created_event";
 	static final String EVENT_REGISTERED = "registered_events";
-	static final String SEAT_UPDATE = "seats";
+	static final String UPDATE_OCCUPANCY = "update_occupancy";
 	
 	/*
 	 * NEW_EVENT 
@@ -20,17 +20,9 @@ public interface Channels {
 	 * Publisher: Arena Mgmt Service
 	 * Consumer: Catering Service
 	 */
-	@Input(NEW_EVENT)
+	@Input(GAME_CREATED_EVENT)
 	SubscribableChannel newEvent();
 	
-	/*
-	 * EVENT_REGISTERED
-	 * 	Ontvangstbevestiging en scheduleitem aangemaakt
-	 * Publisher: Catering Service
-	 * Consumer: Arena Mgmt Service
-	 */
-	@Output(EVENT_REGISTERED)
-	MessageChannel eventRegistered();
 
 	/*
 	 * SEAT UPDATE
@@ -38,6 +30,6 @@ public interface Channels {
 	 * Publisher: Ticket service
 	 * Consumer: Catering service
 	 */
-	@Input(SEAT_UPDATE)
+	@Input(UPDATE_OCCUPANCY)
 	SubscribableChannel seatUpdate();
 }

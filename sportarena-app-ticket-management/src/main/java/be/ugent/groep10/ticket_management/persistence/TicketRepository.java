@@ -16,4 +16,7 @@ public interface TicketRepository extends MongoRepository<Ticket, String>{
 	@Query("{ 'sportEventId' : ?0, 'status' : {$ne : 'SOLD'}}")
 	List<Ticket> findBySportEventIdAndStatusIsNotSold(String sportEventId);
 	
+	@Query("{ 'sportEventId' : ?0, 'status' : 'SOLD'}")
+	List<Ticket> findBySportEventIdAndStatusIsSold(String sportEventId);
+	
 }

@@ -1,9 +1,6 @@
 package be.ugent.groep10.ticket_management.adapters.messaging;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class TicketsRequest {
+public class EndGameRequest {
 
 	private String sportEventId;
 	

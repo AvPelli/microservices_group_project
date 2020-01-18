@@ -41,4 +41,19 @@ public class TicketService {
 		}
 	}
 	
+	public void endGame(String sportEventId) {
+		List<Ticket> tickets = repository.findBySportEventId(sportEventId);
+		if (!tickets.isEmpty()) {
+			for (Ticket ticket : tickets) {
+				if (ticket.getStatus() == TicketStatus.AVAILABLE) {
+					ticket.setStatus(TicketStatus.UNAVAILABLE);
+				}
+			}
+		}
+		repository.saveAll(tickets);
+		for (Ticket ticket : tickets) {
+			logger.info(ticket.toString());
+		}
+	}
+	
 }

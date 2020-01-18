@@ -26,11 +26,16 @@ public class TicketManagementApplication {
 	}
 	
 	@Bean
-	public CommandLineRunner populateDatabase(TicketRepository repository) {
+	public CommandLineRunner clearDatabase(TicketRepository repository) {
 		return (args) -> {
 			logger.info("Clearing database...");
 			repository.deleteAll();
-			/*
+		};
+	}
+	
+	//@Bean
+	public CommandLineRunner populateDatabase(TicketRepository repository) {
+		return (args) -> {
 			logger.info("Populating database with new data...");
 			
 			List<Ticket> tickets = new ArrayList<>();
@@ -49,7 +54,6 @@ public class TicketManagementApplication {
 			tickets.get(6).sellTicket();
 		
 			repository.saveAll(tickets);	
-			*/
 		};
 	}
 	

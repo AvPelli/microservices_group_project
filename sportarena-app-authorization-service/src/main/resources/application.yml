@@ -20,5 +20,11 @@ spring.cloud.stream.bindings.register_member.content-type: application/json
 spring.cloud.stream.bindings.register_member_timeout: register_member_timeout
 spring.cloud.stream.bindings.register_member_timeout.content-type: application/json
 
+spring.cloud.stream.bindings.register_catering: register_catering
+spring.cloud.stream.bindings.register_catering.content-type: application/json
+
+spring.cloud.stream.bindings.register_catering_timeout: register_catering_timeout
+spring.cloud.stream.bindings.register_catering_timeout.content-type: application/json
+
 spring.cloud.stream.bindings.register_result: register_result
 spring.cloud.stream.bindings.register_result.content-type: application/json

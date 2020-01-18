@@ -7,7 +7,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import be.ugent.groep10.catering.domain.CateringSchedule;
 
-@RepositoryRestResource(collectionResourceRel = "items", path = "items") 
+@RepositoryRestResource(collectionResourceRel = "schedules", path = "schedules") 
 public interface CateringScheduleRepository 
 	extends PagingAndSortingRepository<CateringSchedule, Integer>{
 	

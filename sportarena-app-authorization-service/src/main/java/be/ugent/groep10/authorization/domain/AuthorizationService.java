@@ -36,6 +36,8 @@ public class AuthorizationService {
 
 	public User makeOktaUser(RegisterRequest registerRequest) {
 		Group group = oktaClient.listGroups(registerRequest.getRole(), "", "").single();
+		
+		//TODO: check if user already exists
 
 		User user = UserBuilder.instance().setEmail(registerRequest.getEmailAddress())
 				.setFirstName(registerRequest.getFirstName()).setLastName(registerRequest.getLastName())

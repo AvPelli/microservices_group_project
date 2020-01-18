@@ -7,6 +7,14 @@ public class CreateWalletRequest {
 	private String ownerId;
 	private double tokens;
 	
+	
+	
+	public CreateWalletRequest() {
+	}
+	public CreateWalletRequest(String ownerId, double tokens) {
+		this.ownerId = ownerId;
+		this.tokens = tokens;
+	}
 	public String getOwnerId() {
 		return ownerId;
 	}

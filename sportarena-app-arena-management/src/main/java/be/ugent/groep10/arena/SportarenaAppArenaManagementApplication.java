@@ -78,7 +78,9 @@ public class SportarenaAppArenaManagementApplication {
 			for(Game g : games) {
 				repository.save(g);
 			}
-			//gateway.createGame(new CreateGameRequest("2"));
+			LocalDateTime begin = LocalDateTime.now();
+			LocalDateTime end = LocalDateTime.now();
+			gateway.createGame(new CreateGameRequest("2", begin, end));
 		};
 	}
 	

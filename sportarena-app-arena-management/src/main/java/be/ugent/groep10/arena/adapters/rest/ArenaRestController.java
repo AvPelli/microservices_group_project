@@ -1,5 +1,7 @@
 package be.ugent.groep10.arena.adapters.rest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import be.ugent.groep10.arena.SportarenaAppArenaManagementApplication;
+import be.ugent.groep10.arena.adapters.messaging.ArenaGateway;
+import be.ugent.groep10.arena.adapters.messaging.CreateGameRequest;
 import be.ugent.groep10.arena.domain.Game;
 import be.ugent.groep10.arena.domain.GameStatus;
 import be.ugent.groep10.arena.domain.Score;
@@ -18,11 +23,15 @@ import be.ugent.groep10.arena.persistence.GameRepository;
 @RequestMapping("/games")
 public class ArenaRestController {
 	
-private final GameRepository gameRepository;
+	Logger logger = LoggerFactory.getLogger(ArenaRestController.class);
+	
+	private final GameRepository gameRepository;
+	private final ArenaGateway gateway;
 	
 	@Autowired
-	public ArenaRestController(GameRepository gameRepository) {
+	public ArenaRestController(GameRepository gameRepository, ArenaGateway gateway) {
 		this.gameRepository = gameRepository;
+		this.gateway = gateway;
 	}
 
 	/*DUMMY*/
@@ -66,7 +75,19 @@ private final GameRepository gameRepository;
 		// TODO: Check if dateTimes are in the future
 		// TODO: Check schedule first
 		this.gameRepository.save(game);
+		
 		return this.gameRepository.findAll();
+	}
+	
+	@PostMapping("/create")
+	public boolean createGame(@RequestBody Game game) {
+		
+		// TODO: Check if dateTimes are in the future
+		// TODO: Check schedule first
+		this.gameRepository.save(game);
+		logger.info(game.toString());
+		gateway.createGame(new CreateGameRequest(game.getId(), game.getDateTimeBegin(), game.getDateTimeEnd()));
+		return true;
 	}
 	
 	

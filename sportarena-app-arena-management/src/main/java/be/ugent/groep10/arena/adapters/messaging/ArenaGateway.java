@@ -3,9 +3,6 @@ package be.ugent.groep10.arena.adapters.messaging;
 import org.springframework.integration.annotation.Gateway;
 import org.springframework.integration.annotation.MessagingGateway;
 
-import be.ugent.groep10.arena.domain.Game;
-import be.ugent.groep10.arena.persistence.GameRepository;
-
 @MessagingGateway
 public interface ArenaGateway {
 

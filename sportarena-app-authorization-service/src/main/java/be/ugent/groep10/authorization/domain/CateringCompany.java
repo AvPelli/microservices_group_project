@@ -5,7 +5,7 @@ import java.time.LocalDate;
 
 public class CateringCompany implements Serializable {
 	
-	private String id;
+	private String companyId;
 	private final String firstName;
 	private final String lastName;
 	private final String companyName;
@@ -17,19 +17,19 @@ public class CateringCompany implements Serializable {
 		this.companyName = null;
 	}
 	
-	public CateringCompany(String id, String firstName, String lastName, String companyName) {
-		this.id = id;
+	public CateringCompany(String companyId, String firstName, String lastName, String companyName) {
+		this.companyId = companyId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.companyName = companyName;
 	}
 
-	public String getId() {
-		return id;
+	public String getCompanyId() {
+		return companyId;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
 	}
 
 	public String getFirstName() {

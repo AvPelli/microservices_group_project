@@ -6,7 +6,7 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.SubscribableChannel;
 
 /*
- * Behandeld kafka messages
+ * Behandelt kafka messages
  */
 
 public interface Channels {

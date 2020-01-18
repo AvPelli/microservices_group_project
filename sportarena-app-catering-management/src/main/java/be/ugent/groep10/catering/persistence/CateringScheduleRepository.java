@@ -13,5 +13,5 @@ import be.ugent.groep10.catering.domain.ScheduleItem;
 public interface CateringScheduleRepository 
 	extends PagingAndSortingRepository<CateringSchedule, Integer>{
 	
-	List<CateringSchedule> findByScheduleItemId(long id);
+	List<CateringSchedule> findBySportEventId(String id);
 }

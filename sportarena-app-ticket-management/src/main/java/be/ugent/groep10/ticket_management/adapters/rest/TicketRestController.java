@@ -61,12 +61,12 @@ public class TicketRestController {
 	}
 	
 	
-	/*
+	
 	@GetMapping("/{sportEventId}")
-	public List<Ticket> getTickets(@PathVariable("sportEventId") String sportEventId) {
+	public List<Ticket> getTickets2(@PathVariable("sportEventId") String sportEventId) {
 		List<Ticket> tickets = repository.findBySportEventId(sportEventId);
 		return tickets;
 	}
-	*/
+	
 
 }

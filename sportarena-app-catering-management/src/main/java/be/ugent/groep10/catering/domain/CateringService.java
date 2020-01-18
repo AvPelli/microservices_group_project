@@ -20,8 +20,8 @@ public class CateringService {
 		this.cateringScheduleRepository = cateringScheduleRepository;
 	}
 	
-	public ScheduleItem findEvent(long id) {
-		final List<ScheduleItem> events = this.scheduleItemRepository.findById(id);
+	public ScheduleItem findEvent(String id) {
+		final List<ScheduleItem> events = this.scheduleItemRepository.findBySportEventId(id);
 		if(events.isEmpty() || events.size() > 1) {
 			return null;
 		}

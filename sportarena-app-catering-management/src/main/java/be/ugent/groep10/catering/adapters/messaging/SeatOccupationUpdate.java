@@ -4,20 +4,22 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SeatOccupationUpdate {
-	private long eventId;
-	private long occupiedSeats;
-
-	public long getEventId() {
-		return eventId;
-	}
-	public void setEventId(long eventId) {
-		this.eventId = eventId;
+	private String sportEventId;
+	private int occupancy;
+	
+	public String getSportEventId() {
+		return sportEventId;
 	}
 	
-	public long getOccupiedSeats() {
-		return occupiedSeats;
+	public void setSportEventId(String sportEventId) {
+		this.sportEventId = sportEventId;
 	}
-	public void setOccupiedSeats(long occupiedSeats) {
-		this.occupiedSeats = occupiedSeats;
+	
+	public int getOccupancy() {
+		return occupancy;
+	}
+	
+	public void setOccupancy(int occupancy) {
+		this.occupancy = occupancy;
 	}
 }

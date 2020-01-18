@@ -26,6 +26,7 @@ public class MemberRestController {
 	
 	@GetMapping
 	public Iterable<Member> getAllMembers(){
+		System.out.println("--------------------FindAllMembers!!!!--------------------");
 		return this.memberRepository.findAll();
 	}
 	

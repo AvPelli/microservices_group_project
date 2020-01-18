@@ -1,0 +1,79 @@
+version: "3"
+services:
+# ------------Support services-------------
+  zookeeper:
+    image: confluentinc/cp-zookeeper
+    environment:
+      - ZOOKEEPER_CLIENT_PORT=2181
+  kafka:
+    image: confluentinc/cp-kafka
+    depends_on: 
+      - zookeeper
+    environment: 
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+      
+#  matchdb:
+#    image: mongo
+#    ports:
+#      - "27017:27017"
+
+  bettingdb:
+    image: mongo
+  
+  # -------------Main services---------------
+    
+  membermanagement:
+    build: ./sportarena-app-member-management
+    links:
+      - kafka
+      - zookeeper
+    depends_on:
+      - kafka
+      - zookeeper
+    ports:
+      - "2227:2227"
+  
+  bettingmanagement:
+    build: ./sportarena-app-gambling-management
+    links:
+      - bettingdb
+      - kafka
+      - zookeeper
+    depends_on:
+      - bettingdb
+      - kafka
+      - zookeeper
+    environment:
+      - SPRING_DATA_MONGODB_HOST=bettingdb
+      
+  authorizationservice:
+    build: ./sportarena-app-authorization-service
+    depends_on:
+      - membermanagement
+    ports:
+      - "2228:2228"
+      
+  apigateway:
+    build: ./sportarena-app-api-gateway
+    links:
+      - membermanagement
+      - authorizationservice
+      - bettingmanagement
+    depends_on:
+      - membermanagement
+      - authorizationservice
+      - bettingmanagement
+    environment:
+      - NAME_MEMBERMGMT=membermanagement
+      - NAME_AUTHORIZATIONSERVICE=authorizationservice
+      - NAME_ARENAMGMT=arenamanagement
+      - NAME_CATERINGMGMT=cateringmanagement
+      - NAME_GAMBLINGMGMT=bettingmanagement
+      - NAME_PAYMENT=payment
+      - NAME_TICKETMGMT=ticketmanagement
+    ports:
+      - "8080:8080"
+   

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.stereotype.Service;
 
+import be.ugent.groep10.membermanagement.domain.Member;
 import be.ugent.groep10.membermanagement.domain.MemberService;
 
 
@@ -21,9 +22,19 @@ public class MemberCommandHandler {
 		this.memberService = memberService;
 	}
 	
-//	@StreamListener(Channels.WALLET_CREATED)
-//	public void 
+	@StreamListener(Channels.WALLET_CREATED)
+	public void processWalletCreated(CreateWalletRequest createWalletRequest) {
+		memberService.proccesWalletResponse(createWalletRequest);
+	}
 	
+	@StreamListener(Channels.REGISTER_MEMBER)
+	public void processRegisterMember(Member member) {
+		memberService.createMember(member);
+	}
 	
+	@StreamListener(Channels.REGISTER_MEMBER_TIMEOUT)
+	public void processRegisterMemberTimeOut(String memberId) {
+		memberService.deleteMember(memberId);
+	}
 	
 }

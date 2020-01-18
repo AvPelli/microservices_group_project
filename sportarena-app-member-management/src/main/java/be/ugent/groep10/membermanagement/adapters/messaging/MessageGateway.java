@@ -3,7 +3,6 @@ package be.ugent.groep10.membermanagement.adapters.messaging;
 import org.springframework.integration.annotation.Gateway;
 import org.springframework.integration.annotation.MessagingGateway;
 
-import be.ugent.groep10.membermanagement.domain.Member;
 
 @MessagingGateway
 public interface MessageGateway {
@@ -13,4 +12,7 @@ public interface MessageGateway {
 	
 	@Gateway(requestChannel = Channels.CREATE_WALLET)
 	public void createWallet(CreateWalletRequest createWalletRequest);
+	
+	@Gateway(requestChannel = Channels.REGISTER_RESULT)
+	public void registerResult(RegisterResponse response);
 }

@@ -23,19 +23,25 @@ public class BettingCommandHandler {
 	}
 	
 	@StreamListener(Channels.CREATE_WALLET)
-	@SendTo(Channels.WALLET_CREATED)
-	public CreateWalletRequest createWallet(CreateWalletRequest createWalletRequest) {
-		System.out.println(createWalletRequest.toString());
-		Wallet existingWallet = bettingService.getWalletFromUser(createWalletRequest.getOwnerId());
-		if(existingWallet != null) {
-			logger.info("Can't create wallet for member(" + createWalletRequest.getOwnerId() + ") becouse it already exists.");
-			createWalletRequest.setTokens(existingWallet.getTokens());
-			return createWalletRequest;
-		}
-		logger.info("New wallet for member(" + createWalletRequest.getOwnerId() + ")added with " + createWalletRequest.getTokens() + " tokens.");
+	public void createWallet(CreateWalletRequest createWalletRequest) {
 		bettingService.saveWallet(new Wallet(createWalletRequest.getOwnerId(), createWalletRequest.getTokens()));
-		return createWalletRequest;
 	}
+	
+	
+//	@StreamListener(Channels.CREATE_WALLET)
+//	@SendTo(Channels.WALLET_CREATED)
+//	public CreateWalletRequest createWallet(CreateWalletRequest createWalletRequest) {
+//		System.out.println(createWalletRequest.toString());
+//		Wallet existingWallet = bettingService.getWalletFromUser(createWalletRequest.getOwnerId());
+//		if(existingWallet != null) {
+//			logger.info("Can't create wallet for member(" + createWalletRequest.getOwnerId() + ") because it already exists.");
+//			createWalletRequest.setTokens(existingWallet.getTokens());
+//			return createWalletRequest;
+//		}
+//		logger.info("New wallet for member(" + createWalletRequest.getOwnerId() + ")added with " + createWalletRequest.getTokens() + " tokens.");
+//		bettingService.saveWallet(new Wallet(createWalletRequest.getOwnerId(), createWalletRequest.getTokens()));
+//		return createWalletRequest;
+//	}
 	
 	//Send API call to payment service
 	@SendTo(Channels.CASH_OUT)

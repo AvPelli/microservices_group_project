@@ -2,6 +2,8 @@ package be.ugent.groep10.arena;
 
 import java.time.LocalDateTime;
 
+import javax.security.auth.message.callback.PrivateKeyCallback.Request;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -14,10 +16,12 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 import be.ugent.groep10.arena.domain.Game;
 import be.ugent.groep10.arena.persistence.GameRepository;
+import be.ugent.groep10.arena.adapters.messaging.ArenaGateway;
 import be.ugent.groep10.arena.adapters.messaging.Channels;
+import be.ugent.groep10.arena.adapters.messaging.CreateGameRequest;
 
 @SpringBootApplication
-//@EnableBinding(Channels.class)
+@EnableBinding(Channels.class)
 @EnableScheduling
 public class SportarenaAppArenaManagementApplication {
 
@@ -29,7 +33,7 @@ public class SportarenaAppArenaManagementApplication {
 	
 	
 	@Bean
-	public CommandLineRunner populateDatabase(GameRepository repository) {
+	public CommandLineRunner populateDatabase(GameRepository repository, ArenaGateway gateway) {
 		return (args) -> {
 			
 			logger.info("Clearing database...");
@@ -39,9 +43,9 @@ public class SportarenaAppArenaManagementApplication {
 			
 			int year = 2020;
 			int month = 1;
-			int day = 4;
-			int hour = 21;
-			int minute = 14;
+			int day = 10;
+			int hour = 16;
+			int minute = 0;
 			Game[] games = { 
                     	new Game(
                     		"SC Rotum", "Japser", "Simeon", "x", 
@@ -74,6 +78,7 @@ public class SportarenaAppArenaManagementApplication {
 			for(Game g : games) {
 				repository.save(g);
 			}
+			//gateway.createGame(new CreateGameRequest("2"));
 		};
 	}
 	

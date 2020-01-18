@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import be.ugent.groep10.catering.adapters.messaging.NewEventResponse;
 import be.ugent.groep10.catering.persistence.CateringScheduleRepository;
 import be.ugent.groep10.catering.persistence.ScheduleItemRepository;
 
@@ -31,14 +30,12 @@ public class CateringService {
 		}
 	}
 	
-	public NewEventResponse insertNewSchedule(ScheduleItem scheduleItem) {
+	public void insertNewSchedule(ScheduleItem scheduleItem) {
 		//Update scheduleitem database
 		scheduleItemRepository.save(scheduleItem);
 		
 		//Update cateringschedule database
 		CateringSchedule newSchedule = new CateringSchedule(scheduleItem);
 		cateringScheduleRepository.save(newSchedule);
-		
-		return new NewEventResponse(scheduleItem.getId(), true, scheduleItem.getDescription());
 	}
 }

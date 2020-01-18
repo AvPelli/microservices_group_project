@@ -10,7 +10,6 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.context.annotation.Bean;
 
 import be.ugent.groep10.catering.adapters.messaging.CateringCommandHandler;
-import be.ugent.groep10.catering.adapters.messaging.CateringReservationGateway;
 import be.ugent.groep10.catering.adapters.messaging.Channels;
 import be.ugent.groep10.catering.adapters.messaging.NewEventRequest;
 import be.ugent.groep10.catering.adapters.messaging.SeatOccupationUpdate;
@@ -49,19 +48,6 @@ public class SportarenaAppCateringManagementApplication {
 		return (args) ->{
 			System.out.println("Printing all booked stays...");
 			scheduleItemRepository.findById(1).forEach(System.out::println);
-		};
-	}
-	
-	
-	/*
-	 * Test gateway
-	 */
-	@Bean
-	CommandLineRunner testGateway(CateringReservationGateway gateway, ScheduleItemRepository scheduleItemRepository) {
-		return (args)->{
-			
-			ScheduleItem item = scheduleItemRepository.findById(1).get(0);
-			gateway.eventRegistered(item);
 		};
 	}
 	

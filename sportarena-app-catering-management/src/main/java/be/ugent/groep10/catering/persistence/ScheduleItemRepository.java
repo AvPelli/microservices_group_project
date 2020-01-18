@@ -15,5 +15,5 @@ public interface ScheduleItemRepository
 	
 	List<ScheduleItem> findByStartTimeBetween(LocalDate startTime,LocalDate endTime); 
 	
-	List<ScheduleItem> findById(long id);
+	List<ScheduleItem> findBySportEventId(String id);
 }

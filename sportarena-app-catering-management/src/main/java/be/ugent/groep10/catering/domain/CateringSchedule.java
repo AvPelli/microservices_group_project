@@ -12,7 +12,7 @@ public class CateringSchedule {
 	private long id;
 	
 	//Verwijzing naar ScheduleItem
-	private long scheduleItemId;
+	private String sportEventId;
 	
 	//Specifiek nodig voor catering
 	private long seatOccupation; 
@@ -26,7 +26,7 @@ public class CateringSchedule {
 	}
 	
 	public CateringSchedule(ScheduleItem event) {
-		this.scheduleItemId = event.getId();
+		this.sportEventId = event.getSportEventId();
 		this.seatOccupation = event.getSeatOccupation();
 		this.totalFoodTrucksNeeded = this.calculateFoodTrucks();
 		this.setAvailableFoodTrucks(this.totalFoodTrucksNeeded);

@@ -18,10 +18,12 @@ import be.ugent.groep10.ticket_management.domain.TicketStatus;
 import be.ugent.groep10.ticket_management.persistence.TicketRepository;
 
 @RestController
-@RequestMapping("tickets")
+//@RequestMapping("tickets")
 public class TicketRestController {
 	
 	Logger logger = LoggerFactory.getLogger(TicketRestController.class);
+	
+	private static final int TRESHOLD = 50;
 	
 	private final TicketRepository repository;
 	private final MessageGateway gateway;
@@ -40,7 +42,7 @@ public class TicketRestController {
 			logger.info("Success: ticket " + ticketId + " sold");
 			repository.save(ticket);
 			int sold = repository.findBySportEventIdAndStatusIsSold(ticket.getSportEventId()).size();
-			if (sold % 2 == 0) {
+			if (sold % TRESHOLD == 0) {
 				UpdateOccupancyRequest request = new UpdateOccupancyRequest(ticket.getSportEventId(), sold);
 				gateway.updateOccupancy(request);
 			}

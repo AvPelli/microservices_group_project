@@ -30,6 +30,7 @@ public class Game {
 		this.dateTimeBegin = dateTimeBegin;
 		this.dateTimeEnd = dateTimeEnd;
 		this.gameStatus = GameStatus.PLANNED;
+		this.score = new Score();
 	
 	}
 

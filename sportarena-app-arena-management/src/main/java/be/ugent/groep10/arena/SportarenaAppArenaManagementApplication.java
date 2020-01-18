@@ -1,61 +1,127 @@
 package be.ugent.groep10.arena;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
+import java.time.LocalDateTime;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 
-import be.ugent.groep10.arena.adapters.messaging.ArenaGateway;
-import be.ugent.groep10.arena.domain.ScheduleItem;
-import be.ugent.groep10.arena.persistence.ScheduleItemRepository;
+import be.ugent.groep10.arena.domain.Game;
+import be.ugent.groep10.arena.persistence.GameRepository;
+import be.ugent.groep10.arena.adapters.messaging.Channels;
 
 @SpringBootApplication
+//@EnableBinding(Channels.class)
+@EnableScheduling
 public class SportarenaAppArenaManagementApplication {
 
+	Logger logger = LoggerFactory.getLogger(SportarenaAppArenaManagementApplication.class);
+			
 	public static void main(String[] args) {
 		SpringApplication.run(SportarenaAppArenaManagementApplication.class, args);
 	}
-
+	
+	
 	@Bean
-	CommandLineRunner populateDatabase(ScheduleItemRepository scheduleItemRepository) {
-		return (args) ->{
-			scheduleItemRepository.deleteAll();
-			final ScheduleItem event1 = new ScheduleItem( "1",LocalDate.now().plus(2, ChronoUnit.DAYS),LocalDate.now().plus(3, ChronoUnit.DAYS),"Feestje", 0);
-			final ScheduleItem event2 = new ScheduleItem( "2",LocalDate.now().plus(20, ChronoUnit.DAYS),LocalDate.now().minus(22, ChronoUnit.DAYS),"Feestje2", 0);
-			final ScheduleItem event3 = new ScheduleItem( "3",LocalDate.now().plus(5, ChronoUnit.DAYS),LocalDate.now().plus(7, ChronoUnit.DAYS),"Feestje3", 100);
-			final ScheduleItem event4 = new ScheduleItem( "4",LocalDate.now().plus(8, ChronoUnit.DAYS),LocalDate.now().plus(9, ChronoUnit.DAYS),"Feestje4", 100);
-			final ScheduleItem event5 = new ScheduleItem( "5",LocalDate.now().plus(10, ChronoUnit.DAYS),LocalDate.now().plus(15, ChronoUnit.DAYS),"Feestje5",0);
+	public CommandLineRunner populateDatabase(GameRepository repository) {
+		return (args) -> {
 			
-			scheduleItemRepository.save(event1);
-			scheduleItemRepository.save(event2);
-			scheduleItemRepository.save(event3);
-			scheduleItemRepository.save(event4);
-			scheduleItemRepository.save(event5);
-		};
-	}
-	
-	@Bean
-	public CommandLineRunner testQueries(ScheduleItemRepository scheduleItemRepository) {
-		return (args) ->{
-			System.out.println("Printing all booked stays...");
-			scheduleItemRepository.findByEventId("1").forEach(System.out::println);
-		};
-	}
-	
-	
-	@Bean
-	CommandLineRunner testGateway(ArenaGateway gateway, ScheduleItemRepository scheduleItemRepository) {
-		return (args)->{
+			logger.info("Clearing database...");
+			repository.deleteAll();
 			
-			//Stuur message naar topic "events"
-			ScheduleItem newEvent = scheduleItemRepository.findByEventId("1").get(0);
-			if(newEvent != null) {
-				//No bean named "events" error : later uitzoeken
-				//gateway.sendNewEvent(newEvent);
+			logger.info("Populating with new data...");
+			
+			int year = 2020;
+			int month = 1;
+			int day = 4;
+			int hour = 21;
+			int minute = 14;
+			Game[] games = { 
+                    	new Game(
+                    		"SC Rotum", "Japser", "Simeon", "x", 
+                    		LocalDateTime.of(year, month, day, hour, minute, 00), 
+                    		LocalDateTime.of(year, month, day, hour, minute + 1, 00)
+                		),
+                    	new Game(
+                			"SC Rotum","Simeon", "Japser", "xx", 
+        					LocalDateTime.of(year, month, day, hour, minute + 2, 00), 
+        					LocalDateTime.of(year, month, day, hour, minute + 3, 00)
+    					),
+                    	new Game(
+                			"SC Rum","Arthur", "Axel", "xxx", 
+        					LocalDateTime.of(year, month, day, hour, minute + 4, 00), 
+        					LocalDateTime.of(year, month, day, hour, minute + 5, 00)
+    					),
+                    	new Game(
+                			"SC Rum","Japser", "Axel", "xxxx", 
+        					LocalDateTime.of(year, month, day, hour, minute + 6, 00), 
+        					LocalDateTime.of(year, month, day, hour, minute + 7, 00)
+    					),
+                    	new Game(
+                			"SC Rotum","Arthur", "Simeon", "xxxxx", 
+        					LocalDateTime.of(year, month, day, hour, minute + 8, 00), 
+        					LocalDateTime.of(year, month, day, hour, minute + 9, 00)
+    					)
+                    
+			};
+			
+			for(Game g : games) {
+				repository.save(g);
 			}
 		};
 	}
+	
+	@Bean
+	public CommandLineRunner testQueryMethods(GameRepository repository) {
+		return (args) -> {
+			logger.info("Printing all matches:");
+			repository.findAll().forEach((game) -> logger.info(game.toString()));
+			
+			
+		};
+	}
+	
+	/*
+	@Bean
+	public CommandLineRunner testArenaGateway(GameRepository repository, ArenaGateway gateway) {
+		return (args) ->{
+			
+			Game game = repository.findAll().get(0);
+			if(game != null) {
+				gateway.createGame(game);
+			}
+			
+			
+		};
+	}
+	*/
+	
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

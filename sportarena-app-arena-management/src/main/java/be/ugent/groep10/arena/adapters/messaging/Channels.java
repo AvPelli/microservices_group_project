@@ -1,20 +1,15 @@
 package be.ugent.groep10.arena.adapters.messaging;
 
-import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.messaging.MessageChannel;
-import org.springframework.messaging.SubscribableChannel;
 
 public interface Channels {
-	static final String NEW_EVENT = "events";
-	static final String EVENT_REGISTERED = "registered_events";
+	static final String GAME_CREATED_EVENT = "game_created_event";
+	static final String GAME_ENDED_EVENT = "game_ended_event";
 	
-	@Output(NEW_EVENT)
-	MessageChannel newEvent();
+	@Output(GAME_CREATED_EVENT)
+	MessageChannel gameCreated();
 	
-	/*
-	 * Confirmatie van de services dat ze het evenement aangemaakt hebben
-	 */
-	@Input(EVENT_REGISTERED)
-	SubscribableChannel eventRegistered();
+	@Output(GAME_ENDED_EVENT)
+	MessageChannel gameEnded();
 }

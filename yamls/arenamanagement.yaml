@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: arenamanagement
+  name: arenamanagement
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: arenamanagement
+  template:
+    metadata:
+      labels:
+        app: arenamanagement
+    spec:
+      containers:
+      - image: jaspermaes/arenamanagement:arenamanagement
+        imagePullPolicy: Always
+        name: arenamanagement
+        ports:
+        - containerPort: 2225
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: arenamanagement
+  name: arenamanagement
+spec:
+  type: ClusterIP
+  ports:
+  - name: "2225"
+    port: 2225 # inside the cluster
+    targetPort: 2225 # pod port, same as containerPort
+  selector:
+    app: arenamanagement
+status:
+  loadBalancer: {}

@@ -71,7 +71,7 @@ public class CateringCommandHandler {
 	@StreamListener(Channels.REGISTER_CATERING)
 	public void registerCatering(CateringCompany company) {
 		logger.info("---------registerCatering-------");
-		logger.info(company.getCompanyId());
+		logger.info(company.toString());
 		cateringService.insertNewCompany(company);
 	}
 	

@@ -20,7 +20,7 @@ services:
 #    ports:
 #      - "27017:27017"
 
-  mongo:
+  mongodb:
     image: mongo
 
   mysqldb:
@@ -39,39 +39,46 @@ services:
     depends_on:
       - kafka
       - zookeeper
-    ports:
-      - "2227:2227"
+    #ports:
+      #- "2227:2227"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
   
   gamblingmanagement:
     build: ./sportarena-app-gambling-management
     links:
-      - mongo
+      - mongodb
       - kafka
       - zookeeper
     depends_on:
-      - mongo
+      - mongodb
       - kafka
       - zookeeper
     environment:
-      - SPRING_DATA_MONGODB_HOST=mongo
+      - SPRING_DATA_MONGODB_HOST=mongodb
+      - SPRING_PROFILES_ACTIVE=docker
 
   cateringmanagement:
     build: ./sportarena-app-catering-management
     links:
       - kafka
       - zookeeper
-      - mysql
+      - mysqldb
     depends_on:      
       - kafka
       - zookeeper
-      - mysql
+      - mysqldb
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
 
   authorization:
     build: ./sportarena-app-authorization-service
     depends_on:
       - membermanagement
-    ports:
-      - "2228:2228"
+    #ports:
+      #- "2228:2228"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
       
   apigateway:
     build: ./sportarena-app-api-gateway
@@ -85,30 +92,35 @@ services:
       - gamblingmanagement
     ports:
       - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
   
   staffmanagement:
     build: ./sportarena-app-arena-staff-management
     links:
       - kafka
       - zookeeper
-      - mysql
+      - mysqldb
     depends_on:
       - kafka
       - zookeeper
-      - mysql
+      - mysqldb
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
 
   ticketmanagement:
     build: ./sportarena-app-ticket-management
     links:
       - kafka
       - zookeeper
-      - mongo
+      - mongodb
     depends_on:
       - kafka
       - zookeeper
-      - mongo
+      - mongodb
     environment:
-      - SPRING_DATA_MONGODB_HOST=mongo
+      - SPRING_DATA_MONGODB_HOST=mongodb
+      - SPRING_PROFILES_ACTIVE=docker
 
 
   arenamanagement:
@@ -116,10 +128,11 @@ services:
     links:
       - kafka
       - zookeeper
-      - mongo
+      - mongodb
     depends_on:
       - kafka
       - zookeeper
-      - mongo
+      - mongodb
     environment:
-      - SPRING_DATA_MONGODB_HOST=mongo
+      - SPRING_DATA_MONGODB_HOST=mongodb
+      - SPRING_PROFILES_ACTIVE=docker

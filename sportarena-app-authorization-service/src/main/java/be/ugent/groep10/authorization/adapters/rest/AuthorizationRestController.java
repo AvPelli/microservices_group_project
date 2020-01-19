@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.async.DeferredResult;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.okta.sdk.authc.credentials.TokenClientCredentials;
 import com.okta.sdk.client.Client;
@@ -48,6 +50,10 @@ public class AuthorizationRestController implements AuthorizationRegisterListene
 	private final Map<String, DeferredResult<String>> deferredResults;
 	private AuthorizationService authorizationService;
 	
+	@Value("${frontend.url}")
+	private String url;
+	
+	
 	@Autowired
 	private AuthorizationRestController(AuthorizationService authorizationService) {
 		this.deferredResults = new HashMap<String, DeferredResult<String>>(20);
@@ -64,9 +70,14 @@ public class AuthorizationRestController implements AuthorizationRegisterListene
 		return "home";
 	}
 
+	
 	@RequestMapping("/authorization/register")
-	public String register() {
-		return "register";
+	public ModelAndView register() {
+		ModelAndView model = new ModelAndView();
+		model.setViewName("register");
+		model.addObject("urlValue", url);
+		
+		return model;
 	}
 	
 	@PostMapping("/authorization/register")

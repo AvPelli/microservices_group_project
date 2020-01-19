@@ -20,6 +20,9 @@ spec:
         name: authorization
         ports:
         - containerPort: 2228
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: kubernetes
 ---
 apiVersion: v1
 kind: Service

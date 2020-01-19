@@ -20,6 +20,9 @@ spec:
         name: membermanagement
         ports:
         - containerPort: 2227
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: kubernetes
 ---
 apiVersion: v1
 kind: Service

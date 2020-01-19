@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <!--<link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="/lib/jquery-3.4.1.min.js"></script>-->
+
+    <link rel="stylesheet" href="../static/css/style.css">
+    <script type="text/javascript" src="../static/lib/jquery-3.4.1.min.js"></script>
+
+</head>
+<body>
+
+<div id="container">
+
+</div>
+
+
+<script>
+
+
+
+
+
+
+    function AJAXGetUserId(callback) {
+        $.ajax({
+            type: "GET",
+            url: "http://dev-883704.okta.com/api/v1/users/me",
+            dataType: "json",
+            success: function(response) {
+                callback(response);
+            },
+            error: function() {
+                callback({id:"simeon"});
+            }
+        });
+    }
+
+
+    function AJAXGetWallet(callback, userId) {
+        $.ajax({
+            type: "GET",
+            url: "http://"+SERVER+":"+PORT+"/wallets/"+userId, //TODO path
+            dataType: "json",
+            success: function(response) {
+                callback(response);
+            },
+            error: function() {
+                callback(wallet);
+            }
+        });
+    }
+
+
+    function displayWallet(result) {
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+</body>
+</html>

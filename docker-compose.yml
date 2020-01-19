@@ -23,12 +23,11 @@ services:
   mongo:
     image: mongo
 
-  mysql:
-    image: mysql:5.7
+  mysqldb:
+    image: jaspermaes/arenamanagement:mysqldb
     command: --default-authentication-plugin=mysql_native_password
     environment:
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=Staff
   
   # -------------Main services---------------
     
@@ -43,7 +42,7 @@ services:
     ports:
       - "2227:2227"
   
-  bettingmanagement:
+  gamblingmanagement:
     build: ./sportarena-app-gambling-management
     links:
       - mongo
@@ -67,7 +66,7 @@ services:
       - zookeeper
       - mysql
 
-  authorizationservice:
+  authorization:
     build: ./sportarena-app-authorization-service
     depends_on:
       - membermanagement
@@ -78,20 +77,12 @@ services:
     build: ./sportarena-app-api-gateway
     links:
       - membermanagement
-      - authorizationservice
-      - bettingmanagement
+      - authorization
+      - gamblingmanagement
     depends_on:
       - membermanagement
-      - authorizationservice
-      - bettingmanagement
-    environment:
-      - NAME_MEMBERMGMT=membermanagement
-      - NAME_AUTHORIZATIONSERVICE=authorizationservice
-      - NAME_ARENAMGMT=arenamanagement
-      - NAME_CATERINGMGMT=cateringmanagement
-      - NAME_GAMBLINGMGMT=bettingmanagement
-      - NAME_PAYMENT=payment
-      - NAME_TICKETMGMT=ticketmanagement
+      - authorization
+      - gamblingmanagement
     ports:
       - "8080:8080"
   

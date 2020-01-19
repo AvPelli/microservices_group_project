@@ -36,9 +36,6 @@ public class GameEndedScheduler {
 		for(Game game : gameRepository.findByGameStatus(GameStatus.ACTIVE)) {
 			if(game.getDateTimeEnd().isBefore(currentDateTime) && game.getScore().isSet()) {
 				
-				////////////////////////
-				// TODO Message output//
-				////////////////////////
 				
 				logger.info("GAME_END of " + game.toString());
 				

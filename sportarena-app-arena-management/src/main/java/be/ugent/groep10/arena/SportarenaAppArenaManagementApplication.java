@@ -43,7 +43,7 @@ public class SportarenaAppArenaManagementApplication {
 			
 			int year = 2020;
 			int month = 1;
-			int day = 10;
+			int day = 20;
 			int hour = 16;
 			int minute = 0;
 			Game[] games = { 
@@ -94,20 +94,7 @@ public class SportarenaAppArenaManagementApplication {
 		};
 	}
 	
-	/*
-	@Bean
-	public CommandLineRunner testArenaGateway(GameRepository repository, ArenaGateway gateway) {
-		return (args) ->{
-			
-			Game game = repository.findAll().get(0);
-			if(game != null) {
-				gateway.createGame(game);
-			}
-			
-			
-		};
-	}
-	*/
+	
 	
 
 }

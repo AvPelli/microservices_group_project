@@ -20,6 +20,9 @@ spec:
         name: cateringmanagement
         ports:
         - containerPort: 2224
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: kubernetes
 ---
 apiVersion: v1
 kind: Service

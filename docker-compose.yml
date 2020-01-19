@@ -20,20 +20,10 @@ services:
 #    ports:
 #      - "27017:27017"
 
-  bettingdb:
+  mongo:
     image: mongo
 
-  ticketdb:
-    image: mongo
-
-  cateringdb:
-    image: mysql:5.7
-    command: --default-authentication-plugin=mysql_native_password
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=Catering
-
-  staffdb:
+  mysql:
     image: mysql:5.7
     command: --default-authentication-plugin=mysql_native_password
     environment:
@@ -56,26 +46,26 @@ services:
   bettingmanagement:
     build: ./sportarena-app-gambling-management
     links:
-      - bettingdb
+      - mongo
       - kafka
       - zookeeper
     depends_on:
-      - bettingdb
+      - mongo
       - kafka
       - zookeeper
     environment:
-      - SPRING_DATA_MONGODB_HOST=bettingdb
+      - SPRING_DATA_MONGODB_HOST=mongo
 
   cateringmanagement:
     build: ./sportarena-app-catering-management
     links:
       - kafka
       - zookeeper
-      - cateringdb
+      - mysql
     depends_on:      
       - kafka
       - zookeeper
-      - cateringdb
+      - mysql
 
   authorizationservice:
     build: ./sportarena-app-authorization-service
@@ -110,21 +100,21 @@ services:
     links:
       - kafka
       - zookeeper
-      - staffdb
+      - mysql
     depends_on:
       - kafka
       - zookeeper
-      - staffdb
+      - mysql
 
   ticketmanagement:
     build: ./sportarena-app-ticket-management
     links:
       - kafka
       - zookeeper
-      - ticketdb
+      - mongo
     depends_on:
       - kafka
       - zookeeper
-      - ticketdb
-
-
+      - mongo
+    environment:
+      - SPRING_DATA_MONGODB_HOST=mongo

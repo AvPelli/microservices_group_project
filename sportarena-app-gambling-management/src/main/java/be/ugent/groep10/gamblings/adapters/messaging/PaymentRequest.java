@@ -1,14 +1,13 @@
 package be.ugent.groep10.gamblings.adapters.messaging;
 
+public class PaymentRequest {
 
-
-public class CashOutRequest {
 	private String memberId;
 	private double amountOfEuros;
 	private double amountOfTokens;
 
 	
-	public CashOutRequest(String memberId, double amountOfEuros, double amountOfTokens) {
+	public PaymentRequest(String memberId, double amountOfEuros, double amountOfTokens) {
 		super();
 		this.memberId = memberId;
 		this.amountOfEuros = amountOfEuros;
@@ -33,11 +32,10 @@ public class CashOutRequest {
 
 	@Override
 	public String toString() {
-		return "CashoutRequest [memberId=" + memberId + ", amountOfEuros=" + amountOfEuros + ", amountOfTokens="
+		return "PaymentRequest [memberId=" + memberId + ", amountOfEuros=" + amountOfEuros + ", amountOfTokens="
 				+ amountOfTokens + "]";
 	}
 
 	
-	
-	
+
 }

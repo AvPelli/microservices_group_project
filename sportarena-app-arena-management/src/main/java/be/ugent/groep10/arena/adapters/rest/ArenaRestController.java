@@ -52,14 +52,14 @@ public class ArenaRestController {
 	
 	/*DUMMY*/
 	@CrossOrigin
-	@GetMapping("/status/{gameStatus}")
+	@GetMapping("/games/status/{gameStatus}")
 	public Iterable<Game> getGamesWithStatus(@PathVariable("gameStatus") String gameStatus){
 		//TODO Exception handling
 		GameStatus gs = GameStatus.valueOf(gameStatus.toUpperCase());
 		return this.gameRepository.findByGameStatus(gs);
 		
 	}
-	*/
+	
 	
 	
 	/* DUMMY

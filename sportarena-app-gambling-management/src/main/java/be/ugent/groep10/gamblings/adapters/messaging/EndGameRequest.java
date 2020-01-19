@@ -1,6 +1,6 @@
-package be.ugent.groep10.arena.adapters.messaging;
+package be.ugent.groep10.gamblings.adapters.messaging;
 
-import be.ugent.groep10.arena.domain.Score;
+import be.ugent.groep10.gamblings.domain.Score;
 
 public class EndGameRequest {
 

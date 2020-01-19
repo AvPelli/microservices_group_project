@@ -44,7 +44,7 @@ public class RegisterSaga {
 	}
 	
 	public void startStaffRegisterSaga(Staff staff) {
-		logger.info("Catering register saga started.");
+		logger.info("Staff register saga started.");
 		this.gateway.registerStaff(staff);
 		
 	}

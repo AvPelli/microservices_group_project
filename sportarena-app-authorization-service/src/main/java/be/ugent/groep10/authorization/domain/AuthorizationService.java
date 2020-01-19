@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -116,7 +117,7 @@ public class AuthorizationService {
 	
 	private void addStaff(User user, RegisterRequest registerRequest) {
 		Staff staff = new Staff(user.getId(),registerRequest.getFirstName(), registerRequest.getLastName(),
-				registerRequest.getDateOfBirth(), LocalDate.now(), registerRequest.getBankAccountNumber());
+				registerRequest.getDateOfBirth(), LocalDate.now(), registerRequest.getBankAccountNumber(),registerRequest.getZever());
 		this.registerSaga.startStaffRegisterSaga(staff);
 	}
 	

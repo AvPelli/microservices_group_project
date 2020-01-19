@@ -12,6 +12,7 @@ public class Staff implements Serializable {
 	private final LocalDate dateOfBirth;
 	private final LocalDate registeredOn;
 	private final String bankAccountNumber;
+	private final String zever;
 	
 	@SuppressWarnings("unused")
 	protected Staff() {
@@ -20,15 +21,18 @@ public class Staff implements Serializable {
 		this.dateOfBirth = null;
 		this.registeredOn = null;
 		this.bankAccountNumber = null;
+		this.zever = null;
 	}
 	
-	public Staff(String id, String firstName, String lastName, LocalDate birthday, LocalDate registeredOn, String bankAccountNumber) {
+	public Staff(String id, String firstName, String lastName, LocalDate birthday, 
+			LocalDate registeredOn, String bankAccountNumber, String zever) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.dateOfBirth = birthday;
 		this.registeredOn = registeredOn;
 		this.bankAccountNumber = bankAccountNumber;
+		this.zever = zever;
 	}
 
 	public String getId() {
@@ -57,5 +61,9 @@ public class Staff implements Serializable {
 
 	public String getBankAccountNumber() {
 		return bankAccountNumber;
+	}
+
+	public String getZever() {
+		return zever;
 	}
 }

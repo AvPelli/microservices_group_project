@@ -23,12 +23,22 @@ services:
   bettingdb:
     image: mongo
 
+  ticketdb:
+    image: mongo
+
   cateringdb:
     image: mysql:5.7
     command: --default-authentication-plugin=mysql_native_password
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=Catering
+
+  staffdb:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=Staff
   
   # -------------Main services---------------
     
@@ -94,4 +104,27 @@ services:
       - NAME_TICKETMGMT=ticketmanagement
     ports:
       - "8080:8080"
-   
+  
+  staffmanagement:
+    build: ./sportarena-app-arena-staff-management
+    links:
+      - kafka
+      - zookeeper
+      - staffdb
+    depends_on:
+      - kafka
+      - zookeeper
+      - staffdb
+
+  ticketmanagement:
+    build: ./sportarena-app-ticket-management
+    links:
+      - kafka
+      - zookeeper
+      - ticketdb
+    depends_on:
+      - kafka
+      - zookeeper
+      - ticketdb
+
+

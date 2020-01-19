@@ -70,8 +70,8 @@ public class CateringCommandHandler {
 	 */
 	@StreamListener(Channels.REGISTER_CATERING)
 	public void registerCatering(CateringCompany company) {
-		System.out.println("---------registerCatering-------");
-		System.out.println(company.getCompanyId());
+		logger.info("---------registerCatering-------");
+		logger.info(company.getCompanyId());
 		cateringService.insertNewCompany(company);
 	}
 	

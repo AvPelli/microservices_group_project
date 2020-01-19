@@ -38,8 +38,8 @@ public class BetRESTController {
 		return betRepository.findBetsByPlacedByMember(ownerId);
 	}
 	
-	@PostMapping("/place_bet")
-	public Bet addBet(@RequestBody Prediction prediction, @RequestParam String ownerId, @RequestParam String matchId, @RequestParam double tokens) {
+	@PostMapping("/place_bet/{userId}/{matchId}/{tokens}")
+	public Bet addBet(@RequestBody Prediction prediction, @PathVariable("userId") String ownerId,@PathVariable("matchId") String matchId, @PathVariable("tokens") double tokens) {
 		return this.bettingService.addBet(matchId, ownerId, prediction, tokens);
 	}
 

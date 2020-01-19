@@ -1,18 +1,18 @@
-package be.ugent.groep10.gamblings.adapters.messaging;
+package be.ugent.groep10.payment.domain;
 
+public class PaymentResponse {
 
-
-public class CashOutRequest {
 	private String memberId;
 	private double amountOfEuros;
 	private double amountOfTokens;
-
+	private boolean succeeded;
 	
-	public CashOutRequest(String memberId, double amountOfEuros, double amountOfTokens) {
+	public PaymentResponse(String memberId, double amountOfEuros, double amountOfTokens, boolean succeeded) {
 		super();
 		this.memberId = memberId;
 		this.amountOfEuros = amountOfEuros;
 		this.amountOfTokens = amountOfTokens;
+		this.succeeded = succeeded;
 	}
 
 	public String getMemberId() {
@@ -30,8 +30,6 @@ public class CashOutRequest {
 	public void setAmountOfEuros(double amountOfEuros) {
 		this.amountOfEuros = amountOfEuros;
 	}
-	
-	
 
 	public double getAmountOfTokens() {
 		return amountOfTokens;
@@ -41,13 +39,20 @@ public class CashOutRequest {
 		this.amountOfTokens = amountOfTokens;
 	}
 
-	@Override
-	public String toString() {
-		return "CashoutRequest [memberId=" + memberId + ", amountOfEuros=" + amountOfEuros + ", amountOfTokens="
-				+ amountOfTokens + "]";
+	public boolean isSucceeded() {
+		return succeeded;
 	}
 
+	public void setSucceeded(boolean succeeded) {
+		this.succeeded = succeeded;
+	}
+
+	@Override
+	public String toString() {
+		return "PaymentResponse [memberId=" + memberId + ", amountOfEuros=" + amountOfEuros + ", amountOfTokens="
+				+ amountOfTokens + ", succeeded=" + succeeded + "]";
+	}
 	
 	
-	
+
 }

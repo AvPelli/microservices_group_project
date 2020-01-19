@@ -30,6 +30,14 @@ public class PaymentRequest {
 		this.amountOfEuros = amountOfEuros;
 	}
 
+	public double getAmountOfTokens() {
+		return amountOfTokens;
+	}
+
+	public void setAmountOfTokens(double amountOfTokens) {
+		this.amountOfTokens = amountOfTokens;
+	}
+
 	@Override
 	public String toString() {
 		return "PaymentRequest [memberId=" + memberId + ", amountOfEuros=" + amountOfEuros + ", amountOfTokens="

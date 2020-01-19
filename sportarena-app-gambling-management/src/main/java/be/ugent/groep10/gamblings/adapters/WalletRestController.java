@@ -65,9 +65,9 @@ public class WalletRESTController implements PayTokensListener, CashOutListener{
 	}
 	
 	
-	@PostMapping("/purchase_tokens/{owner_id}")
+	@PostMapping("/purchase_tokens/{userId}/{tokens}")
 	@ResponseBody
-	public DeferredResult<String> purchaseTokens(@PathVariable("owner_id") String ownerId, @RequestParam double tokens) {
+	public DeferredResult<String> purchaseTokens(@PathVariable("userId") String ownerId, @PathVariable("tokens") double tokens) {
 		DeferredResult<String> deferredResult = new DeferredResult<>(10000l);
 		
 		deferredResult.onTimeout(() -> {
@@ -93,9 +93,9 @@ public class WalletRESTController implements PayTokensListener, CashOutListener{
 		bettingService.registerCashOutListener(this);
 	}
 
-	@PostMapping("/cash_out")
+	@PostMapping("/cash_out/{userId}/{tokens}")
 	@ResponseBody
-	public DeferredResult<String> cashOut(@RequestParam String ownerId, @RequestParam double tokens) {
+	public DeferredResult<String> cashOut(@PathVariable("userId") String ownerId, @PathVariable("tokens") double tokens) {
 		DeferredResult<String> deferredResult = new DeferredResult<>(10000l);
 		
 		deferredResult.onTimeout(() -> {

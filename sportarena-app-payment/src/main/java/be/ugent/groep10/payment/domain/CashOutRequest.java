@@ -1,4 +1,4 @@
-package be.ugent.groep10.gamblings.adapters.messaging;
+package be.ugent.groep10.payment.domain;
 
 
 

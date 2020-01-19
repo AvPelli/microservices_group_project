@@ -3,7 +3,7 @@ package be.ugent.groep10.arena.adapters.rest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,10 +50,9 @@ public class ArenaRestController {
 		return this.gameRepository.findBySportclubId(sportclubId);
 	}
 	
-	
-	
-	/*DUMMY
-	@GetMapping("/games/status/{gameStatus}")
+	/*DUMMY*/
+	@CrossOrigin
+	@GetMapping("/status/{gameStatus}")
 	public Iterable<Game> getGamesWithStatus(@PathVariable("gameStatus") String gameStatus){
 		//TODO Exception handling
 		GameStatus gs = GameStatus.valueOf(gameStatus.toUpperCase());
@@ -79,6 +78,7 @@ public class ArenaRestController {
 		
 		// TODO: Check if dateTimes are in the future
 		// TODO: Check schedule first
+		game.setGameStatus(GameStatus.ACTIVE);
 		this.gameRepository.save(game);
 		logger.info(game.toString());
 		gateway.createGame(new CreateGameRequest(game.getId(), game.getDateTimeBegin(), game.getDateTimeEnd()));

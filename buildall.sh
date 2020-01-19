@@ -30,5 +30,9 @@ cd sportarena-app-ticket-management
 bash build.sh
 cd ..
 
+cd sportarena-app-arena-staff-management
+bash build.sh
+cd ..
+
 echo All projects built.
 read

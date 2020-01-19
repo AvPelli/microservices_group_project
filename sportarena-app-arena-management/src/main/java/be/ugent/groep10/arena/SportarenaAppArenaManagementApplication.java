@@ -31,60 +31,56 @@ public class SportarenaAppArenaManagementApplication {
 		SpringApplication.run(SportarenaAppArenaManagementApplication.class, args);
 	}
 	
+	@Bean
+	public CommandLineRunner clearDatabase(GameRepository repository, ArenaGateway gateway) {
+		return (args) -> {
+			logger.info("Clearing database...");
+			repository.deleteAll();
+		}; 
+	}
 	
 	@Bean
 	public CommandLineRunner populateDatabase(GameRepository repository, ArenaGateway gateway) {
 		return (args) -> {
-			
-			logger.info("Clearing database...");
-			repository.deleteAll();
-			
 			logger.info("Populating with new data...");
 			
 			int year = 2020;
-			int month = 1;
-			int day = 20;
-			int hour = 16;
+			int month = 2;
+			int day = 1;
+			int hour = 20;
 			int minute = 0;
+			
 			Game[] games = { 
-                    	new Game(
-                    		"SC Rotum", "Japser", "Simeon", "x", 
-                    		LocalDateTime.of(year, month, day, hour, minute, 00), 
-                    		LocalDateTime.of(year, month, day, hour, minute + 1, 00)
-                		),
-                    	new Game(
-                			"SC Rotum","Simeon", "Japser", "xx", 
-        					LocalDateTime.of(year, month, day, hour, minute + 2, 00), 
-        					LocalDateTime.of(year, month, day, hour, minute + 3, 00)
-    					),
-                    	new Game(
-                			"SC Rum","Arthur", "Axel", "xxx", 
-        					LocalDateTime.of(year, month, day, hour, minute + 4, 00), 
-        					LocalDateTime.of(year, month, day, hour, minute + 5, 00)
-    					),
-                    	new Game(
-                			"SC Rum","Japser", "Axel", "xxxx", 
-        					LocalDateTime.of(year, month, day, hour, minute + 6, 00), 
-        					LocalDateTime.of(year, month, day, hour, minute + 7, 00)
-    					),
-                    	new Game(
-                			"SC Rotum","Arthur", "Simeon", "xxxxx", 
-        					LocalDateTime.of(year, month, day, hour, minute + 8, 00), 
-        					LocalDateTime.of(year, month, day, hour, minute + 9, 00)
-    					)
-                    
+	        	new Game(
+	        		"FIFA", "Belgium", "Russia", "x", 
+	        		LocalDateTime.of(year, month, day, hour, minute, 00), 
+	        		LocalDateTime.of(year, month, day, hour + 2, minute, 00)
+	    		),
+	        	new Game(
+	    			"FIFA", "Belgium", "Scotland", "xx", 
+					LocalDateTime.of(year, month + 1, day, hour, minute, 00), 
+					LocalDateTime.of(year, month + 1, day, hour + 2, minute, 00)
+				),
+	        	new Game(
+	    			"FIFA","Belgium", "Cyprus", "xxx", 
+					LocalDateTime.of(year, month + 2, day, hour, minute, 00), 
+					LocalDateTime.of(year, month + 2, day, hour + 2, minute, 00)
+				),
+	        	new Game(
+	    			"FIFA", "Belgium", "Kazachstan", "xxxx", 
+					LocalDateTime.of(year, month + 3, day, hour, minute, 00), 
+					LocalDateTime.of(year, month + 3, day, hour + 2, minute, 00)
+				)
 			};
 			
-			for(Game g : games) {
-				repository.save(g);
+			for(Game game : games) {
+				repository.save(game);
+				gateway.createGame(new CreateGameRequest(game.getId(), game.getDateTimeBegin(), game.getDateTimeEnd()));
 			}
-			LocalDateTime begin = LocalDateTime.now();
-			LocalDateTime end = LocalDateTime.now();
-			gateway.createGame(new CreateGameRequest("2", begin, end));
 		};
 	}
 	
-	@Bean
+	//@Bean
 	public CommandLineRunner testQueryMethods(GameRepository repository) {
 		return (args) -> {
 			logger.info("Printing all matches:");
@@ -94,9 +90,6 @@ public class SportarenaAppArenaManagementApplication {
 		};
 	}
 	
-	
-	
-
 }
 
 

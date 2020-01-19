@@ -20,9 +20,9 @@ public class CateringCompany {
 		
 	}
 	
-	public CateringCompany(String companyId, String name, String sportEventId) {
+	public CateringCompany(String companyId, String companyName, String sportEventId) {
 		this.companyId = companyId;
-		this.companyName = name;
+		this.companyName = companyName;
 		this.sportEventId = sportEventId;
 	}
 
@@ -34,11 +34,11 @@ public class CateringCompany {
 		this.companyId = companyId;
 	}
 
-	public String getName() {
+	public String getCompanyName() {
 		return companyName;
 	}
 
-	public void setName(String name) {
+	public void setCompanyName(String name) {
 		this.companyName = name;
 	}
 
@@ -49,4 +49,12 @@ public class CateringCompany {
 	public void setSportEventId(String sportEventId) {
 		this.sportEventId = sportEventId;
 	}
+
+	@Override
+	public String toString() {
+		return "CateringCompany [companyId=" + companyId + ", companyName=" + companyName + ", sportEventId="
+				+ sportEventId + "]";
+	}
+	
+	
 }

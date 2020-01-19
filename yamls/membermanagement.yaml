@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: membermanagement
+  name: membermanagement
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: membermanagement
+  template:
+    metadata:
+      labels:
+        app: membermanagement
+    spec:
+      containers:
+      - image: jaspermaes/arenamanagement:membermanagement
+        imagePullPolicy: Always
+        name: membermanagement
+        ports:
+        - containerPort: 2227
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: kubernetes
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: membermanagement
+  name: membermanagement
+spec:
+  type: ClusterIP
+  ports:
+  - name: "2227"
+    port: 2227 # inside the cluster
+    targetPort: 2227 # pod port, same as containerPort
+  selector:
+    app: membermanagement
+status:
+  loadBalancer: {}

@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: api-gateway
+  name: api-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+      - image: jaspermaes/arenamanagement:api-gateway
+        imagePullPolicy: Always
+        name: api-gateway
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: kubernetes
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: api-gateway
+  name: api-gateway
+spec:
+  type: LoadBalancer
+  externalIPs:
+  - 10.2.0.28
+  ports:
+  - name: "8080"
+    port: 8080 # inside the cluster
+    targetPort: 8080 # pod port, same as containerPort
+  selector:
+    app: api-gateway
+status:
+  loadBalancer: {}

@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: cateringmanagement
+  name: cateringmanagement
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cateringmanagement
+  template:
+    metadata:
+      labels:
+        app: cateringmanagement
+    spec:
+      containers:
+      - image: jaspermaes/arenamanagement:cateringmanagement
+        imagePullPolicy: Always
+        name: cateringmanagement
+        ports:
+        - containerPort: 2224
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: kubernetes
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: cateringmanagement
+  name: cateringmanagement
+spec:
+  type: ClusterIP
+  ports:
+  - name: "2224"
+    port: 2224 # inside the cluster
+    targetPort: 2224 # pod port, same as containerPort
+  selector:
+    app: cateringmanagement
+status:
+  loadBalancer: {}

@@ -20,15 +20,14 @@ services:
 #    ports:
 #      - "27017:27017"
 
-  mongo:
+  mongodb:
     image: mongo
 
-  mysql:
-    image: mysql:5.7
+  mysqldb:
+    image: jaspermaes/arenamanagement:mysqldb
     command: --default-authentication-plugin=mysql_native_password
     environment:
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=Staff
   
   # -------------Main services---------------
     
@@ -40,84 +39,88 @@ services:
     depends_on:
       - kafka
       - zookeeper
-    ports:
-      - "2227:2227"
+    #ports:
+      #- "2227:2227"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
   
-  bettingmanagement:
+  gamblingmanagement:
     build: ./sportarena-app-gambling-management
     links:
-      - mongo
+      - mongodb
       - kafka
       - zookeeper
     depends_on:
-      - mongo
+      - mongodb
       - kafka
       - zookeeper
     environment:
-      - SPRING_DATA_MONGODB_HOST=mongo
+      - SPRING_DATA_MONGODB_HOST=mongodb
+      - SPRING_PROFILES_ACTIVE=docker
 
   cateringmanagement:
     build: ./sportarena-app-catering-management
     links:
       - kafka
       - zookeeper
-      - mysql
+      - mysqldb
     depends_on:      
       - kafka
       - zookeeper
-      - mysql
+      - mysqldb
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
 
-  authorizationservice:
+  authorization:
     build: ./sportarena-app-authorization-service
     depends_on:
       - membermanagement
-    ports:
-      - "2228:2228"
+    #ports:
+      #- "2228:2228"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
       
   apigateway:
     build: ./sportarena-app-api-gateway
     links:
       - membermanagement
-      - authorizationservice
-      - bettingmanagement
+      - authorization
+      - gamblingmanagement
     depends_on:
       - membermanagement
-      - authorizationservice
-      - bettingmanagement
-    environment:
-      - NAME_MEMBERMGMT=membermanagement
-      - NAME_AUTHORIZATIONSERVICE=authorizationservice
-      - NAME_ARENAMGMT=arenamanagement
-      - NAME_CATERINGMGMT=cateringmanagement
-      - NAME_GAMBLINGMGMT=bettingmanagement
-      - NAME_PAYMENT=payment
-      - NAME_TICKETMGMT=ticketmanagement
+      - authorization
+      - gamblingmanagement
     ports:
       - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
   
   staffmanagement:
     build: ./sportarena-app-arena-staff-management
     links:
       - kafka
       - zookeeper
-      - mysql
+      - mysqldb
     depends_on:
       - kafka
       - zookeeper
-      - mysql
+      - mysqldb
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
 
   ticketmanagement:
     build: ./sportarena-app-ticket-management
     links:
       - kafka
       - zookeeper
-      - mongo
+      - mongodb
     depends_on:
       - kafka
       - zookeeper
-      - mongo
+      - mongodb
     environment:
-      - SPRING_DATA_MONGODB_HOST=mongo
+      - SPRING_DATA_MONGODB_HOST=mongodb
+      - SPRING_PROFILES_ACTIVE=docker
 
 
   arenamanagement:
@@ -125,10 +128,11 @@ services:
     links:
       - kafka
       - zookeeper
-      - mongo
+      - mongodb
     depends_on:
       - kafka
       - zookeeper
-      - mongo
+      - mongodb
     environment:
-      - SPRING_DATA_MONGODB_HOST=mongo
+      - SPRING_DATA_MONGODB_HOST=mongodb
+      - SPRING_PROFILES_ACTIVE=docker

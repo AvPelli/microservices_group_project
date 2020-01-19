@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: staffmanagement
+  name: staffmanagement
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: staffmanagement
+  template:
+    metadata:
+      labels:
+        app: staffmanagement
+    spec:
+      containers:
+      - image: jaspermaes/arenamanagement:staffmanagement
+        imagePullPolicy: Always
+        name: staffmanagement
+        ports:
+        - containerPort: 2231
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: kubernetes
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: staffmanagement
+  name: staffmanagement
+spec:
+  type: ClusterIP
+  ports:
+  - name: "2231"
+    port: 2231 # inside the cluster
+    targetPort: 2231 # pod port, same as containerPort
+  selector:
+    app: staffmanagement
+status:
+  loadBalancer: {}

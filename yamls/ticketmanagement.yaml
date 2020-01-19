@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ticketmanagement
+  name: ticketmanagement
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ticketmanagement
+  template:
+    metadata:
+      labels:
+        app: ticketmanagement
+    spec:
+      containers:
+      - image: jaspermaes/arenamanagement:ticketmanagement
+        imagePullPolicy: Always
+        name: ticketmanagement
+        ports:
+        - containerPort: 2231
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: kubernetes
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: ticketmanagement
+  name: ticketmanagement
+spec:
+  type: ClusterIP
+  ports:
+  - name: "2231"
+    port: 2231 # inside the cluster
+    targetPort: 2231 # pod port, same as containerPort
+  selector:
+    app: ticketmanagement
+status:
+  loadBalancer: {}

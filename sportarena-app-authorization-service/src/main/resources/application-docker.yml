@@ -9,6 +9,8 @@ okta:
     groupsClaim: groups
     redirect-uri: /okta/login/oauth2
     
+frontend.url: http://192.168.99.100:8080/authorization/register
+    
 spring.thymeleaf.cache: false
 
 spring.cloud.stream.kafka.binder.zkNodes: zookeeper

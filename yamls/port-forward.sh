@@ -1,0 +1,1 @@
+ssh -L 9000:10.2.0.28:8080 -i ./wall2.ilabt.iminds.be_jasper.pem jasper@n071-04b.wall1.ilabt.iminds.be -oPort=22 -oProxyCommand="ssh -i ./wall2.ilabt.iminds.be_jasper.pem -oPort=22 jasper@bastion.test.iminds.be -W %h:%p"

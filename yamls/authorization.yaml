@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: authorization
+  name: authorization
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authorization
+  template:
+    metadata:
+      labels:
+        app: authorization
+    spec:
+      containers:
+      - image: jaspermaes/arenamanagement:authorization
+        imagePullPolicy: Always
+        name: authorization
+        ports:
+        - containerPort: 2228
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: kubernetes
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: authorization
+  name: authorization
+spec:
+  type: ClusterIP
+  ports:
+  - name: "2228"
+    port: 2228 # inside the cluster
+    targetPort: 2228 # pod port, same as containerPort
+  selector:
+    app: authorization
+status:
+  loadBalancer: {}

@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: paymentservice
+  name: paymentservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: paymentservice
+  template:
+    metadata:
+      labels:
+        app: paymentservice
+    spec:
+      containers:
+      - image: jaspermaes/arenamanagement:paymentservice
+        imagePullPolicy: Always
+        name: paymentservice
+        ports:
+        - containerPort: 2229
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: kubernetes
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: paymentservice
+  name: paymentservice
+spec:
+  type: ClusterIP
+  ports:
+  - name: "2229"
+    port: 2229 # inside the cluster
+    targetPort: 2229 # pod port, same as containerPort
+  selector:
+    app: paymentservice
+status:
+  loadBalancer: {}

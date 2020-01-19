@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: gamblingmanagement
+  name: gamblingmanagement
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gamblingmanagement
+  template:
+    metadata:
+      labels:
+        app: gamblingmanagement
+    spec:
+      containers:
+      - image: jaspermaes/arenamanagement:gamblingmanagement
+        imagePullPolicy: Always
+        name: gamblingmanagement
+        ports:
+        - containerPort: 2226
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: gamblingmanagement
+  name: gamblingmanagement
+spec:
+  type: ClusterIP
+  ports:
+  - name: "2226"
+    port: 2226 # inside the cluster
+    targetPort: 2226 # pod port, same as containerPort
+  selector:
+    app: gamblingmanagement
+status:
+  loadBalancer: {}

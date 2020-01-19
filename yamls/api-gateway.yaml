@@ -13,6 +13,7 @@ spec:
     metadata:
       labels:
         app: api-gateway
+        chaos: immune
     spec:
       containers:
       - image: jaspermaes/arenamanagement:api-gateway

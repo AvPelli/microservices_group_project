@@ -19,7 +19,7 @@ spec:
         imagePullPolicy: Always
         name: ticketmanagement
         ports:
-        - containerPort: 2231
+        - containerPort: 2230
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: kubernetes
@@ -33,9 +33,9 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - name: "2231"
-    port: 2231 # inside the cluster
-    targetPort: 2231 # pod port, same as containerPort
+  - name: "2230"
+    port: 2230 # inside the cluster
+    targetPort: 2230 # pod port, same as containerPort
   selector:
     app: ticketmanagement
 status:

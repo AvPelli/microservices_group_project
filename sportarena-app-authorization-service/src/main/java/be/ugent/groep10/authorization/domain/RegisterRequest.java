@@ -13,15 +13,19 @@ public class RegisterRequest {
 	private String role;
 	private LocalDate dateOfBirth;
 	private String bankAccountNumber;
-	private String zever; // not at all used, just for example with employeeform
 	
+	//For catering
+	private String companyName;
+	
+	//For staff
+	private String zever;
 	
 	public RegisterRequest() {
 	}
 
 
 	public RegisterRequest(String firstName, String lastName, String emailAddress, String role, LocalDate dateOfBirth,
-			String bankAccountNumber, String zever) {
+			String bankAccountNumber,  String zever, String companyName) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.emailAddress = emailAddress;
@@ -29,6 +33,7 @@ public class RegisterRequest {
 		this.dateOfBirth = dateOfBirth;
 		this.bankAccountNumber = bankAccountNumber;
 		this.zever = zever;
+		this.companyName = companyName;
 	}
 
 
@@ -107,6 +112,16 @@ public class RegisterRequest {
 		return "RegisterRequest [firstName=" + firstName + ", lastName=" + lastName + ", emailAddress=" + emailAddress
 				+ ", role=" + role + ", dateOfBirth=" + dateOfBirth + ", bankAccountNumber=" + bankAccountNumber
 				+ ", zever=" + zever + "]";
+	}
+
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 	
 	

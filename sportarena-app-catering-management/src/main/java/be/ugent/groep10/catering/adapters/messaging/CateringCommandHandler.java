@@ -10,6 +10,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import be.ugent.groep10.catering.domain.CateringCompany;
 import be.ugent.groep10.catering.domain.CateringSchedule;
 import be.ugent.groep10.catering.domain.CateringService;
 import be.ugent.groep10.catering.persistence.CateringScheduleRepository;
@@ -62,5 +63,20 @@ public class CateringCommandHandler {
 			item.setTotalFoodTrucksNeeded(trucks_needed);
 			cateringScheduleRepository.save(item);
 		}
+	}
+	
+	/*
+	 * REGISTRATION
+	 */
+	@StreamListener(Channels.REGISTER_CATERING)
+	public void registerCatering(CateringCompany company) {
+		logger.info("---------registerCatering-------");
+		logger.info(company.getCompanyId());
+		cateringService.insertNewCompany(company);
+	}
+	
+	@StreamListener(Channels.REGISTER_CATERING_TIMEOUT)
+	public void registerCateringTimeout(String companyId) {
+		cateringService.deleteCompany(companyId);
 	}
 }

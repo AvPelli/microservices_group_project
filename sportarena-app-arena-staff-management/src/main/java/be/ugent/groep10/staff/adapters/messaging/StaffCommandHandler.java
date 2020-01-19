@@ -23,14 +23,14 @@ public class StaffCommandHandler {
 	}
 	
 	@StreamListener(Channels.REGISTER_STAFF)
-	public void processRegisterMember(Staff staff) {
+	public void registerStaff(Staff staff) {
 		logger.info("---------registerStaff-------");
 		logger.info(staff.getId());
 		staffService.createStaff(staff);
 	}
 	
 	@StreamListener(Channels.REGISTER_STAFF_TIMEOUT)
-	public void processRegisterMemberTimeOut(String staffId) {
+	public void registerStaffTimeout(String staffId) {
 		staffService.deleteStaff(staffId);
 	}
 	

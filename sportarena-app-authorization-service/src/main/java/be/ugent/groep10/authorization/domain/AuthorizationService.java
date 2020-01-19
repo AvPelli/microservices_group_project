@@ -67,7 +67,7 @@ public class AuthorizationService {
 		case Role.STAFF:
 //				return "Not implemented";
 		case Role.CATERINGSERVICE:
-//				return "Not implemented";
+			addCatering(user, registerRequest);
 		case Role.CLUB:
 //				return "Not implemented";
 		}
@@ -80,7 +80,7 @@ public class AuthorizationService {
 		case Role.STAFF:
 //			return "Not implemented";
 		case Role.CATERINGSERVICE:
-//			return "Not implemented";
+			this.registerSaga.registerCateringTimeout(oktaUser.getId());
 		case Role.CLUB:
 //			return "Not implemented";
 
@@ -108,6 +108,12 @@ public class AuthorizationService {
 //		Member res = restTemplate.postForEntity("http://membermanagement:2227/member", entity, Member.class).getBody();
 	}
 
+	private void addCatering(User user, RegisterRequest registerRequest) {
+		CateringCompany catering = new CateringCompany(user.getId(), registerRequest.getFirstName(), registerRequest.getLastName(),
+				registerRequest.getCompanyName());
+		this.registerSaga.startCateringRegisterSage(catering);
+	}
+	
 	public void registerComplete(RegisterResponse registerResponse) {
 		this.registerSaga.registerComplete(registerResponse);
 	}

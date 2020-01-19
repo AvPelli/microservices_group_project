@@ -22,6 +22,13 @@ services:
 
   bettingdb:
     image: mongo
+
+  cateringdb:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=Catering
   
   # -------------Main services---------------
     
@@ -48,7 +55,18 @@ services:
       - zookeeper
     environment:
       - SPRING_DATA_MONGODB_HOST=bettingdb
-      
+
+  cateringmanagement:
+    build: ./sportarena-app-catering-management
+    links:
+      - kafka
+      - zookeeper
+      - cateringdb
+    depends_on:      
+      - kafka
+      - zookeeper
+      - cateringdb
+
   authorizationservice:
     build: ./sportarena-app-authorization-service
     depends_on:

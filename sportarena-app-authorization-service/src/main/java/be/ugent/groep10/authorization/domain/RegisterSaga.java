@@ -31,19 +31,32 @@ public class RegisterSaga {
 		this.listeners.add(listener);
 	}
 	
+	//Register SAGAs
 	public void startMemberRegisterSaga(Member member) {
 		//TODO: doen
 		logger.info("Member register saga started.");
 		this.gateway.registerMember(member);
 	}
 	
+	public void startCateringRegisterSage(CateringCompany catering) {
+		logger.info("Catering register saga started.");
+		this.gateway.registerCatering(catering);
+	}
+	
+	//Register Timeouts
+	public void registerMemberTimeout(String oktaUserId) {
+		this.gateway.registerMemberTimeout(oktaUserId);
+	}
+	
+	public void registerCateringTimeout(String oktaUserId) {
+		this.gateway.registerCateringTimeout(oktaUserId);
+	}
+	
 	public void registerComplete(RegisterResponse registerResponse) {
 		this.listeners.forEach(l -> l.onRegisterResult(registerResponse));
 	}
 	
-	public void registerMemberTimeout(String oktaUserId) {
-		this.gateway.registerMemberTimeout(oktaUserId);
-	}
+	
 	
 	public void registerFailed(RegisterResponse registerResponse) {
 		this.listeners.forEach(l -> l.onRegisterResult(registerResponse));

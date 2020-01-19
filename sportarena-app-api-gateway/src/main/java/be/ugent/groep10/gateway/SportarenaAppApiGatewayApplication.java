@@ -1,5 +1,9 @@
 package be.ugent.groep10.gateway;
 
+import java.net.HttpURLConnection;
+import java.net.ProtocolException;
+import java.net.URL;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,6 +11,8 @@ import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpEntity;
+import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 public class SportarenaAppApiGatewayApplication {
@@ -25,8 +31,19 @@ public class SportarenaAppApiGatewayApplication {
 //		String memberMgmt = env.getProperty("NAME_MEMBERMGMT", String.class, "localhost");
 //		String authorizationService = env.getProperty("NAME_AUTHORIZATIONSERVICE", String.class, "localhost");
 		String memberMgmt = "membermanagement"; //localhost for local testing
-		String authorizationService = "authorizationservice";
+		String authorizationService = "authorization";
 		System.out.println("memberMgmt= " + memberMgmt);
+		
+		
+		System.out.println("Can connect to authorization:");
+		
+		RestTemplate restTemplate = new RestTemplate();
+		
+		//Member res = restTemplate.postForEntity("http://localhost:2227/member", entity, Member.class).getBody();
+		String res = restTemplate.getForEntity("http://"+ authorizationService +":2228/", String.class).getBody();
+		
+		System.out.println(res);
+		
 		return builder.routes()
 				// Patient service routes
 				.route(r -> r.path("/").uri("http://"+ authorizationService +":2228/"))

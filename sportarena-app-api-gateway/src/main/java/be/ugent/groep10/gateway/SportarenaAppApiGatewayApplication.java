@@ -34,9 +34,11 @@ public class SportarenaAppApiGatewayApplication {
 				.route(r -> r.path("/betting/**").uri("http://bettingmanagement:2226"))
 				.route(r -> r.path("/wallet/**").uri("http://bettingmanagement:2226"))
 				.route(r -> r.path("/arena/**").uri("http://bettingmanagement:2223"))
-				.route(r -> r.path("/catering/**").uri("http://localhost:2224"))
+				.route(r -> r.path("/catering/**").uri("http://cateringmanagement:2224"))
 				.route(r -> r.path("/authorization/**").uri("http://"+ authorizationService + ":2228"))
 				.route(r -> r.path("/oauthinfo").uri("http://"+ authorizationService + ":2228/outhinfo"))
+				.route(r -> r.path("/games/**").uri("http://arenamanagement:2225"))
+				.route(r -> r.path("/tickets/**").uri("http://ticketmanagement:2230"))
 				
 				// Reception service routes
 //				.route(r -> r.host("*").and().path("/reception/**").uri("http://localhost:2223"))

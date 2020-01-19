@@ -28,7 +28,7 @@ public class GameEndedScheduler {
 	
 	@Scheduled(cron = "*/8 * * * * *")
 	public void checkForEndedGames() {
-		logger.info("Check dateTimes...");
+		//logger.info("Check dateTimes...");
 		
 		LocalDateTime currentDateTime = LocalDateTime.now();
 		

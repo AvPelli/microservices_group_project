@@ -5,8 +5,10 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,7 +20,7 @@ import be.ugent.groep10.ticket_management.domain.TicketStatus;
 import be.ugent.groep10.ticket_management.persistence.TicketRepository;
 
 @RestController
-//@RequestMapping("tickets")
+@RequestMapping("tickets")
 public class TicketRestController {
 	
 	Logger logger = LoggerFactory.getLogger(TicketRestController.class);
@@ -34,7 +36,8 @@ public class TicketRestController {
 		this.gateway = gateway;
 	}
 	
-	@GetMapping("/buy/{id}")
+	@CrossOrigin
+	@PostMapping("/buy/{id}")
 	public boolean buyTickey(@PathVariable("id") String ticketId) {
 		Ticket ticket = repository.findById(ticketId).get();
 		if (ticket.getStatus() == TicketStatus.AVAILABLE) {
@@ -52,6 +55,13 @@ public class TicketRestController {
 			logger.info("Error: ticket " + ticketId + " already sold");
 			return false;
 		}
+	}
+	
+	@CrossOrigin
+	@GetMapping("/available/{sportEventId}")
+	public List<Ticket> getAvailableTickets(@PathVariable("sportEventId") String sportEventId) {
+		List<Ticket> tickets = repository.findBySportEventIdAndStatusIsAvailable(sportEventId);
+		return tickets;
 	}
 	
 	@GetMapping("/sold/{sportEventId}")

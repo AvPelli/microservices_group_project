@@ -43,6 +43,7 @@ public class SecurityConfiguration {
             	.pathMatchers("/betting/**").hasAuthority(Roles.MEMBER)
             	.pathMatchers("/catering/**").hasAuthority(Roles.CATERINGSERVICE)
             	.pathMatchers("/arena/**").hasAnyAuthority(Roles.CLUB)
+				.pathMatchers("/staff/**").hasAnyAuthority(Roles.STAFF)
             	.pathMatchers(HttpMethod.POST,"/authorization/register").permitAll()
             	.anyExchange().authenticated()
             	;

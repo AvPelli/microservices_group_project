@@ -31,7 +31,7 @@
 	   });
 	};
 
-	$.getJSON( "http://localhost:2225/games/status/planned", function(data) {
+	$.getJSON( "http://192.168.99.100:8080/games/status/planned", function(data) {
 		  var items = [];
 		  console.log(data);
 		  $.each(data, function(key, value) {
@@ -46,7 +46,7 @@
 	
 	$("#buy_button").click(function() {
 		var id = $("#ticket").val();
-		$.post("http://localhost:2230/tickets/buy/" + id, function(data) {
+		$.post("http://192.168.99.100:8080/tickets/buy/" + id, function(data) {
 		  alert("Ticket " + id + " succesfully purchased!");
 		  loadTickets();
 		});
@@ -55,7 +55,7 @@
 	function loadTickets() {
 		$("#ticket").empty();
 	  	var id = $("#game").val();
-	  	$.getJSON("http://localhost:2230/tickets/available/" + id, function(data) {
+	  	$.getJSON("http://192.168.99.100:8080/tickets/available/" + id, function(data) {
 		  	var items = [];
 		  	console.log(data);
 		  	$.each(data, function(key, value) {

@@ -118,3 +118,17 @@ services:
       - mongo
     environment:
       - SPRING_DATA_MONGODB_HOST=mongo
+
+
+  arenamanagement:
+    build: ./sportarena-app-arena-management
+    links:
+      - kafka
+      - zookeeper
+      - mongo
+    depends_on:
+      - kafka
+      - zookeeper
+      - mongo
+    environment:
+      - SPRING_DATA_MONGODB_HOST=mongo

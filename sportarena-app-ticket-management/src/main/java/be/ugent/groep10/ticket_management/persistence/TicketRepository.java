@@ -19,4 +19,7 @@ public interface TicketRepository extends MongoRepository<Ticket, String>{
 	@Query("{ 'sportEventId' : ?0, 'status' : 'SOLD'}")
 	List<Ticket> findBySportEventIdAndStatusIsSold(String sportEventId);
 	
+	@Query("{ 'sportEventId' : ?0, 'status' : 'AVAILABLE'}")
+	List<Ticket> findBySportEventIdAndStatusIsAvailable(String sportEventId);
+	
 }

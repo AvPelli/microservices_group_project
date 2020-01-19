@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -65,7 +66,7 @@ public class AuthorizationService {
 		case Role.MEMBER:
 			addMember(user, registerRequest);
 		case Role.STAFF:
-//				return "Not implemented";
+			addStaff(user, registerRequest);
 		case Role.CATERINGSERVICE:
 			addCatering(user, registerRequest);
 		case Role.CLUB:
@@ -78,7 +79,7 @@ public class AuthorizationService {
 		case Role.MEMBER:
 			this.registerSaga.registerMemberTimeout(oktaUser.getId());
 		case Role.STAFF:
-//			return "Not implemented";
+			this.registerSaga.registerStaffTimeout(oktaUser.getId());
 		case Role.CATERINGSERVICE:
 			this.registerSaga.registerCateringTimeout(oktaUser.getId());
 		case Role.CLUB:
@@ -111,7 +112,13 @@ public class AuthorizationService {
 	private void addCatering(User user, RegisterRequest registerRequest) {
 		CateringCompany catering = new CateringCompany(user.getId(), registerRequest.getFirstName(), registerRequest.getLastName(),
 				registerRequest.getCompanyName());
-		this.registerSaga.startCateringRegisterSage(catering);
+		this.registerSaga.startCateringRegisterSaga(catering);
+	}
+	
+	private void addStaff(User user, RegisterRequest registerRequest) {
+		Staff staff = new Staff(user.getId(),registerRequest.getFirstName(), registerRequest.getLastName(),
+				registerRequest.getDateOfBirth(), LocalDate.now(), registerRequest.getBankAccountNumber(),registerRequest.getZever());
+		this.registerSaga.startStaffRegisterSaga(staff);
 	}
 	
 	public void registerComplete(RegisterResponse registerResponse) {

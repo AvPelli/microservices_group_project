@@ -38,9 +38,15 @@ public class RegisterSaga {
 		this.gateway.registerMember(member);
 	}
 	
-	public void startCateringRegisterSage(CateringCompany catering) {
+	public void startCateringRegisterSaga(CateringCompany catering) {
 		logger.info("Catering register saga started.");
 		this.gateway.registerCatering(catering);
+	}
+	
+	public void startStaffRegisterSaga(Staff staff) {
+		logger.info("Staff register saga started.");
+		this.gateway.registerStaff(staff);
+		
 	}
 	
 	//Register Timeouts
@@ -50,6 +56,10 @@ public class RegisterSaga {
 	
 	public void registerCateringTimeout(String oktaUserId) {
 		this.gateway.registerCateringTimeout(oktaUserId);
+	}
+	
+	public void registerStaffTimeout(String oktaUserId) {
+		this.gateway.registerStaffTimeout(oktaUserId);
 	}
 	
 	public void registerComplete(RegisterResponse registerResponse) {

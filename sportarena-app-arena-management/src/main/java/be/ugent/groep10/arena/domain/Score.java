@@ -44,7 +44,9 @@ public class Score {
 
 	@Override
 	public String toString() {
-		return "Score [scoreA=" + scoreA + ", scoreB=" + scoreB + "]";
+		return "Score [scoreA=" + scoreA + ", scoreB=" + scoreB + ", isSet=" + isSet + "]";
 	}
+
+	
 
 }

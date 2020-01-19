@@ -54,6 +54,9 @@ public class SportarenaAppApiGatewayApplication {
 				.route(r -> r.path("/catering/**").uri("http://cateringmanagement:2224"))
 				.route(r -> r.path("/authorization/**").uri("http://"+ authorizationService + ":2228"))
 				.route(r -> r.path("/oauthinfo").uri("http://"+ authorizationService + ":2228/outhinfo"))
+				.route(r -> r.path("/games/**").uri("http://arenamanagement:2225"))
+				.route(r -> r.path("/tickets/**").uri("http://ticketmanagement:2230"))
+				.route(r -> r.path("/staff/**").uri("http://staffmanagement:2231"))
 				
 				// Reception service routes
 //				.route(r -> r.host("*").and().path("/reception/**").uri("http://localhost:2223"))

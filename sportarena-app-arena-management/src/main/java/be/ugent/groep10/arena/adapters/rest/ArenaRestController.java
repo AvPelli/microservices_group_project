@@ -3,6 +3,7 @@ package be.ugent.groep10.arena.adapters.rest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +21,6 @@ import be.ugent.groep10.arena.persistence.GameRepository;
 
 
 @RestController
-@RequestMapping("/games")
 public class ArenaRestController {
 	
 	Logger logger = LoggerFactory.getLogger(ArenaRestController.class);
@@ -33,25 +33,25 @@ public class ArenaRestController {
 		this.gameRepository = gameRepository;
 		this.gateway = gateway;
 	}
-
-	/*DUMMY*/
+	
+	@GetMapping("/games")
 	public Iterable<Game> getAllGames(){
 		return this.gameRepository.findAll();
 	}
 	
-	/*DUMMY*/
-	@GetMapping("/{id}")
+	
+	@GetMapping("/games/{id}")
 	public Game getGame(@PathVariable("id") String id){
 		return this.gameRepository.findById(id).orElse(null);
 	}
 	
-	/*DUMMY*/
-	@GetMapping("sportclub/{sportclubId}")
+	@GetMapping("/games/sportclub/{sportclubId}")
 	public Iterable<Game> getGamesFromSportclub(@PathVariable("sportclubId") String sportclubId){
 		return this.gameRepository.findBySportclubId(sportclubId);
 	}
 	
 	/*DUMMY*/
+	@CrossOrigin
 	@GetMapping("/status/{gameStatus}")
 	public Iterable<Game> getGamesWithStatus(@PathVariable("gameStatus") String gameStatus){
 		//TODO Exception handling
@@ -59,31 +59,26 @@ public class ArenaRestController {
 		return this.gameRepository.findByGameStatus(gs);
 		
 	}
+	*/
 	
 	
-	/*TODO: Give all available and unavailable dates
+	/* DUMMY
 	@GetMapping("/schedule")
 	public Iterable<Game> getSchedule(){
-		return this.gameRepository.findAll(); // WRONG
+		return this.gameRepository.findAll(); 
 	}
 	*/
 	
 	
-	@PostMapping()
-	public Iterable<Game> addGame(@RequestBody Game game) {
-		
-		// TODO: Check if dateTimes are in the future
-		// TODO: Check schedule first
-		this.gameRepository.save(game);
-		
-		return this.gameRepository.findAll();
-	}
 	
-	@PostMapping("/create")
+
+	
+	@PostMapping("/games/create")
 	public boolean createGame(@RequestBody Game game) {
 		
 		// TODO: Check if dateTimes are in the future
 		// TODO: Check schedule first
+		game.setGameStatus(GameStatus.ACTIVE);
 		this.gameRepository.save(game);
 		logger.info(game.toString());
 		gateway.createGame(new CreateGameRequest(game.getId(), game.getDateTimeBegin(), game.getDateTimeEnd()));
@@ -92,7 +87,7 @@ public class ArenaRestController {
 	
 	
 	// Set the score of a game
-	@PostMapping("/setscore/{id}")
+	@PostMapping("/games/setscore/{id}")
 	public Game setScore(@PathVariable("id") String id, @RequestBody Score score) {
 		
 		Game game = this.getGame(id);
@@ -107,7 +102,7 @@ public class ArenaRestController {
 	}
 	
 	// Set the reclame for a game
-	@PostMapping("/setreclame/{id}")
+	@PostMapping("/games/setreclame/{id}")
 	public Game setReclame(@PathVariable("id") String id, @RequestBody String reclame) {
 		
 		Game game = this.getGame(id);

@@ -1,6 +1,7 @@
 package be.ugent.groep10.catering.adapters.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,12 @@ public class CateringRestController {
 	public CateringRestController(CateringCompanyRepository cateringCompanyRepository, CateringService cateringService) {
 		this.cateringCompanyRepository = cateringCompanyRepository;
 		this.cateringService = cateringService;
+	}
+	
+	@GetMapping
+	public Iterable<CateringCompany> getAllCateringCompanies(){
+		System.out.println("--------------------FindAllCatering--------------------");
+		return cateringCompanyRepository.findAll();
 	}
 	
 	@PostMapping()

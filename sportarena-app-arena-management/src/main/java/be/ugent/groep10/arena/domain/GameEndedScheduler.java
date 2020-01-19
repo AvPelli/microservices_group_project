@@ -28,7 +28,7 @@ public class GameEndedScheduler {
 	
 	@Scheduled(cron = "*/8 * * * * *")
 	public void checkForEndedGames() {
-		logger.info("Check dateTimes...");
+		//logger.info("Check dateTimes...");
 		
 		LocalDateTime currentDateTime = LocalDateTime.now();
 		
@@ -36,9 +36,6 @@ public class GameEndedScheduler {
 		for(Game game : gameRepository.findByGameStatus(GameStatus.ACTIVE)) {
 			if(game.getDateTimeEnd().isBefore(currentDateTime) && game.getScore().isSet()) {
 				
-				////////////////////////
-				// TODO Message output//
-				////////////////////////
 				
 				logger.info("GAME_END of " + game.toString());
 				

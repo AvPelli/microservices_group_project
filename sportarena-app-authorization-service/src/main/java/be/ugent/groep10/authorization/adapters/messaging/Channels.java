@@ -14,7 +14,8 @@ public interface Channels {
 	
 	static final String REGISTER_MEMBER_TIMEOUT = "register_member_timeout";
 	static final String REGISTER_CATERING_TIMEOUT = "register_catering_timeout";
-	
+	static final String REGISTER_STAFF_TIMEOUT = "register_staff_timeout";
+
 	static final String REGISTER_RESULT = "register_result";
 	
 	
@@ -30,6 +31,8 @@ public interface Channels {
 	MessageChannel registerMemberTimeOut();
 	@Output(REGISTER_CATERING_TIMEOUT)
 	MessageChannel registerCateringTimeout();
+	@Output(REGISTER_STAFF_TIMEOUT)
+	MessageChannel registerStaffTimeout();
 	
 	@Input(REGISTER_RESULT)
 	SubscribableChannel processRegisterResponse();

@@ -15,7 +15,7 @@ Pas volgende aanpassingen toe bovenaan in de script-tag:
 
 in volgende bestanden:
 
-- sportarena-app-ticket-management\src\main\resources\templates\shop.html`
+- sportarena-app-ticket-management\src\main\resources\templates\shop.html
 - sportarena-app-arena-management\src\main\resources\templates\arena.html
 
  
@@ -39,7 +39,7 @@ Pas volgende aanpassingen toe bovenaan in de script-tag:
 
 in volgende bestanden:
 
-- sportarena-app-ticket-management\src\main\resources\templates\shop.html`
+- sportarena-app-ticket-management\src\main\resources\templates\shop.html
 - sportarena-app-arena-management\src\main\resources\templates\arena.html
 
  # Jasper 

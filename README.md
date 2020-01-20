@@ -49,7 +49,13 @@ in volgende bestanden:
  #### Okta
 
  #### Registreren
- Een gebruiker kan zich registreren als member, staff, club of cateringservice. Naargelang de keuze verschijnen er extra velden die ingevuld kunnen worden. Deze keuze bepaalt de gebruiker zijn rol en dus welke functies hij kan uitvoeren.
+ Een gebruiker kan zich registreren als member, staff, club of cateringservice. 
+Hierbij zijn er enkele belangrijke zaken:
+
+- Het email adres moet een geldig formaat hebben (met een @ etc.)
+- Het wachtwoord voor elk account wordt standaard ingesteld op "Password123"
+
+Naargelang de keuze verschijnen er extra velden die ingevuld kunnen worden. Deze keuze bepaalt de gebruiker zijn rol en dus welke functies hij kan uitvoeren.
 
 
 #### Wedstrijd inplannen

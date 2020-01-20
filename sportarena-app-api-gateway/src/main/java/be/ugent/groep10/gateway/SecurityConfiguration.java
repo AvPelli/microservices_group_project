@@ -39,7 +39,7 @@ public class SecurityConfiguration {
 //            	.anyExchange().permitAll()
             	.pathMatchers("/", "/authorization/**", "/games/**","/tickets/**","/arena/**").permitAll()
             	.pathMatchers("/member/**").hasAuthority(Roles.MEMBER)
-            	.pathMatchers("/betting/**").hasAuthority(Roles.MEMBER)
+            	.pathMatchers("/betting/**","/wallets/**","/gambling/**").hasAuthority(Roles.MEMBER)
             	.pathMatchers("/catering/**").hasAuthority(Roles.CATERINGSERVICE)
 				.pathMatchers("/staff/**").hasAnyAuthority(Roles.STAFF)
             	.pathMatchers(HttpMethod.POST,"/authorization/register").permitAll()

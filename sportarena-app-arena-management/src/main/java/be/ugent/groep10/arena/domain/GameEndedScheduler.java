@@ -43,7 +43,7 @@ public class GameEndedScheduler {
 				
 				gameRepository.save(game);
 				
-				gateway.endGame(new EndGameRequest(game.getId()));
+				gateway.endGame(new EndGameRequest(game.getId(), game.getScore()));
 				
 			}
 		}

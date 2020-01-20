@@ -25,7 +25,7 @@ public class TicketRestController {
 	
 	Logger logger = LoggerFactory.getLogger(TicketRestController.class);
 	
-	private static final int TRESHOLD = 50;
+	private static final int TRESHOLD = 5;
 	
 	private final TicketRepository repository;
 	private final MessageGateway gateway;

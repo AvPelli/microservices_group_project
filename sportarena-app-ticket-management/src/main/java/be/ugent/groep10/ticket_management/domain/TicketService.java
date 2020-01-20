@@ -14,8 +14,8 @@ public class TicketService {
 	Logger logger = LoggerFactory.getLogger(TicketService.class);
 	
 	private static final int NUMBER_SECTIONS = 1;
-	private static final int NUMBER_ROWS = 1;
-	private static final int NUMBER_SEATS = 10;
+	private static final int NUMBER_ROWS = 4;
+	private static final int NUMBER_SEATS = 5;
 	
 	private final TicketRepository repository;
 

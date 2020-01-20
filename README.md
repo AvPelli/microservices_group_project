@@ -43,11 +43,25 @@ in volgende bestanden:
 - sportarena-app-arena-management\src\main\resources\templates\arena.html
 - sportarena-app-gambling-management\src\main\resources\templates\gamblingDummy.html
 
- # Jasper 
+ ### Deployment
+ Kopieer de inhoud van de `Kubernetes` map naar de Kubernetes Master. Run hier vervolgens volgende commando's uit in de map waar de bestanden staan:
+ ````
+  bash kafka.sh
+  kubectl replace --force -f .
+ ````
+ Met volgend commando kunt u de status van de Kubernetes cluster opvragen:
+ ````
+  kubectl get all --all-namespaces
+ ````
+ Wanneer hier alle aparte pods op status `RUNNING` staan, is de applicatie gedeployed. Om te connecteren via de voorziene IMec Wall, dient u eerst een port forwarding op te zetten. Dit gebeurt door het bestand `portforward.sh` in de Kubernetes map op het client toestel te uit te voeren. Vervolgens surft u in een browser naar `http://localhost:9000` en komt u terecht op de homepagina.
+
+ ### Configuratiebestanden
+ Door gebruik te maken van configuratiebestanden en omgevingsvariabelen hoeft er buiten bovenstaande frontend aanpassingen niets gewijzigd te worden. De services zijn dus automatisch op de hoogte van de locatie van Kafka en de andere services.
 
 ## **Features**
 
  #### Okta
+Okta wordt gebruikt als externe service die onze users bijhoudt. Dit is een veilige manier om met gegevensdata om te gaan. Alsook wordt via Okta authenticatie en authorisatie afgehandeld, zodat een gebruiker enkel data kan zien waar hij/zij rechten toe heeft.
 
  #### Registreren
 Een gebruiker kan zich registreren als member, staff, club of cateringservice. 

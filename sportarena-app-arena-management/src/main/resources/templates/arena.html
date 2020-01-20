@@ -80,10 +80,19 @@
 
 
 <script>
-    //------------- MAIN EXECUTION ------------//
-    var dockerUrl="http://192.168.99.100:8080";
-    var kubernetesUrl="http://localhost:9000";
-    var URL = dockerUrl;
+
+
+
+
+<!-------------------- AAN TE PASSEN CONFIGURATIE -------------------------->
+		var dockerUrl="http://192.168.99.100:8080";
+		var kubernetesUrl="http://localhost:9000";
+		var URL = kubernetesUrl;
+<!-------------------------------------------------------------------------->
+
+
+
+
 
     $.getJSON( URL + "/games/", function(data) {
         console.log(data);

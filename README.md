@@ -17,7 +17,7 @@ in volgende bestanden:
 
 - sportarena-app-ticket-management\src\main\resources\templates\shop.html
 - sportarena-app-arena-management\src\main\resources\templates\arena.html
-
+- sportarena-app-gambling-management\src\main\resources\templates\gamblingDummy.html
  
  Vervolgens ga je naar de home directory van het project en voer volgende commando's uit:
 ```  
@@ -41,6 +41,7 @@ in volgende bestanden:
 
 - sportarena-app-ticket-management\src\main\resources\templates\shop.html
 - sportarena-app-arena-management\src\main\resources\templates\arena.html
+- sportarena-app-gambling-management\src\main\resources\templates\gamblingDummy.html
 
  # Jasper 
 

@@ -57,6 +57,9 @@ in volgende bestanden:
 
  ### Configuratiebestanden
  Door gebruik te maken van configuratiebestanden en omgevingsvariabelen hoeft er buiten bovenstaande frontend aanpassingen niets gewijzigd te worden. De services zijn dus automatisch op de hoogte van de locatie van Kafka en de andere services.
+ 
+ ### Chaosmonkey
+ Chaosmonkey is aan de Kubernetes map toegevoegd en kan mee met de .yaml files gekopieerd worden en vervolgens gerund worden om de robuustheid van de applicatie te testen.
 
 ## **Features**
 

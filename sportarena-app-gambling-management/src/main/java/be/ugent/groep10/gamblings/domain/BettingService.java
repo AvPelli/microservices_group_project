@@ -53,9 +53,17 @@ public class BettingService {
 	}
 	
 	public Bet addBet(String matchId, String ownerId, Prediction prediction, double tokens) {
-		BettableGame game = (BettableGame) bettableGameRepository.findByMatchId(matchId);
-		Wallet wallet = walletRepository.findById(ownerId).get();
+		logger.info("addbet");
+		List<BettableGame> games =  bettableGameRepository.findByMatchId(matchId);
+		if(games.size() < 1) {
+			logger.info("geen matches gevonden");
+			return null;
+		}
+		BettableGame game = games.get(0);
+		Wallet wallet = walletRepository.findByOwnerId(ownerId).isPresent()? walletRepository.findByOwnerId(ownerId).get(): null;
+		logger.info("wallet inhoud:" + wallet.getTokens());
 		if(game != null && wallet != null && wallet.getTokens() >= tokens) {
+			logger.info("opslaan!");
 			Bet bet = new Bet(ownerId, matchId, prediction, tokens);
 			betRepository.save(bet);
 			wallet.setTokens(wallet.getTokens() - tokens);
@@ -71,11 +79,17 @@ public class BettingService {
 	}
 	
 	public void gameEnded(EndGameRequest endGameRequest) {
-		BettableGame game = (BettableGame) bettableGameRepository.findByMatchId(endGameRequest.getSportEventId());
+		//BettableGame game = (BettableGame) bettableGameRepository.findByMatchId(endGameRequest.getSportEventId());
+		List<BettableGame> games =  bettableGameRepository.findByMatchId(endGameRequest.getSportEventId());
+		if(games.size() < 1) {
+			return;
+		}
+		BettableGame game = games.get(0);
+		
 		
 		List<Bet> bets = betRepository.findBetsByBettableGameId(endGameRequest.getSportEventId());
 		for(Bet bet : bets) {
-			Wallet wallet = walletRepository.findByOwnerId(bet.getPlacedByMember()).get();
+			Wallet wallet = walletRepository.findById(bet.getPlacedByMember()).isPresent()? walletRepository.findById(bet.getPlacedByMember()).get(): null;
 			if(wallet != null && endGameRequest.getScore().getScoreA() == bet.getPrediction().getPoinstTeamA() 
 					&& endGameRequest.getScore().getScoreB() == bet.getPrediction().getPointsTeamB()) {
 				wallet.setTokens(wallet.getTokens() + bet.getTokensInvested()*bet.getPrediction().getRatio());
@@ -102,7 +116,7 @@ public class BettingService {
 		
 		//TODO check if possible + add tokens + tokensBeingTraded  
 		Optional<Wallet> walletOption = walletRepository.findByOwnerId(ownerId);
-		if(walletOption.get() == null) {
+		if(!walletOption.isPresent()) {
 			throw new MemberDoesntExistException("Member doesn't exist");
 		}
 		Wallet wallet = walletOption.get();
@@ -123,7 +137,7 @@ public class BettingService {
 		
 		// TODO check if possible +  remove tokens + tokensBeingTraded  
 		Optional<Wallet> walletOption = walletRepository.findByOwnerId(ownerId);
-		if(walletOption.get() == null) {
+		if(!walletOption.isPresent()) {
 			throw new MemberDoesntExistException("Member doesn't exist");
 		}
 		Wallet wallet = walletOption.get();
@@ -145,24 +159,32 @@ public class BettingService {
 	
 	public void payTokensTimeout(String ownerId, double tokens) {
 		Optional<Wallet> walletOption = walletRepository.findByOwnerId(ownerId);
-		Wallet wallet = walletOption.get();
+		Wallet wallet = walletOption.isPresent()?walletOption.get():null;
+		if(wallet==null)
+			return;
 		wallet.setTokens(wallet.getTokens() - tokens);
 		wallet.setTokensBeingTraded(0);
+		walletRepository.save(wallet);
 		this.messageGateway.payTokensTimeout(new PaymentRequest(ownerId, tokens/MONEY_TO_TOKEN_RATIO, tokens));
 	}
 	
 	public void cashOutTimeout(String ownerId, double tokens) {
 		Optional<Wallet> walletOption = walletRepository.findByOwnerId(ownerId);
-		Wallet wallet = walletOption.get();
+		Wallet wallet = walletOption.isPresent()?walletOption.get():null;
+		if(wallet==null)
+			return;
 		wallet.setTokens(wallet.getTokens() + tokens);
 		wallet.setTokensBeingTraded(0);
+		walletRepository.save(wallet);
 		this.messageGateway.cashOutTimeout(new CashOutRequest(ownerId, tokens/MONEY_TO_TOKEN_RATIO, tokens));
 	}
 	
 	public void cashOutProcessResult(CashOutResponse cashOutResponse) {
 		
 		Optional<Wallet> walletOption = walletRepository.findByOwnerId(cashOutResponse.getMemberId());
-		Wallet wallet = walletOption.get();
+		Wallet wallet = walletOption.isPresent()?walletOption.get():null;
+		if(wallet==null)
+			return;
 		
 		wallet.setTokensBeingTraded(0);
 		if(!cashOutResponse.isSucceeded()) {
@@ -176,7 +198,9 @@ public class BettingService {
 	public void payTokensProcessResult(PaymentResponse paymentResponse) {
 		
 		Optional<Wallet> walletOption = walletRepository.findByOwnerId(paymentResponse.getMemberId());
-		Wallet wallet = walletOption.get();
+		Wallet wallet = walletOption.isPresent()?walletOption.get():null;
+		if(wallet==null)
+			return;
 		
 		wallet.setTokensBeingTraded(0);
 		if(!paymentResponse.isSucceeded()) {

@@ -174,7 +174,7 @@ const PORT = "2225";
 
 const dockerURL = "http://192.168.99.100:8080";
 const kubernetesURL= "http://localhost:9000";
-const URL = kubernetesURL;
+const URL = dockerURL;
 navigateTo("allgames");
 
 //-----------------------------------------//
@@ -182,7 +182,7 @@ navigateTo("allgames");
 
 
 
-function AJAXGetUserId(callback, ...args) {
+function AJAXGetUserId(callbackA, callbackB) {
     $.ajax({
         type: "GET",
         url: "https://dev-883704.okta.com/api/v1/users/me",
@@ -192,7 +192,7 @@ function AJAXGetUserId(callback, ...args) {
             withCredentials: true
         },
         success: function(response) {
-            callback(args, response.id);
+            callbackA(callbackB, response.id);
         },
         error: function() {
             //callback(undefined);
@@ -247,13 +247,18 @@ function AJAXCashOut(callback, userId, tokens) {
     $.ajax({
         type: "POST",
         url: URL+"/wallets/cash_out/"+userId+"/"+tokens, //TODO path
-        dataType: "json",
+        dataType: 'json',
+        contentType: 'application/json',
         data: "",
         success: function(response) {
             callback(response);
         },
-        error: function() {
-            callback(bettableGames);
+        error: function(response) {
+        	if(response.status==200){
+        		callback(response);
+        	} else{
+        		alert("Server not available");
+        	}
         }
     });
 }
@@ -264,12 +269,17 @@ function AJAXPurchase(callback, userId, tokens) {
         type: "POST",
         url: URL+"/wallets/purchase_tokens/"+userId+"/"+tokens, //TODO path
         dataType: "json",
+        contentType: 'application/json',
         data: "",
         success: function(response) {
             callback(response);
         },
-        error: function() {
-            alert("Server not available");
+        error: function(response) {
+        	if(response.status==200){
+        		callback(response);
+        	} else{
+        		alert("Server not available");
+        	}
         }
     });
 }
@@ -279,6 +289,7 @@ function AJAXPlaceBet(callback, prediction, userId , matchId, tokens) {
         type: "POST",
         url: URL+"/betting/place_bet/"+userId+"/"+matchId+"/"+tokens, //TODO path
         dataType: "json",
+        contentType: 'application/json',
         data: JSON.stringify(prediction),
         success: function(response) {
             callback(response);
@@ -339,9 +350,9 @@ function displayAllGames(games, userId){
 		    let n = 0;
             for (let prediction of predictionsByMatch){
                 $("#betstable-" + matchId).append(`<tr>
-                    <td>${prediction.pointsTeamA}</td>
+                    <td>${prediction.poinstTeamA}</td>
                     <td>${prediction.pointsTeamB}</td>
-                    <td>${prediction.ration}</td>
+                    <td>${prediction.ratio}</td>
                     <td><input id=${"prediction-input-" + matchId + "-" + n} type="text" placeholder="Tokens"></td>
                     <td><button id=${"prediction-button-" + matchId + "-" + n}>Confirm</button></td>
                     </tr>`);

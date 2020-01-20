@@ -54,6 +54,8 @@ services:
       - mongodb
       - kafka
       - zookeeper
+    ports:
+      - "2226:2226"
     environment:
       - SPRING_DATA_MONGODB_HOST=mongodb
       - SPRING_PROFILES_ACTIVE=docker
@@ -135,4 +137,15 @@ services:
       - mongodb
     environment:
       - SPRING_DATA_MONGODB_HOST=mongodb
+      - SPRING_PROFILES_ACTIVE=docker
+
+  paymentservice:
+    build: ./sportarena-app-payment
+    links:
+      - kafka
+      - zookeeper
+    depends_on:
+      - kafka
+      - zookeeper
+    environment:
       - SPRING_PROFILES_ACTIVE=docker

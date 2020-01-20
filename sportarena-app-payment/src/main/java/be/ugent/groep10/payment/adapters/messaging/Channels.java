@@ -17,23 +17,23 @@ public interface Channels {
 	
 	
 	//Payment service
-	@Output(PAY_TOKENS)
-	MessageChannel payTokens();
+	@Input(PAY_TOKENS)
+	SubscribableChannel payTokens();
 	
-	@Output(PAY_TOKENS_TIMEOUT)
-	MessageChannel payTokensTimeout();
+	@Input(PAY_TOKENS_TIMEOUT)
+	SubscribableChannel payTokensTimeout();
 	
-	@Input(PAY_TOKENS_RESULT)
-	SubscribableChannel payTokensResult();
+	@Output(PAY_TOKENS_RESULT)
+	MessageChannel payTokensResult();
 	
-	@Output(CASH_OUT)
-	MessageChannel cashOut();
+	@Input(CASH_OUT)
+	SubscribableChannel cashOut();
 	
-	@Output(PAY_TOKENS_TIMEOUT)
-	MessageChannel cashOutTimeout();
+	@Input(CASH_OUT_TIMEOUT)
+	SubscribableChannel cashOutTimeout();
 	
-	@Input(CASH_OUT_RESULT)
-	SubscribableChannel cashOutResult();
+	@Output(CASH_OUT_RESULT)
+	MessageChannel cashOutResult();
 	
 	
 	

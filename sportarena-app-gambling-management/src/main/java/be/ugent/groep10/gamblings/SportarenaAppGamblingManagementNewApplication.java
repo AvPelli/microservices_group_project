@@ -19,8 +19,9 @@ import be.ugent.groep10.gamblings.persistence.BetRepository;
 import be.ugent.groep10.gamblings.persistence.BettableGameRepository;
 import be.ugent.groep10.gamblings.persistence.WalletRepository;
 
-@EnableBinding(Channels.class)
+
 @SpringBootApplication
+@EnableBinding(Channels.class)
 public class SportarenaAppGamblingManagementNewApplication {
 
 	public static void main(String[] args) {
@@ -32,29 +33,29 @@ public class SportarenaAppGamblingManagementNewApplication {
 	CommandLineRunner populateDatabase(BetRepository betRepository, BettableGameRepository bettableGameRepository, WalletRepository walletRepository) {
 		return (args) -> {
 			System.out.println("Populating BetDatabase");
-			betRepository.deleteAll();
-			bettableGameRepository.deleteAll();
-			walletRepository.deleteAll();
+//			betRepository.deleteAll();
+//			bettableGameRepository.deleteAll();
+//			walletRepository.deleteAll();
 			
-			BettableGame game1 = new BettableGame("m01", LocalDateTime.now().plus(1, ChronoUnit.DAYS));
-			BettableGame game2 = new BettableGame("m02", LocalDateTime.now().plus(2, ChronoUnit.DAYS));
-			BettableGame game3 = new BettableGame("m03", LocalDateTime.now().plus(3, ChronoUnit.DAYS));
+//			BettableGame game1 = new BettableGame("m01", LocalDateTime.now().plus(1, ChronoUnit.DAYS));
+//			BettableGame game2 = new BettableGame("m02", LocalDateTime.now().plus(2, ChronoUnit.DAYS));
+//			BettableGame game3 = new BettableGame("m03", LocalDateTime.now().plus(3, ChronoUnit.DAYS));
 			
-			bettableGameRepository.save(game1);
-			bettableGameRepository.save(game2);
-			bettableGameRepository.save(game3);
+//			bettableGameRepository.save(game1);
+//			bettableGameRepository.save(game2);
+//			bettableGameRepository.save(game3);
 			
 			
-			betRepository.save(new Bet("simeon", "m01", new Prediction(1,0,3.2), 20));
-			betRepository.save(new Bet("simeon", "m01", new Prediction(0,0,2.1), 20));
-			betRepository.save(new Bet("simeon", "m02", new Prediction(5,4,15.6), 2));
-			betRepository.save(new Bet("jasper", "m02", new Prediction(1,0,3.2), 30));
-			betRepository.save(new Bet("jasper", "m02", new Prediction(4,3,5.7), 20));
-			betRepository.save(new Bet("jasper", "m03", new Prediction(4,1,4.6), 60));
-			betRepository.save(new Bet("jasper", "m03", new Prediction(0,0,1.5), 25));
+//			betRepository.save(new Bet("simeon", "m01", new Prediction(1,0,3.2), 20));
+//			betRepository.save(new Bet("simeon", "m01", new Prediction(0,0,2.1), 20));
+//			betRepository.save(new Bet("simeon", "m02", new Prediction(5,4,15.6), 2));
+//			betRepository.save(new Bet("jasper", "m02", new Prediction(1,0,3.2), 30));
+//			betRepository.save(new Bet("jasper", "m02", new Prediction(4,3,5.7), 20));
+//			betRepository.save(new Bet("jasper", "m03", new Prediction(4,1,4.6), 60));
+//			betRepository.save(new Bet("jasper", "m03", new Prediction(0,0,1.5), 25));
 			
-			walletRepository.save(new Wallet("simeon", 500));
-			walletRepository.save(new Wallet("jasper", 50000));
+//			walletRepository.save(new Wallet("simeon", 500));
+//			walletRepository.save(new Wallet("jasper", 50000));
 		};
 	}
 	

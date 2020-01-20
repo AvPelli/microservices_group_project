@@ -15,7 +15,7 @@ Pas volgende aanpassingen toe bovenaan in de script-tag:
 
 in volgende bestanden:
 
-- sportarena-app-ticket-management\src\main\resources\templates\shop.html`
+- sportarena-app-ticket-management\src\main\resources\templates\shop.html
 - sportarena-app-arena-management\src\main\resources\templates\arena.html
 
  
@@ -39,7 +39,7 @@ Pas volgende aanpassingen toe bovenaan in de script-tag:
 
 in volgende bestanden:
 
-- sportarena-app-ticket-management\src\main\resources\templates\shop.html`
+- sportarena-app-ticket-management\src\main\resources\templates\shop.html
 - sportarena-app-arena-management\src\main\resources\templates\arena.html
 
  # Jasper 
@@ -64,5 +64,3 @@ Via de "Arena" knop op de homepage komt u terecht op een overzicht van alle weds
 #### Tickets kopen
 Eens een wedstrijd gepland staat zullen er tickets beschikbaar zijn. Deze kan men kopen door via de homepage door te klikken naar "Buy your ticket".
 Na een vooropgesteld aantal tickets stuurt de Ticket service een update naar de catering en staff services.
- 
-## **Design keuzes**

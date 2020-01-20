@@ -20,7 +20,7 @@ import be.ugent.groep10.gamblings.persistence.BetRepository;
 import be.ugent.groep10.gamblings.persistence.BettableGameRepository;
 
 @RestController
-@RequestMapping("gambling")
+@RequestMapping("betting")
 public class BetRESTController {
 
 	private final BetRepository betRepository;

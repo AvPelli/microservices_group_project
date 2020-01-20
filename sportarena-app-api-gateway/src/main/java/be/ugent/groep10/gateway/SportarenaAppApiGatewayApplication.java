@@ -33,6 +33,7 @@ public class SportarenaAppApiGatewayApplication {
 				.route(r -> r.path("/").uri("http://authorization:2228/"))
 				.route(r -> r.path("/member/**").uri("http://membermanagement:2227"))
 				.route(r -> r.path("/betting/**").uri("http://gamblingmanagement:2226"))
+				.route(r -> r.path("/gambling/**").uri("http://gamblingmanagement:2226"))
 				.route(r -> r.path("/wallets/**").uri("http://gamblingmanagement:2226"))
 				.route(r -> r.path("/arena/**").uri("http://arenamanagement:2223"))
 				.route(r -> r.path("/catering/**").uri("http://cateringmanagement:2224"))

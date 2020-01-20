@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository;
 import be.ugent.groep10.gamblings.domain.Wallet;
 
 @Repository
-public interface WalletRepository extends MongoRepository<Wallet, Long>{
+public interface WalletRepository extends MongoRepository<Wallet, String>{
 	
-	Optional<Wallet> findByOwnerId(String id);
+	Optional<Wallet> findByOwnerId(String ownerId);
 
 }

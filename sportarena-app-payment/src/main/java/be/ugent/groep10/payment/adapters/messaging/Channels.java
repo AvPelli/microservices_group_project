@@ -6,25 +6,37 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.SubscribableChannel;
 
 public interface Channels {
+	
 	static final String CASH_OUT = "cash_out";
+	static final String CASH_OUT_TIMEOUT = "cash_out_timeout";
+	static final String CASH_OUT_RESULT = "cash_out_result";
+	
 	static final String PAY_TOKENS = "pay_tokens";
+	static final String PAY_TOKENS_TIMEOUT = "pay_tokens_timeout";
+	static final String PAY_TOKENS_RESULT = "pay_tokens_result";
 	
-	static final String PAY_TICKET = "pay_ticket";
 	
-	static final String DISPLAY_PAYMENT = "display_payment";
+	//Payment service
+	@Output(PAY_TOKENS)
+	MessageChannel payTokens();
 	
-	//Communicatie met Betting service
-	@Input(CASH_OUT)
-	SubscribableChannel cashOut();
+	@Output(PAY_TOKENS_TIMEOUT)
+	MessageChannel payTokensTimeout();
 	
-	@Input(PAY_TOKENS)
-	SubscribableChannel payTokens();
+	@Input(PAY_TOKENS_RESULT)
+	SubscribableChannel payTokensResult();
 	
-	//Communicatie met Ticket service
-	@Input(PAY_TICKET)
-	SubscribableChannel payTicket();
+	@Output(CASH_OUT)
+	MessageChannel cashOut();
 	
-	//Communicatie naar API gateway: toon details aan gebruiker
-	@Output(DISPLAY_PAYMENT)
-	MessageChannel displayPayment();
+	@Output(PAY_TOKENS_TIMEOUT)
+	MessageChannel cashOutTimeout();
+	
+	@Input(CASH_OUT_RESULT)
+	SubscribableChannel cashOutResult();
+	
+	
+	
+	
+	
 }

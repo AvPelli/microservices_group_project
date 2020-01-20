@@ -62,6 +62,7 @@ public class ArenaRestController {
 	}
 	
 	
+	
 	/* DUMMY
 	@GetMapping("/schedule")
 	public Iterable<Game> getSchedule(){

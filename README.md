@@ -5,13 +5,13 @@
 ### Project deployen in docker
 
 Pas volgende aanpassingen toe bovenaan in de script-tag:
-```javascript
-<!-------------------- AAN TE PASSEN CONFIGURATIE -------------------------->
+``` javascript
+ <!-------------------- AAN TE PASSEN CONFIGURATIE -------------------------->
 		var dockerUrl="http://192.168.99.100:8080";
 		var kubernetesUrl="http://localhost:9000";
 		var URL = dockerUrl;
-<!-------------------------------------------------------------------------->
-```		
+ <!-------------------------------------------------------------------------->
+```  	
 
 in volgende bestanden:
 
@@ -43,7 +43,14 @@ in volgende bestanden:
 - sportarena-app-arena-management\src\main\resources\templates\arena.html
 - sportarena-app-gambling-management\src\main\resources\templates\gamblingDummy.html
 
- # Jasper 
+ ### Deployment
+ Kopieer de inhoud van de `Kubernetes` map naar de Kubernetes Master. Run hier vervolgens volgend commando uit in de map waar de bestanden staan:
+ ````
+  kubectl replace --force -f .
+ ````
+
+ ### Configuratiebestanden
+ Door gebruik te maken van configuratiebestanden en omgevingsvariabelen hoeft er buiten bovenstaande frontend aanpassingen niets gewijzigd te worden. De services zijn dus automatisch op de hoogte van de locatie van Kafka en de andere services.
 
 ## **Features**
 

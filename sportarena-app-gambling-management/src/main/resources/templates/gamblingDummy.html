@@ -171,6 +171,10 @@ let bets = {
 
 const SERVER = "localhost";
 const PORT = "2225";
+
+const dockerURL = "http://192.168.99.100:8080";
+const kubernetesURL= "http://localhost:9000";
+const URL = kubernetesURL;
 navigateTo("allgames");
 
 //-----------------------------------------//
@@ -187,9 +191,8 @@ function AJAXGetUserId(callback, ...args) {
         xhrFields: {
             withCredentials: true
         },
-        dataType: "json",
         success: function(response) {
-            callback(response.id, args);
+            callback(args, response.id);
         },
         error: function() {
             //callback(undefined);
@@ -198,21 +201,13 @@ function AJAXGetUserId(callback, ...args) {
     });
 }
 
-
-
-
-
-
-function AJAXGetAllGames(callback) {
-    callback(bettableGames);
-    return; // DUMMY
-
+function AJAXGetAllGames(callback, userId) {
     $.ajax({
         type: "GET",
-        url: "http://"+SERVER+":"+PORT+"/bettable_games", //TODO path
+        url: URL+"/betting/bettable_games", //TODO path
         dataType: "json",
         success: function(response) {
-            callback(response);
+            callback(response, userId);
         },
         error: function() {
             displayError("Can't reach server");
@@ -221,12 +216,9 @@ function AJAXGetAllGames(callback) {
 }
 
 function AJAXPredictions(callback, matchId) {
-    callback(predictions[matchId], matchId);
-    return; // DUMMY
-
     $.ajax({
         type: "GET",
-        url: "http://"+SERVER+":"+PORT+"/predictions/"+matchId,
+        url: URL+"/betting/predictions/"+matchId,
         dataType: "json",
         success: function(response) {
             callback(response, matchId);
@@ -238,12 +230,9 @@ function AJAXPredictions(callback, matchId) {
 }
 
 function AJAXGetWallet(callback, userId) {
-    callback(wallet, userId);
-    return; // DUMMY
-
     $.ajax({
         type: "GET",
-        url: "http://"+SERVER+":"+PORT+"/wallets/"+userId, //TODO path
+        url: URL+"/wallets/"+userId, //TODO path
         dataType: "json",
         success: function(response) {
             callback(response, userId);
@@ -255,12 +244,9 @@ function AJAXGetWallet(callback, userId) {
 }
 
 function AJAXCashOut(callback, userId, tokens) {
-    callback(wallet, userId, tokens);
-    return; // DUMMY
-
     $.ajax({
         type: "POST",
-        url: "http://"+SERVER+":"+PORT+"/cash_out/"+userId+"/"+tokens, //TODO path
+        url: URL+"/wallets/cash_out/"+userId+"/"+tokens, //TODO path
         dataType: "json",
         data: "",
         success: function(response) {
@@ -273,36 +259,32 @@ function AJAXCashOut(callback, userId, tokens) {
 }
 
 function AJAXPurchase(callback, userId, tokens) {
-    callback(wallet, userId, tokens);
-    return; // DUMMY
 
     $.ajax({
         type: "POST",
-        url: "http://"+SERVER+":"+PORT+"/purchase_tokens/"+userId+"/"+tokens, //TODO path
+        url: URL+"/wallets/purchase_tokens/"+userId+"/"+tokens, //TODO path
         dataType: "json",
         data: "",
         success: function(response) {
             callback(response);
         },
         error: function() {
-            callback(bettableGames);
+            alert("Server not available");
         }
     });
 }
 
 function AJAXPlaceBet(callback, prediction, userId , matchId, tokens) {
-    callback(prediction, userId, matchId, tokens);
-    return;
     $.ajax({
         type: "POST",
-        url: "http://"+SERVER+":"+PORT+"/place_bet/"+userId+"/"+matchId+"/"+tokens, //TODO path
+        url: URL+"/betting/place_bet/"+userId+"/"+matchId+"/"+tokens, //TODO path
         dataType: "json",
         data: JSON.stringify(prediction),
         success: function(response) {
             callback(response);
         },
         error: function() {
-            callback(null);
+            alert("Coulnd't contact server");
         }
     });
 }
@@ -318,11 +300,11 @@ function navigateTo(name) {
 
     if(name == "allgames") {
         $("#allgames").show();
-        AJAXGetAllGames(displayAllGames);
+        AJAXGetUserId(AJAXGetAllGames,displayAllGames);
     }
     else if(name == "wallet") {
         $("#wallet").show();
-        AJAXGetWallet(displayWallet);
+        AJAXGetUserId(AJAXGetWallet, displayWallet);
     }
 }
 
@@ -331,7 +313,7 @@ function navigateTo(name) {
 
 
 
-function displayAllGames(games){
+function displayAllGames(games, userId){
 	console.log("Games: ", games);
 	
 	$("#allgames").empty();
@@ -372,7 +354,7 @@ function displayAllGames(games){
                         AJAXPlaceBet(() => {
                             alert("Place bet finished");
                             navigateTo("wallet");
-                        }, event.data.prediction, "simeon", event.data.matchId, amount);
+                        }, event.data.prediction, userId, event.data.matchId, amount);
                     }
                     else {
                         alert("Invalid input");

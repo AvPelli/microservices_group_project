@@ -44,8 +44,9 @@ in volgende bestanden:
 - sportarena-app-gambling-management\src\main\resources\templates\gamblingDummy.html
 
  ### Deployment
- Kopieer de inhoud van de `Kubernetes` map naar de Kubernetes Master. Run hier vervolgens volgend commando uit in de map waar de bestanden staan:
+ Kopieer de inhoud van de `Kubernetes` map naar de Kubernetes Master. Run hier vervolgens volgende commando's uit in de map waar de bestanden staan:
  ````
+  bash kafka.sh
   kubectl replace --force -f .
  ````
  Met volgend commando kunt u de status van de Kubernetes cluster opvragen:

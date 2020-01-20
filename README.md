@@ -61,6 +61,7 @@ in volgende bestanden:
 ## **Features**
 
  #### Okta
+Okta wordt gebruikt als externe service die onze users bijhoudt. Dit is een veilige manier om met gegevensdata om te gaan. Alsook wordt via Okta authenticatie en authorisatie afgehandeld, zodat een gebruiker enkel data kan zien waar hij/zij rechten toe heeft.
 
  #### Registreren
  Een gebruiker kan zich registreren als member, staff, club of cateringservice. 

@@ -1,27 +1,48 @@
-# Uitbaten van een sportarena 
-## Project runnen via docker  
-  
-### Uitvoeren in Home folder  
+# Project Systeemontwerp
+
+## Uitbating van een sportarena
+
+### Project deployen in docker
+
+Pas volgende aanpassingen toe bovenaan in de script-tag:
+```javascript
+<!-------------------- AAN TE PASSEN CONFIGURATIE -------------------------->
+		var dockerUrl="http://192.168.99.100:8080";
+		var kubernetesUrl="http://localhost:9000";
+		var URL = dockerUrl;
+<!-------------------------------------------------------------------------->
+```		
+
+in volgende bestanden:
+
+- sportarena-app-ticket-management\src\main\resources\templates\shop.html`
+- sportarena-app-arena-management\src\main\resources\templates\arena.html
+
+ 
+ Vervolgens ga je naar de home directory van het project en voer volgende commando's uit:
 ```  
 bash buildall.sh  
 docker-compose up --build  
 ```  
 
 
-  
-### Hiervoor moet:  
-- Alle localhosts vervangen naar de corresponderende dockernaam bv: _membermanagement_:  
-    `http://localhost:2226 -> http://bettingmanagement:2226`  
-  
-- Kafka, Zookeeper en Mongodb properties op corresponderende dockernaam zetten:  
-    ```  
-    In plaats van localhost:  
-        spring.data.mongodb.host=gamblingdb  
-        spring.cloud.stream.kafka.binder.zkNodes=zookeeper  
-        spring.cloud.stream.kafka.binder.brokers=kafka  
-    ``` 
+
 ##  Project deployen op kubernetes
-kubernetes shizzle!!
+Pas volgende aanpassingen toe bovenaan in de script-tag:
+```javascript
+<!-------------------- AAN TE PASSEN CONFIGURATIE -------------------------->
+		var dockerUrl="http://192.168.99.100:8080";
+		var kubernetesUrl="http://localhost:9000";
+		var URL = kubernetesUrl;
+<!-------------------------------------------------------------------------->
+```		
+
+in volgende bestanden:
+
+- sportarena-app-ticket-management\src\main\resources\templates\shop.html`
+- sportarena-app-arena-management\src\main\resources\templates\arena.html
+
+ # Jasper 
 
 ## **Features**
 

@@ -20,6 +20,7 @@ import be.ugent.groep10.gamblings.persistence.BetRepository;
 import be.ugent.groep10.gamblings.persistence.BettableGameRepository;
 
 @RestController
+@RequestMapping("gambling")
 public class BetRESTController {
 
 	private final BetRepository betRepository;
@@ -30,7 +31,6 @@ public class BetRESTController {
 	public BetRESTController(BetRepository betRepository, BettingService bettingService) {
 		this.betRepository = betRepository;
 		this.bettingService = bettingService;
-		
 	}
 	
 	@GetMapping("/bets/{ownerId}")

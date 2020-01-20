@@ -26,6 +26,7 @@ import be.ugent.groep10.gamblings.domain.Wallet;
 import be.ugent.groep10.gamblings.persistence.WalletRepository;
 
 @RestController
+@RequestMapping("wallets")
 public class WalletRESTController implements PayTokensListener, CashOutListener{
 
 	private final WalletRepository walletRepository;
@@ -43,17 +44,18 @@ public class WalletRESTController implements PayTokensListener, CashOutListener{
 	
 	
 	
-	@GetMapping("/wallets")
+	@GetMapping("/all")
 	public Iterable<Wallet> getAllWallets(){
+		System.out.println("getAllWallets");
 		return this.walletRepository.findAll();
 	}
 	
-	@GetMapping("/wallets/{id}")
+	@GetMapping("/{id}")
 	public Wallet getWallet(@PathVariable("id") String id) {
 		return this.walletRepository.findByOwnerId(id).orElse(null);
 	}
 	
-	@PostMapping("/wallets")
+	@PostMapping("/")
 	public Wallet addWallet(@RequestBody Wallet wallet) {
 		this.walletRepository.save(wallet);
 		return this.walletRepository.findByOwnerId(wallet.getOwnerId()).orElse(null);

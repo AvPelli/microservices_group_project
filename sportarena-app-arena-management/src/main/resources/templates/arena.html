@@ -4,150 +4,98 @@
     <!--<link rel="stylesheet" href="/css/style.css">
     <script type="text/javascript" src="/lib/jquery-3.4.1.min.js"></script>-->
 
-    <link rel="stylesheet" href="../static/css/style.css">
-    <script type="text/javascript" src="../static/lib/jquery-3.4.1.min.js"></script>
+    <!-- <link rel="stylesheet" href="../static/css/style.css">-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <style>
+        #navigation {
+            padding: 20px;
+        }
+
+        #navigation button {
+            display: inline-block;
+            margin: 10px 5px;
+        }
+
+        #navigation button {
+            background-color:#007dc1;
+            border-radius:13px;
+            display:inline-block;
+            cursor:pointer;
+            color:#ffffff;
+            font-family:Arial;
+            font-size:18px;
+            padding:15px 24px;
+            text-decoration:none;
+
+        }
+
+        #allgames table {
+            width:100%;
+        }
+
+        #allgames table tr:nth-child(1) {
+            display:flex;
+            background: #007dc1 !important;
+            color: white;
+            padding: 10px;
+            font-weight: bolder;
+        }
+
+        #allgames table tr {
+            display: flex;
+            padding: 10px;
+            background: #bcbcbc;
+        }
+
+        #allgames table tr:nth-of-type(odd) {
+            background: #dddddd;
+        }
+        #allgames table th {
+            width: 14%;
+        }
+
+        #allgames table td {
+            width: 14%;
+            margin-left: 20px;
+        }
+    </style>
 
 </head>
 <body>
 
-    <div id="container">
-        <div id="navigation">
-            <button id="nav-allgames" onclick="navigateTo('allgames')">All games</button>
-            <button id="nav-createGame" onclick="navigateTo('creategame')">Create game</button>
-            <button id="nav-myGames" onclick="navigateTo('mygames')">My games</button>
-        </div>
-        <div id="allgames">
-            Allgames
-        </div>
-        <div id="creategame"></div>
-        <div id="mygames">
-			Mygames
-        </div>
+<div id="container">
+    <div id="navigation">
+        <button id="nav-allgames" onclick="navigateTo('allgames')">All games</button>
+        <button id="nav-createGame" onclick="navigateTo('creategame')">Create game</button>
+        <button id="nav-myGames" onclick="navigateTo('mygames')">My games</button>
     </div>
+    <div id="allgames">
+        Allgames
+    </div>
+    <div id="creategame"></div>
+    <div id="mygames">
+        Mygames
+    </div>
+</div>
 
 
-	<script>
-	
-	
+<script>
+    //------------- MAIN EXECUTION ------------//
+    var dockerUrl="http://192.168.99.100:8080";
+    var kubernetesUrl="http://localhost:9000";
+    var URL = dockerUrl;
 
-
-//------------- MAIN EXECUTION ------------//
-
-let games = [
-    {
-        id: "SC Rotum",
-        teamA: "Simeon",
-        teamB: "Arthur",
-        reclame: "x",
-        dateTimeBegin: "2020-01-20T19:00:00",
-        dateTimeEnd:"2020-01-20T21:00:00",
-        status: "planned",
-        score: {
-            scoreA: "",
-            scoreB: "",
-            isSet: false,
-        },
-    },
-    {
-        id: "SC Rotum",
-        teamA: "Axel",
-        teamB: "Jasper",
-        reclame: "x",
-        dateTimeBegin: "2020-01-20T22:00:00",
-        dateTimeEnd:"2020-01-21T01:00:00",
-        status: "planned",
-        score: {
-            scoreA: "",
-            scoreB: "",
-            isSet: false,
-        },
-    },
-    {
-        id: "SC Rum",
-        teamA: "Jasper",
-        teamB: "Axel",
-        reclame: "x",
-        dateTimeBegin: "2020-01-21T19:00:00",
-        dateTimeEnd:"2020-01-21T22:00:00",
-        status: "planned",
-        score: {
-            scoreA: "",
-            scoreB: "",
-            isSet: false,
-        },
-    }
-];
-navigateTo("allgames");
-
-//-----------------------------------------//
-
-
-
-const SERVER = "localhost";
-const PORT = "2225";
-
-function AJAXGetAllGames(callback) {
-    $.ajax({
-        type: "GET",
-        url: "http://"+SERVER+":"+PORT+"/games",
-        dataType: "json",
-        success: function(response) {
-            callback(response);
-        },
-        error: function() {
-            callback(games);
-        }
-    });
-}
-
-function AJAXPublish(gameString, callback, ...args) {
-   console.log(gameString);
-   callback(args);
-}
-
-
-
-
-
-
-function navigateTo(name) {
-    console.log("navigateTo:" + name);
-    $("#allgames").hide();
-    $("#creategame").hide();
-    $("#mygames").hide();
-
-    if(name == "allgames") {
-        $("#allgames").show();
-        displayAllGames(games);
-    }
-    else if(name == "creategame") {
-        $("#creategame").show();
-        displayCreateGame(games);
-    }
-    else if(name == "mygames") {
-        $("#mygames").show();
-        //displayMyGames(games);
-    }
-}
-
-
-
-
-
-function displayAllGames(games){
-	console.log("Games: ", games);
-	
-	$("#allgames").empty();
-	let content =
-		`<table>
+    $.getJSON( URL + "/games/", function(data) {
+        console.log(data);
+        $("#allgames").empty();
+        let content =
+            `<table>
 			<tr><th>Team A</th><th>Team B</th><th>Event date</th><th>Start</th><th>End</th><th>Status</th><th>Score</th></tr>
-		</table>`
-	;
-	$("#allgames").append(content); 
-
-	for (let game of games) {
-		let content =
-			`<tr>
+		</table>`;
+		$("#allgames").append(content);
+		$.each(data, function(key,game) {
+		    let content =
+                `<tr>
 				<td>${game.teamA}</td>
 				<td>${game.teamB}</td>
 				<td>${extractDate(game.dateTimeBegin)}</td>
@@ -156,27 +104,145 @@ function displayAllGames(games){
 				<td>${game.status}</td>
 				<td>${game.score.isSet? game.score.scoreA+"-"+game.score.scoreB : "..-.."}</td>
 			</tr>`
-		;
-		$("#allgames table").append(content);
-	}
-
-}
-
-function extractDate(dateTime) {
-	return dateTime.split("T")[0];
-}
-
-function extractTime(dateTime) {
-	let time = dateTime.split("T")[dateTime.split("T").length - 1];
-	return time.split(":")[0] + ":" + time.split(":")[1];
-}
+            ;
+            $("#allgames table").append(content);
+		});
+    });
 
 
-function displayCreateGame(games) {
-	console.log("Create game");
-    console.log($("#creategame").html());
-	if($("#creategame").html() === "") {
-        let content = `
+    let games = [
+        {
+            id: "SC Rotum",
+            teamA: "Simeon",
+            teamB: "Arthur",
+            reclame: "x",
+            dateTimeBegin: "2020-01-20T19:00:00",
+            dateTimeEnd:"2020-01-20T21:00:00",
+            status: "planned",
+            score: {
+                scoreA: "",
+                scoreB: "",
+                isSet: false,
+            },
+        },
+        {
+            id: "SC Rotum",
+            teamA: "Axel",
+            teamB: "Jasper",
+            reclame: "x",
+            dateTimeBegin: "2020-01-20T22:00:00",
+            dateTimeEnd:"2020-01-21T01:00:00",
+            status: "planned",
+            score: {
+                scoreA: "",
+                scoreB: "",
+                isSet: false,
+            },
+        },
+        {
+            id: "SC Rum",
+            teamA: "Jasper",
+            teamB: "Axel",
+            reclame: "x",
+            dateTimeBegin: "2020-01-21T19:00:00",
+            dateTimeEnd:"2020-01-21T22:00:00",
+            status: "planned",
+            score: {
+                scoreA: "",
+                scoreB: "",
+                isSet: false,
+            },
+        }
+    ];
+    navigateTo("allgames");
+
+    //-----------------------------------------//
+
+    const SERVER = "localhost";
+    const PORT = "2225";
+
+    function AJAXGetAllGames(callback) {
+        $.ajax({
+            type: "GET",
+            url: "http://"+SERVER+":"+PORT+"/games",
+            dataType: "json",
+            success: function(response) {
+                callback(response);
+            },
+            error: function() {
+                callback(games);
+            }
+        });
+    }
+
+    function AJAXPublish(gameString, callback, ...args) {
+        console.log(gameString);
+        callback(args);
+    }
+
+    function navigateTo(name) {
+        console.log("navigateTo:" + name);
+        $("#allgames").hide();
+        $("#creategame").hide();
+        $("#mygames").hide();
+
+        if(name == "allgames") {
+            $("#allgames").show();
+            displayAllGames(games);
+        }
+        else if(name == "creategame") {
+            $("#creategame").show();
+            displayCreateGame(games);
+        }
+        else if(name == "mygames") {
+            $("#mygames").show();
+            //displayMyGames(games);
+        }
+    }
+
+    function displayAllGames(games){
+        console.log("Games: ", games);
+
+        $("#allgames").empty();
+        let content =
+            `<table>
+			<tr><th>Team A</th><th>Team B</th><th>Event date</th><th>Start</th><th>End</th><th>Status</th><th>Score</th></tr>
+		</table>`
+        ;
+        $("#allgames").append(content);
+
+        for (let game of games) {
+            let content =
+                `<tr>
+				<td>${game.teamA}</td>
+				<td>${game.teamB}</td>
+				<td>${extractDate(game.dateTimeBegin)}</td>
+				<td>${extractTime(game.dateTimeBegin)}</td>
+				<td>${extractTime(game.dateTimeEnd)}</td>
+				<td>${game.status}</td>
+				<td>${game.score.isSet? game.score.scoreA+"-"+game.score.scoreB : "..-.."}</td>
+			</tr>`
+            ;
+            $("#allgames table").append(content);
+        }
+
+    }
+
+    function extractDate(dateTime) {
+        return dateTime.split("T")[0];
+    }
+
+    function extractTime(dateTime) {
+        let time = dateTime.split("T")[dateTime.split("T").length - 1];
+        return time.split(":")[0] + ":" + time.split(":")[1];
+    }
+
+
+    function displayCreateGame(games) {
+        console.log("Create game");
+        console.log($("#creategame").html());
+        if($("#creategame").html() === "") {
+            let content = `
         <input type="text" placeholder="Club Name" id="club">
         <input type="text" placeholder="TeamA Name"id="teamA">
         <input type="text" placeholder="TeamB Name" id="teamB">
@@ -185,134 +251,126 @@ function displayCreateGame(games) {
 		<input type="time" id="endTime">
 		<div id="dateTimeValidation"></div>
 		`
-        ;
-        $("#creategame").append(content);
+            ;
+            $("#creategame").append(content);
 
 
-        let trigger = function(){
-            //AJAXGetAllGames(validateDateTime);
-            validateDateTime(games);
-        };
+            let trigger = function(){
+                //AJAXGetAllGames(validateDateTime);
+                validateDateTime(games);
+            };
 
-        let eventDate = document.getElementById('eventDate');
-        eventDate.valueAsDate = new Date();
-        eventDate.onchange = trigger;
+            let eventDate = document.getElementById('eventDate');
+            eventDate.valueAsDate = new Date();
+            eventDate.onchange = trigger;
 
-        let startTime = document.getElementById('startTime');
-        startTime.value = extractTime(new Date().toLocaleTimeString());
-        startTime.onchange = trigger;
+            let startTime = document.getElementById('startTime');
+            startTime.value = extractTime(new Date().toLocaleTimeString());
+            startTime.onchange = trigger;
 
-        let endTime = document.getElementById('endTime');
-        endTime.value = extractTime(new Date().toLocaleTimeString());
-        endTime.onchange = trigger;
+            let endTime = document.getElementById('endTime');
+            endTime.value = extractTime(new Date().toLocaleTimeString());
+            endTime.onchange = trigger;
 
-        let club = document.getElementById('club');
-        club.oninput = trigger;
+            let club = document.getElementById('club');
+            club.oninput = trigger;
 
-        let teamA = document.getElementById('teamA');
-        teamA.oninput = trigger;
+            let teamA = document.getElementById('teamA');
+            teamA.oninput = trigger;
 
-        let teamB = document.getElementById('teamB');
-        teamB.oninput = trigger;
+            let teamB = document.getElementById('teamB');
+            teamB.oninput = trigger;
 
-        trigger();
+            trigger();
 
-    }
-
-
-
-
-}
-
-function validateDateTime(games) {
-    let timeStampStart = $("#eventDate").val().toString() + " " + $("#startTime").val().toString();
-    let timeStampEnd = $("#eventDate").val().toString() + " " + $("#endTime").val().toString();
-    let targetStart = Math.round(new Date(timeStampStart).getTime()/1000);
-    let targetEnd = Math.round(new Date(timeStampEnd).getTime()/1000);
-
-    let valid = true;
-
-    if(targetEnd <= targetStart || targetStart <= Math.round(new Date().getTime()/1000)) {
-        valid = false;
-    }
-    else {
-        for(let game of games) {
-            let gameStart = Math.round(Date.parse(game.dateTimeBegin)/1000);
-            let gameEnd = Math.round(Date.parse(game.dateTimeEnd)/1000);
-            if(!((targetStart <= gameStart && targetEnd <= gameStart) || (targetStart >= gameEnd && targetEnd >= gameEnd))) {
-                valid = false;
-            }
         }
     }
 
-    let inputFieldsValid = $("#club").val() !== "" && $("#teamA").val() !== "" && $("#teamB").val() !== "";
+    function validateDateTime(games) {
+        let timeStampStart = $("#eventDate").val().toString() + " " + $("#startTime").val().toString();
+        let timeStampEnd = $("#eventDate").val().toString() + " " + $("#endTime").val().toString();
+        let targetStart = Math.round(new Date(timeStampStart).getTime()/1000);
+        let targetEnd = Math.round(new Date(timeStampEnd).getTime()/1000);
 
-    $("#dateTimeValidation").html(`
+        let valid = true;
+
+        if(targetEnd <= targetStart || targetStart <= Math.round(new Date().getTime()/1000)) {
+            valid = false;
+        }
+        else {
+            for(let game of games) {
+                let gameStart = Math.round(Date.parse(game.dateTimeBegin)/1000);
+                let gameEnd = Math.round(Date.parse(game.dateTimeEnd)/1000);
+                if(!((targetStart <= gameStart && targetEnd <= gameStart) || (targetStart >= gameEnd && targetEnd >= gameEnd))) {
+                    valid = false;
+                }
+            }
+        }
+
+        let inputFieldsValid = $("#club").val() !== "" && $("#teamA").val() !== "" && $("#teamB").val() !== "";
+
+        $("#dateTimeValidation").html(`
         <div>${valid && inputFieldsValid ? "VALID" : "INVALID"}</div>
 		<button id="post-game" ${valid && inputFieldsValid ? "" : "disabled"}> Post this game! </button>
 		`);
 
-    document.getElementById('post-game').onclick = function (event) {
-        console.log("Post game!");
+        document.getElementById('post-game').onclick = function (event) {
+
+            let sportclubId = $("#club").val();
+            let teamA = $("#teamA").val();
+            let teamB = $("#teamB").val();
+            let dateTimeBegin = $("#eventDate").val() + "T" + $("#startTime").val();
+            let dateTimeEnd = $("#eventDate").val() + "T" + $("#endTime").val();
+            console.log(JSON.stringify({ "sportclubId" : sportclubId, "teamA" : teamA, "teamB" : teamB, "dateTimeBegin" : dateTimeBegin, "dateTimeEnd" : dateTimeEnd}));
+            $.ajax({
+                headers : {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                type: "POST",
+                url: URL + "/games/create",
+                dataType: "json",
+                data: JSON.stringify({ "sportclubId" : sportclubId, "teamA" : teamA, "teamB" : teamB, "dateTimeBegin" : dateTimeBegin, "dateTimeEnd" : dateTimeEnd}),
+                success: function(response) {
+                    console.log("game created");
+                },
+                error: function(response){
+                    console.log("failed");
+                }
+            });
 
 
-        let gameString = {
-            id: $("#club").val(),
-            teamA: $("#teamA").val(),
-            teamB: $("#teamB").val(),
-            reclame: "<not available>",
-            dateTimeBegin: $("#eventDate").val().toString() + " " + $("#startTime").val().toString(),
-            dateTimeEnd:$("#eventDate").val().toString() + " " + $("#endTime").val().toString(),
-            status: "planned",
-            score: {
-                scoreA: Math.floor(Math.sqrt(Math.sqrt(Math.random()*100))), // Dummy
-                scoreB: Math.floor(Math.sqrt(Math.sqrt(Math.random()*100))), // Dummy
-                isSet: false,
-            }
+            console.log("Post game!");
+
+            let gameString = {
+                id: $("#club").val(),
+                teamA: $("#teamA").val(),
+                teamB: $("#teamB").val(),
+                reclame: "<not available>",
+                dateTimeBegin: $("#eventDate").val().toString() + " " + $("#startTime").val().toString(),
+                dateTimeEnd:$("#eventDate").val().toString() + " " + $("#endTime").val().toString(),
+                status: "planned",
+                score: {
+                    scoreA: Math.floor(Math.sqrt(Math.sqrt(Math.random()*100))), // Dummy
+                    scoreB: Math.floor(Math.sqrt(Math.sqrt(Math.random()*100))), // Dummy
+                    isSet: false,
+                }
+            };
+
+
+            AJAXPublish(JSON.stringify(gameString), navigateTo, "allgames");
+
+
         };
 
+        return valid;
+    }
 
-        AJAXPublish(JSON.stringify(gameString), navigateTo, "allgames");
+    // TODO: dateObject.toISOString().split("T")[0];
+    function displayError(message) {
+        console.log("Error: " + message);
+    }
 
-
-    };
-
-    return valid;
-}
-
-// TODO: dateObject.toISOString().split("T")[0];
-
-
-
-
-function displayError(message) {
-	console.log("Error: " + message);
-	
-	
-	
-	
-	
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
-	</script>
-
-
+</script>
 </body>
 </html>

@@ -34,6 +34,7 @@ public class ArenaRestController {
 		this.gateway = gateway;
 	}
 	
+	@CrossOrigin
 	@GetMapping("/games")
 	public Iterable<Game> getAllGames(){
 		return this.gameRepository.findAll();
@@ -71,16 +72,17 @@ public class ArenaRestController {
 	
 	
 
-	
+	@CrossOrigin
 	@PostMapping("/games/create")
 	public boolean createGame(@RequestBody Game game) {
 		
 		// TODO: Check if dateTimes are in the future
 		// TODO: Check schedule first
-		game.setGameStatus(GameStatus.ACTIVE);
-		this.gameRepository.save(game);
-		logger.info(game.toString());
-		gateway.createGame(new CreateGameRequest(game.getId(), game.getDateTimeBegin(), game.getDateTimeEnd()));
+		game.setGameStatus(GameStatus.PLANNED);
+		Game game2 = new Game(game.getSportclubId(), game.getTeamA(), game.getTeamB(), "reclame", game.getDateTimeBegin(), game.getDateTimeEnd());
+		this.gameRepository.save(game2);
+		logger.info(game2.toString());
+		gateway.createGame(new CreateGameRequest(game2.getId(), game2.getDateTimeBegin(), game2.getDateTimeEnd()));
 		return true;
 	}
 	

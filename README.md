@@ -53,7 +53,7 @@ in volgende bestanden:
  ````
   kubectl get all --all-namespaces
  ````
- Wanneer hier alle aparte pods op status `RUNNING` staan, is de applicatie gedeployed. Om te connecteren via de voorziene IMec Wall, dient u eerst een port forwarding op te zetten. Dit gebeurt door het bestand `portforward.sh` in de Kubernetes map op het client toestel te uit te voeren. Vervolgens surft u in een browser naar `http://localhost:9000` en komt u terecht op de homepagina.
+ Wanneer hier alle aparte pods op status `RUNNING` staan, is de applicatie gedeployed. Om te connecteren via de voorziene IMec Wall, dient u eerst een port forwarding op te zetten. Dit gebeurt door het bestand `port-forward.sh` in de Kubernetes map op het client toestel te uit te voeren. Vervolgens surft u in een browser naar `http://localhost:9000` en komt u terecht op de homepagina.
 
  ### Configuratiebestanden
  Door gebruik te maken van configuratiebestanden en omgevingsvariabelen hoeft er buiten bovenstaande frontend aanpassingen niets gewijzigd te worden. De services zijn dus automatisch op de hoogte van de locatie van Kafka en de andere services.

@@ -1,25 +1,25 @@
-# Project Systeemontwerp
+# Project System design
 
-## Uitbating van een sportarena
+## Operating a sports arena
 
-### Project deployen in docker
+### Deploying project in docker
 
-Pas volgende aanpassingen toe bovenaan in de script-tag:
+Make the following edit in the script-tag:
 ```javascript
-<!-------------------- AAN TE PASSEN CONFIGURATIE -------------------------->
+<!-------------------- CONFIGURATION -------------------------->
 		var dockerUrl="http://192.168.99.100:8080";
 		var kubernetesUrl="http://localhost:9000";
 		var URL = dockerUrl;
 <!-------------------------------------------------------------------------->
 ```		
 
-in volgende bestanden:
+do this in the following files:
 
 - sportarena-app-ticket-management\src\main\resources\templates\shop.html
 - sportarena-app-arena-management\src\main\resources\templates\arena.html
 - sportarena-app-gambling-management\src\main\resources\templates\gamblingDummy.html
  
- Vervolgens ga je naar de home directory van het project en voer volgende commando's uit:
+ Afterwards, go to the project's home directory and run the following commands:
 ```  
 bash buildall.sh  
 docker-compose up --build  
@@ -27,59 +27,59 @@ docker-compose up --build
 
 
 
-##  Project deployen op kubernetes
-Pas volgende aanpassingen toe bovenaan in de script-tag:
+##  Deploying the project on kubernetes
+Make the following edit in the script-tag:
 ```javascript
-<!-------------------- AAN TE PASSEN CONFIGURATIE -------------------------->
+<!-------------------- CONFIGURATION -------------------------->
 		var dockerUrl="http://192.168.99.100:8080";
 		var kubernetesUrl="http://localhost:9000";
 		var URL = kubernetesUrl;
 <!-------------------------------------------------------------------------->
 ```		
 
-in volgende bestanden:
+do this in the following files:
 
 - sportarena-app-ticket-management\src\main\resources\templates\shop.html
 - sportarena-app-arena-management\src\main\resources\templates\arena.html
 - sportarena-app-gambling-management\src\main\resources\templates\gamblingDummy.html
 
  ### Deployment
- Kopieer de inhoud van de `Kubernetes` map naar de Kubernetes Master. Run hier vervolgens volgende commando's uit in de map waar de bestanden staan:
+ Copy the contents of the `Kubernetes` directory to the Kubernetes Master. Then run the following commands in that directory:
  ````
   bash kafka.sh
   kubectl replace --force -f .
  ````
- Met volgend commando kunt u de status van de Kubernetes cluster opvragen:
+ You can request the Kubernetes cluster status with the following command:
  ````
   kubectl get all --all-namespaces
  ````
- Wanneer hier alle aparte pods op status `RUNNING` staan, is de applicatie gedeployed. Om te connecteren via de voorziene IMec Wall, dient u eerst een port forwarding op te zetten. Dit gebeurt door het bestand `port-forward.sh` (met wachtwoord Password123) in de Kubernetes map op het client toestel te uit te voeren. Vervolgens surft u in een browser naar `http://localhost:9000` en komt u terecht op de homepagina.
+ The application is correctly deployed if all pods are in `RUNNING` status. To connect with the virtual wall of the university, port forwarding is required. This happens by running the `port-forward.sh` file in the Kubernetes directory on the client device. If all is well, the homepage of the application will be visible on `http://localhost:9000`.
 
- ### Configuratiebestanden
- Door gebruik te maken van configuratiebestanden en omgevingsvariabelen hoeft er buiten bovenstaande frontend aanpassingen niets gewijzigd te worden. De services zijn dus automatisch op de hoogte van de locatie van Kafka en de andere services.
+ ### Configurationfiles
+ By using configurationfiles and environment variables there is no need to make changes in the frontend. The services are automatically informed about the location of Kafka and other services. 
  
  ### Chaosmonkey
- Chaosmonkey is aan de Kubernetes map toegevoegd en kan mee met de .yaml files gekopieerd worden en vervolgens gerund worden om de robuustheid van de applicatie te testen.
+ Chaosmonkey is a tool to test the robustness of the application, it periodically destroys parts of the microservice cluster to see how failure is handled. Its located in the Kubernetes directory and can be copied with the .yaml files to be deployed.
 
 ## **Features**
 
  #### Okta
-Okta wordt gebruikt als externe service die onze users bijhoudt. Dit is een veilige manier om met gegevensdata om te gaan. Alsook wordt via Okta authenticatie en authorisatie afgehandeld, zodat een gebruiker enkel data kan zien waar hij/zij rechten toe heeft.
+Okta is used as external authentication service. This is a safe way to handle data. Authentication and authorisation is also handled by Okta, so that users only see parts of the application where the privileges are met.
 
- #### Registreren
-Een gebruiker kan zich registreren als member, staff, club of cateringservice. 
-Hierbij zijn er enkele belangrijke zaken:
+ #### Registration
+A user can register as a member, staff, club or cateringservice. 
+There are a couple of constraints:
 
-- Het email adres moet een geldig formaat hebben (met een @ etc.)
-- Het wachtwoord voor elk account wordt standaard ingesteld op "Password123"
+- The email has to have a valid format Het email adres moet een geldig formaat hebben (met een @ etc.)
+- The password for each account is "Password123"
 
-Naargelang de keuze verschijnen er extra velden die ingevuld kunnen worden. Deze keuze bepaalt de rol van de gebruiker en dus welke functies hij kan uitvoeren.
+Based on the user type there are specific fields to fill in. The user type determines the role and operations the user will be able to do.
 
-### Mogelijkheden na het registreren
-#### Wedstrijd bekijken en inplannen
+### Functionalities after registration
+#### Watch and schedule games
 Via de "Arena" knop op de homepage komt men terecht op een tabel van alle ingplande wedstrijden. Bovendien heeft men ook de mogelijkheid om een nieuwe wedstrijd in te plannen. Hierbij moeten geldige start- en einddata worden ingegeven die niet overlappen met reeds ingeplande wedstrijden. Wanneer de gebruiker zo'n inplanning bevestigt, zullen de relevante services op de hoogte worden gebracht. Ook bij het beeindigen van een wedstrijd zullen deze services ingelicht worden.
 
-#### Aankopen van tickets
+#### Buying tickets
 Eens een wedstrijd gepland staat, zal de Ticket Service hiervoor tickets aanbieden. Deze kan men kopen door via de homepage door te klikken naar "Buy your ticket".
 Telkens wanneer een vooropgesteld aantal tickets verkocht werd, stuurt de Ticket Service een update naar de Catering en Staff service die extra jobs en catering zullen nodig hebben voor de wedstrijd. 
 
